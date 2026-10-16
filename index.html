@@ -56,6 +56,9 @@
 :root[data-accent="violet"]{--accent:#7A3DC8;--accent-ink:#FFFFFF;--accent-soft:#EADDF8;--accent-text:#7A3DC8}
 @media (prefers-color-scheme: dark){:root[data-accent="violet"]:not([data-theme="light"]){--accent:#B48CFF;--accent-ink:#170B29;--accent-soft:#2E2145;--accent-text:#B48CFF}}
 :root[data-theme="dark"][data-accent="violet"]{--accent:#B48CFF;--accent-ink:#170B29;--accent-soft:#2E2145;--accent-text:#B48CFF}
+:root[data-accent="pink"]{--accent:#D23A7E;--accent-ink:#FFFFFF;--accent-soft:#FADDEA;--accent-text:#C22F70}
+@media (prefers-color-scheme: dark){:root[data-accent="pink"]:not([data-theme="light"]){--accent:#FF8DBF;--accent-ink:#2A0A18;--accent-soft:#45202F;--accent-text:#FF8DBF}}
+:root[data-theme="dark"][data-accent="pink"]{--accent:#FF8DBF;--accent-ink:#2A0A18;--accent-soft:#45202F;--accent-text:#FF8DBF}
 
 :root[data-anim="off"] *,:root[data-anim="off"] *::before,:root[data-anim="off"] *::after{animation:none!important;transition:none!important}
 :root[data-anim="off"] :is(.btn,.pill,.tab,.exhead,.gear,.xbtn,.card,.nlink,.linkbtn,.seg button,.hist>button,.sw i){transform:none!important}
@@ -168,6 +171,7 @@ h3{font-size:20px;line-height:1.15}
 .chip{font-size:12px;font-weight:600;padding:4px 9px;border-radius:999px;background:var(--sunk);color:var(--muted);white-space:nowrap}
 .chip.go{background:var(--accent-soft);color:var(--accent-text)}
 .chip.done{background:var(--ink);color:var(--bg)}
+.chip.done svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;margin-right:5px;vertical-align:-1px}
 .exbody{padding:0 14px 14px;display:flex;flex-direction:column;gap:12px}
 .hint{font-size:13px;color:var(--muted);background:var(--sunk);border-radius:8px;padding:8px 10px}
 .hint b{color:var(--ink);font-weight:600}
@@ -350,12 +354,55 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .strip .unit2{font-family:var(--font-b);font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}
 .num.warn{color:var(--warn)} .num.down{color:var(--down)}
 .memrow{display:flex;gap:8px;align-items:center}
+.ttl{display:flex;align-items:center;gap:10px;min-width:0;flex-wrap:wrap}
+.tutbtn{appearance:none;border:1px solid color-mix(in srgb,var(--muted) 35%,transparent);background:transparent;color:var(--muted);opacity:.5;width:20px;height:20px;border-radius:50%;font:600 11px var(--font-b);position:relative;cursor:pointer;flex:none;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.tutbtn:not(.big)::after{content:'';position:absolute;inset:-12px}
+.tutbtn.big{width:auto;height:34px;padding:0 14px 0 6px;gap:8px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:700;opacity:1}
+.tutbtn.big .q{width:24px;height:24px;border-radius:50%;background:color-mix(in srgb,var(--accent-ink) 22%,transparent);display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.tutbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.sumsec{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.sumsec .btn{gap:10px}
+.sumsheet{max-height:92vh;overflow-y:auto}
+.sumimg{aspect-ratio:4/5;max-height:62vh;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:center;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--bg)}
+.sumimg img{width:100%;height:100%;object-fit:contain;display:block}
+.card.note,.card.grp{-webkit-touch-callout:none;transition:transform .18s ease,border-color .2s,background-color .2s}
+.card.note.pressing,.card.grp.pressing{transform:scale(.98)}
+.card.grp.selmode{-webkit-user-select:none;user-select:none;padding-right:52px;position:relative}
+.card.note.selmode{cursor:pointer;-webkit-user-select:none;user-select:none;padding-right:52px;position:relative}
+.card.note.selmode a{pointer-events:none}
+.selck{position:absolute;top:14px;right:14px;width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;background:var(--surface)}
+.selck svg{width:15px;height:15px;fill:none;stroke:var(--accent-ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.5);transition:opacity .15s,transform .2s cubic-bezier(.3,1.4,.5,1)}
+.card.grp.sel,.card.note.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 55%,var(--surface))}
+.card.grp.sel .selck,.card.note.sel .selck{background:var(--accent);border-color:var(--accent)}
+.card.grp.sel .selck svg,.card.note.sel .selck svg{opacity:1;transform:none}
+.selbar{position:sticky;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:5;display:flex;align-items:center;gap:8px;padding:8px 8px 8px 10px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:0 12px 30px -14px rgba(0,0,0,.45);animation:rise .2s ease-out}
+.selbar .selt{flex:1;min-width:0;font-size:14px}
+:root[data-glass="on"] .selbar{background:var(--glass-bg);border-color:var(--glass-brd);border-radius:24px;-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%)}
+:root[data-glass="on"] .card.grp.sel,:root[data-glass="on"] .card.note.sel{background:color-mix(in srgb,var(--accent-soft) 55%,var(--glass-bg))}
+.tut{position:fixed;inset:0;z-index:50}
+.tut.dim{background:rgba(8,10,14,.62)}
+.tuthole{position:fixed;border-radius:16px;box-shadow:0 0 0 9999px rgba(8,10,14,.62);pointer-events:none;transition:all .28s cubic-bezier(.2,.8,.3,1)}
+.tutcard{position:fixed;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;box-shadow:0 20px 44px -18px rgba(0,0,0,.55);transition:top .28s cubic-bezier(.2,.8,.3,1)}
+.tutcard b{font-family:var(--font-d);font-size:20px}
+.tutcard p{margin:0 0 6px;font-size:14px;color:var(--ink)}
+.tutcard .label{color:var(--accent-text)}
+:root[data-anim="off"] .tuthole,:root[data-anim="off"] .tutcard{transition:none;animation:none}
 .greet{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:24px;background:color-mix(in srgb,var(--bg) 55%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .greetcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 26px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:0 24px 50px -24px var(--scrim);max-width:340px}
 .greetcard b{font-family:var(--font-d);font-size:28px;line-height:1.1;text-wrap:balance}
 .greetcard span{color:var(--muted);font-size:14px}
+.startcard{gap:6px;padding:24px 26px}
+.startcard .label{color:var(--accent-text);font-size:12px}
+.startcard .sm2{font-size:13px;margin-top:4px}
+.startico{width:56px;height:56px;border-radius:16px;background:var(--accent);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.startico svg{width:32px;height:32px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round}
+:root[data-grad="on"] .startico{background:linear-gradient(135deg,var(--acc-hi),var(--acc-lo))}
 :root[data-glass="on"] .greetcard{background:var(--glass-bg);border-color:var(--glass-brd);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);box-shadow:inset 0 1px 0 var(--glass-hl),0 24px 50px -24px var(--glass-sh)}
 @media (prefers-reduced-motion:no-preference){.greet.anim{animation:gfade 1.9s ease forwards}.greet.anim .greetcard{animation:gpop 1.9s cubic-bezier(.2,.9,.3,1) forwards}
+  .greet.anim.slow,.greet.anim.slow .greetcard{animation-duration:2.6s}
+  .greet.anim .startico{animation:sbounce .6s .1s cubic-bezier(.3,1.5,.5,1) both}
+  @keyframes sbounce{from{transform:scale(.4) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
   @keyframes gfade{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
   @keyframes gpop{0%{transform:scale(.9) translateY(8px)}16%{transform:none}80%{transform:none}100%{transform:scale(.97) translateY(-6px)}}}
 .bodycard{gap:10px}
@@ -476,7 +523,7 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .gear{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
 .gear svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .gear:focus-visible,.sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.swatches{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.swatches{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:4px}
 .sw{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font:500 11px var(--font-b);min-width:0}
 .sw i{width:100%;max-width:44px;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
 .sw i svg{width:18px;height:18px;stroke:var(--ci);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.4)}
@@ -507,6 +554,14 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
   .exbody.fx-open{animation:none}
   .fx-set{animation:pop .38s cubic-bezier(.3,1.4,.5,1) both}
   .fx-done{animation:pop .4s cubic-bezier(.3,1.4,.5,1)}
+  .chip.done.fx-done{animation:chipin .6s cubic-bezier(.25,.8,.3,1) both}
+  @keyframes chipin{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+  .chip.done.fx-done svg path{animation:ckdraw .5s .35s cubic-bezier(.4,0,.2,1) both}
+  @keyframes ckdraw{from{stroke-dasharray:22;stroke-dashoffset:22}to{stroke-dasharray:22;stroke-dashoffset:0}}
+  .ex.fx-exdone{animation:exdone 1.6s cubic-bezier(.3,0,.2,1)}
+  .ex.fx-exdone .exhead h3{animation:exdonet 1.6s ease-in-out}
+  @keyframes exdone{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--up) 0%,transparent)}25%{box-shadow:0 0 0 5px color-mix(in srgb,var(--up) 30%,transparent);border-color:color-mix(in srgb,var(--up) 70%,var(--line))}100%{box-shadow:0 0 0 9px transparent}}
+  @keyframes exdonet{0%{color:inherit}25%,45%{color:var(--up)}100%{color:inherit}}
   .fx-moved{animation:moved .6s ease-out}
   @keyframes moved{0%{box-shadow:0 0 0 2px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
   .fx-pop{animation:popin .2s cubic-bezier(.2,.9,.3,1.1)}
@@ -523,6 +578,8 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
   .xbtn{transition:color .2s,background-color .2s,transform .14s}.xbtn:active{transform:scale(.88)}
   .prog span{transition:background-color .35s}
   .chip{transition:background-color .25s,color .25s}
+  .tutbtn.big{animation:tutpulse 2s ease-out infinite}
+  @keyframes tutpulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 50%,transparent)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
   .swb{transition:transform .12s}.swb:active{transform:scale(.88)}
 
   .ck{transition:transform .12s,background-color .2s}.ck:active{transform:scale(.92)}
@@ -555,8 +612,8 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 const app=document.getElementById('app');
 const DAY=864e5;
 const SK='gym-diary-settings';
-const COLORS=[['red','#C8352B','#fff','Красный','Red'],['orange','#D2600F','#fff','Оранжевый','Orange'],['yellow','#E3AA00','#1D1700','Жёлтый','Yellow'],['green','#1E8A4C','#fff','Зелёный','Green'],['cyan','#0A86B8','#fff','Голубой','Light blue'],['blue','#2346C8','#fff','Синий','Blue'],['violet','#7A3DC8','#fff','Фиолетовый','Violet'],['gray','#5B6470','#fff','Серый','Gray']];
-const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0)),tone:Math.min(60,Math.max(-60,+v.tone||0)),name:String(v.name||'').trim().slice(0,30)});
+const COLORS=[['red','#C8352B','#fff','Красный','Red'],['orange','#D2600F','#fff','Оранжевый','Orange'],['yellow','#E3AA00','#1D1700','Жёлтый','Yellow'],['green','#1E8A4C','#fff','Зелёный','Green'],['cyan','#0A86B8','#fff','Голубой','Light blue'],['blue','#2346C8','#fff','Синий','Blue'],['violet','#7A3DC8','#fff','Фиолетовый','Violet'],['pink','#D23A7E','#fff','Розовый','Pink'],['gray','#5B6470','#fff','Серый','Gray']];
+const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0)),tone:Math.min(60,Math.max(-60,+v.tone||0)),name:String(v.name||'').trim().slice(0,30),tut:(v.tut&&typeof v.tut==='object')?Object.fromEntries(Object.entries(v.tut).filter(([k,x])=>/^[a-z]+$/.test(k)&&x===true)):{}});
 let SET=normS({});
 try{const v=JSON.parse(localStorage.getItem(SK)||'null');if(v)SET=normS(v)}catch(e){}
 const EN=()=>SET.lang==='en';
@@ -731,6 +788,7 @@ function render(){
   if(S.ready&&!GREETED){GREETED=true;if(SET.name)setTimeout(showGreet,150)}
   if(S.bgGal&&S.ready)html+=vGallery();
   if(S.bmiInfo&&S.ready)html+=vBmi();
+  if(S.sum&&S.ready)html+=vSum();
   if(html!==lastHtml){app.innerHTML=html;lastHtml=html}
   if(S.fx&&S.fx.t==='view'&&app.firstElementChild)app.firstElementChild.classList.add(S.view==='settings'?'fx-push':'fx-view');
   app.querySelectorAll('.segind').forEach(el=>{const k=el.dataset.key,to=+el.dataset.to,from=SEGP[k];if(motionOK()&&from!=null&&from!==to){el.getBoundingClientRect();requestAnimationFrame(()=>el.style.setProperty('--i',to))}else{el.classList.add('still');el.style.setProperty('--i',to)}SEGP[k]=to});
@@ -765,11 +823,11 @@ function vHome(){
   const mStart=new Date(now.getFullYear(),now.getMonth(),1).getTime();
   const thisM=f.filter(w=>w.startedAt>=mStart).length;
   const last=f[f.length-1];
-  let h=`<div class="wrap"><div class="top"><h1>${L('Зал','Gym')}</h1><div class="row" style="gap:10px;flex-wrap:nowrap"><button class="gear ${S.gearMenu?'onbtn':''}" data-act="gearMenu" aria-haspopup="menu" aria-expanded="${!!S.gearMenu}" aria-label="${L('Настройки','Settings')}">${ICONS.gear}</button>${gearPop()}</div></div>
+  let h=`<div class="wrap"><div class="top"><div class="ttl"><h1>${L('Зал','Gym')}</h1>${tutBtn('home')}</div><div class="row" style="gap:10px;flex-wrap:nowrap"><button class="gear ${S.gearMenu?'onbtn':''}" data-act="gearMenu" aria-haspopup="menu" aria-expanded="${!!S.gearMenu}" aria-label="${L('Настройки','Settings')}">${ICONS.gear}</button>${gearPop()}</div></div>
   <div class="strip${SET.member?' s4':''}"><div><span class="label">${L('Неделя','Week')}</span><span class="num">${thisW}</span></div><div><span class="label">${L('Месяц','Month')}</span><span class="num">${thisM}</span></div><div><span class="label">${L('Последняя','Last')}</span><span class="num" style="font-size:20px;line-height:1.5">${last?ago(last.finishedAt):'—'}</span></div>${memberCell()}</div>`;
   if(a){const act=(a.exercises||[]).filter(e=>!e.off),d=act.filter(e=>e.done||e.skipped||e.replacedBy).length;h+=`<div class="banner"><div><div class="label" style="color:inherit;opacity:.8">${L('Идёт тренировка','Workout in progress')}</div><h3>${esc(a.name)}</h3><div class="small" style="opacity:.85">${L('Начало','Started')} ${fT(a.startedAt)} · ${d} ${L('из','of')} ${act.length} ${P(act.length,['упражнения','упражнений','упражнений'],['exercise','exercises'])}</div></div><button class="btn" data-act="resume">${L('Продолжить','Continue')}</button></div>`}
   h+=bodyCard();
-  h+=`<section class="sec"><div class="row between"><h2>${L('Шаблоны','Templates')}</h2>${S.reorder?`<button class="btn sm primary" data-act="reorderDone">${L('Готово','Done')}</button>`:`<div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn sm ghost icon" data-act="calcOpen" aria-label="${L('Калькулятор','Calculator')}" title="${L('Калькулятор','Calculator')}"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></button>${tpls().length>1?`<button class="btn sm ghost icon" data-act="reorderOn" aria-label="${L('Изменить порядок','Reorder')}" title="${L('Изменить порядок','Reorder')}"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4v16M4 8l4-4 4 4M16 20V4M12 16l4 4 4-4"/></svg></button>`:''}${tpls().length?`<button class="btn sm ghost" data-act="newTpl">${L('+ Новый','+ New')}</button>`:''}</div>`}</div>`;
+  h+=`<section class="sec" data-tut="tpl"><div class="row between"><h2>${L('Шаблоны','Templates')}</h2>${S.reorder?`<button class="btn sm primary" data-act="reorderDone">${L('Готово','Done')}</button>`:`<div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn sm ghost icon" data-act="calcOpen" aria-label="${L('Калькулятор','Calculator')}" title="${L('Калькулятор','Calculator')}"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></button>${tpls().length>1?`<button class="btn sm ghost icon" data-act="reorderOn" aria-label="${L('Изменить порядок','Reorder')}" title="${L('Изменить порядок','Reorder')}"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4v16M4 8l4-4 4 4M16 20V4M12 16l4 4 4-4"/></svg></button>`:''}${tpls().length?`<button class="btn sm ghost" data-act="newTpl">${L('+ Новый','+ New')}</button>`:''}</div>`}</div>`;
   const T=tpls();
   if(!T.length)h+=`<div class="empty"><b>${L('Шаблонов пока нет','No templates yet')}</b><span>${L('Создайте шаблон тренировки: название и список упражнений с подходами и повторениями. Потом запускайте его одной кнопкой.','Create a workout template: a name and a list of exercises with sets and reps. Then start it with one tap.')}</span><button class="btn primary" data-act="newTpl">${L('Создать шаблон','Create template')}</button></div>`;
   if(S.reorder){
@@ -803,7 +861,7 @@ function vSettings(){
   const seg=(act,cur,opts,label)=>{const i=Math.max(0,opts.findIndex(o=>o[0]===cur)),p=SEGP[act]!=null?SEGP[act]:i;return `<div class="seg wide sl" role="radiogroup" aria-label="${label}"><span class="segind" data-key="${act}" data-to="${i}" style="--n:${opts.length};--i:${p}" aria-hidden="true"></span>${opts.map(([v,t])=>`<button class="${cur===v?'on':''}" data-act="${act}" data-id="${v}" role="radio" aria-checked="${cur===v}">${t}</button>`).join('')}</div>`};
   const row=(label,body,hint,side)=>`<div class="setrow"><div class="row between"><span class="slabel">${label}</span>${side||''}</div>${body}${hint?`<span class="small muted">${hint}</span>`:''}</div>`;
   const cur=COLORS.find(c=>c[0]===SET.color)||COLORS[5];
-  let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button></div><h1>${S.setTab==='look'?L('Оформление','Appearance'):L('Настройки','Settings')}</h1>`;
+  let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button></div><div class="ttl"><h1>${S.setTab==='look'?L('Оформление','Appearance'):L('Настройки','Settings')}</h1>${tutBtn(S.setTab==='look'?'look':'general')}</div>`;
   const T=S.setTab==='look'?'look':'general';
   if(T==='general'){
   // general
@@ -865,7 +923,7 @@ function vWorkout(){
   const w=active(),all=w.exercises||[],ex=all.filter(e=>!e.off),offs=all.filter(e=>e.off);
   const rf=S.replaceFor?all.find(e=>e.id===S.replaceFor):null;
   const isCand=e=>!e.off&&!resolved(e)&&!(e.log&&e.log.length)&&!e.pending&&(!rf||e.id!==rf.id);
-  let h=`<div class="wrap nonav wk"><div class="whead"><div class="row between"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button><span class="small muted">${L('Начало','Started')} ${fT(w.startedAt)}</span></div>
+  let h=`<div class="wrap nonav wk"><div class="whead"><div class="row between"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button><span class="row" style="gap:8px;flex-wrap:nowrap"><span class="small muted">${L('Начало','Started')} ${fT(w.startedAt)}</span>${tutBtn('workout')}</span></div>
   <div class="row between" style="flex-wrap:nowrap;gap:10px"><h2 style="font-size:28px;min-width:0;overflow-wrap:anywhere">${esc(w.name)}</h2>${swHtml(w)}</div>
   <div class="prog">${ex.map(e=>`<span class="${e.done?'on':e.skipped||e.replacedBy?'skip':(e.log&&e.log.length)||e.pending?'part':''}"></span>`).join('')}</div>
   <div class="small muted">${L('Завершено','Done')} ${ex.filter(resolved).length} ${L('из','of')} ${ex.length} · ${L('подходов','sets')} ${setCount(w)} · ${L('выполнено','completed')} ${progress(w).pct}%</div>`;
@@ -882,8 +940,8 @@ function vWorkout(){
     }
     if(e.replacedBy){const to=all.find(x=>x.id===e.replacedBy);h+=`<div class="ex muted-card" id="ex-${e.id}"><div class="exhead static"><span class="t"><h3>${esc(e.name)}</h3><span class="small muted">${L('Заменено на','Swapped for')} «${esc(to?to.name:L('другое','another'))}»</span></span><button class="linkbtn" data-act="unreplace" data-id="${e.id}">${L('Вернуть','Restore')}</button></div></div>`;continue}
     const open=S.openEx===e.id;
-    const chip=e.skipped?`<span class="chip">${L('Пропущено','Skipped')}</span>`:e.done?`<span class="chip done ${fx('done',e.id)}">${L('Готово','Done')} · ${ov(n)}</span>`:e.pending?`<span class="chip go">${L('Подход','Set')} ${ov(n+1)}</span>`:n?`<span class="chip go">${ov(n)} ${L('из','of')} ${e.sets||'—'}</span>`:`<span class="chip">${L('Не начато','Not started')}</span>`;
-    h+=`<div class="ex ${open?'open':''} ${e.skipped?'muted-card':''}" id="ex-${e.id}"><button class="exhead" data-act="toggleEx" data-id="${e.id}" aria-expanded="${open}"><span class="t"><h3>${esc(e.name)}</h3><span class="small muted">${sub}</span></span>${chip}</button>`;
+    const chip=e.skipped?`<span class="chip">${L('Пропущено','Skipped')}</span>`:e.done?`<span class="chip done ${fx('done',e.id)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>${L('Готово','Done')} · ${ov(n)}</span>`:e.pending?`<span class="chip go">${L('Подход','Set')} ${ov(n+1)}</span>`:n?`<span class="chip go">${ov(n)} ${L('из','of')} ${e.sets||'—'}</span>`:`<span class="chip">${L('Не начато','Not started')}</span>`;
+    h+=`<div class="ex ${open?'open':''} ${e.skipped?'muted-card':''} ${S.fx&&S.fx.t==='done'&&S.fx.id===e.id?'fx-exdone':''}" id="ex-${e.id}"><button class="exhead" data-act="toggleEx" data-id="${e.id}" aria-expanded="${open}"><span class="t"><h3>${esc(e.name)}</h3><span class="small muted">${sub}</span></span>${chip}</button>`;
     if(open){
       h+=`<div class="exbody ${fx('open',e.id)}">`;
       if(e.skipped){h+=`<div class="hint">${L('Пропущено. Причина:','Skipped. Reason:')} <b>${esc(e.skipped.reason||L('не указана','not given'))}</b></div><button class="linkbtn" data-act="unskip" data-id="${e.id}">${L('Отменить пропуск','Undo skip')}</button>`}
@@ -925,7 +983,7 @@ function vWorkout(){
   else if(S.confirm==='finish'){let remEx=0,remSets=0,skipped=0;for(const e of ex){if(e.replacedBy)continue;if(e.skipped){skipped++;continue}const p=Math.max(1,parseInt(e.sets)||1),d=Math.min(p,(e.log||[]).length);if(d<p){remEx++;remSets+=p-d}}
     h+=`<div class="confirm"><b>${L('Завершить тренировку?','Finish the workout?')}</b>${remEx?`<span class="small muted">${L('Осталось упражнений:','Exercises left:')} ${remEx} (${remSets} ${EN()?(remSets===1?'planned set':'planned sets'):ruP(remSets,'подход','подхода','подходов')+' по плану'}). ${L('Записанные подходы сохранятся.','Logged sets will be kept.')}</span>`:''}${skipped?`<span class="small muted">${L('Пропущено упражнений:','Skipped exercises:')} ${skipped}</span>`:''}<div class="exacts"><button class="btn primary" data-act="finishW">${L('Завершить','Finish')}</button><button class="btn" data-act="noConfirm">${L('Отмена','Cancel')}</button></div></div>`}
   else if(S.confirm==='cancel')h+=`<div class="confirm"><b>${L('Удалить эту тренировку?','Delete this workout?')}</b><span class="small muted">${L('Все записанные подходы пропадут.','All logged sets will be lost.')}</span><div class="exacts"><button class="btn danger" style="border-color:var(--down)" data-act="cancelW">${L('Удалить','Delete')}</button><button class="btn" data-act="noConfirm">${L('Оставить','Keep')}</button></div></div>`;
-  else{const sc=setCount(w);h+=`<div class="stack"><button class="btn primary big block" data-act="finishAsk" ${sc?'':'disabled'}>${L('Завершить тренировку','Finish workout')}</button>${sc?'':`<span class="small muted" style="text-align:center">${L('Чтобы завершить тренировку, запишите хотя бы один подход. До этого её можно только отменить.','Log at least one set to finish the workout. Until then you can only cancel it.')}</span>`}`;h+=`<button class="btn danger block" data-act="confirm" data-id="cancel">${L('Отменить тренировку','Cancel workout')}</button></div>`}
+  else{const sc=setCount(w);h+=`<div class="stack" data-tut="finish"><button class="btn primary big block" data-act="finishAsk" ${sc?'':'disabled'}>${L('Завершить тренировку','Finish workout')}</button>${sc?'':`<span class="small muted" style="text-align:center">${L('Чтобы завершить тренировку, запишите хотя бы один подход. До этого её можно только отменить.','Log at least one set to finish the workout. Until then you can only cancel it.')}</span>`}`;h+=`<button class="btn danger block" data-act="confirm" data-id="cancel">${L('Отменить тренировку','Cancel workout')}</button></div>`}
   h+='</div>';
   const sk=S.skipFor?all.find(e=>e.id===S.skipFor):null;
   if(sk){const pre=EN()?['No time','Machine taken','Pain or injury','Too tired','Not in the mood']:['Нет времени','Тренажёр занят','Боль или травма','Усталость','Нет настроения'];
@@ -993,7 +1051,7 @@ function barChart(weeks){
 
 function vStats(){
   const f=finished();
-  let h=`<div class="wrap"><div class="top"><h1>${L('Статистика','Stats')}</h1></div>`;
+  let h=`<div class="wrap"><div class="top"><div class="ttl"><h1>${L('Статистика','Stats')}</h1>${tutBtn('stats')}</div></div>`;
   if(!f.length)return h+weightStats()+`<div class="empty"><b>${L('Пока нет данных','No data yet')}</b><span>${L('Здесь появятся посещения, графики по упражнениям и рекорды после первой завершённой тренировки.','Attendance, exercise charts and records will appear here after your first finished workout.')}</span></div></div>`;
   const t=Date.now(),wk=sow(t),pwk=sow(wk-DAY);
   const cnt=(a,b)=>f.filter(w=>w.startedAt>=a&&w.startedAt<b).length;
@@ -1002,18 +1060,18 @@ function vStats(){
   const weeks=[];for(let i=11;i>=0;i--){const d=new Date(wk);d.setDate(d.getDate()-7*i);const a=d.getTime(),e=new Date(d);e.setDate(e.getDate()+7);weeks.push({t:a,c:cnt(a,e.getTime())})}
   const avg8=weeks.slice(3,11).reduce((a,w)=>a+w.c,0)/8;
   let streak=0;for(let i=weeks.length-1;i>=0;i--){if(weeks[i].c)streak++;else if(i===weeks.length-1)continue;else break}
-  h+=`<section class="sec"><h2>${L('Посещения','Attendance')}</h2><div class="tiles">
+  h+=`<section class="sec" data-tut="att"><h2>${L('Посещения','Attendance')}</h2><div class="tiles">
   <div><span class="label">${L('Эта неделя','This week')}</span><span class="num">${cw}</span>${delta(cw-pw)}<span class="small muted">${L('прошлая','last')}: ${pw}</span></div>
   <div><span class="label">${L('Этот месяц','This month')}</span><span class="num">${cm}</span>${delta(cm-pm)}<span class="small muted">${L('прошлый','last')}: ${pm}</span></div>
   <div><span class="label">${L('В среднем / нед.','Avg / week')}</span><span class="num">${num(avg8)}</span><span class="small muted">${L('за 8 полных недель','over 8 full weeks')}</span></div>
   <div><span class="label">${L('Всего','Total')}</span><span class="num">${f.length}</span><span class="small muted">${L('серия','streak')}: ${streak} ${P(streak,['неделя','недели','недель'],['week','weeks'])}${L(' подряд','')}</span></div>
   </div></section>`;
-  h+=`<section class="sec"><div class="row between"><h2>${L('По неделям','By week')}</h2><span class="small muted">${L('12 недель','12 weeks')}</span></div>${barChart(weeks)}</section>`;
+  h+=`<section class="sec" data-tut="weeks"><div class="row between"><h2>${L('По неделям','By week')}</h2><span class="small muted">${L('12 недель','12 weeks')}</span></div>${barChart(weeks)}</section>`;
   const days=new Set(f.map(w=>{const d=new Date(w.startedAt);return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()}));
   const first=new Date(S.calY,S.calM,1),dim=new Date(S.calY,S.calM+1,0).getDate(),off=(first.getDay()+6)%7;
   const mc=f.filter(w=>{const d=new Date(w.startedAt);return d.getFullYear()===S.calY&&d.getMonth()===S.calM}).length;
   const isCur=S.calY===now.getFullYear()&&S.calM===now.getMonth();
-  h+=`<section class="sec"><div class="row between"><h2>${L('Календарь','Calendar')}</h2><div class="row" style="gap:4px"><button class="btn icon ghost" data-act="cal" data-id="-1" aria-label="${L('Предыдущий месяц','Previous month')}">‹</button><button class="btn icon ghost" data-act="cal" data-id="1" ${isCur?'disabled':''} aria-label="${L('Следующий месяц','Next month')}">›</button></div></div>
+  h+=`<section class="sec" data-tut="cal"><div class="row between"><h2>${L('Календарь','Calendar')}</h2><div class="row" style="gap:4px"><button class="btn icon ghost" data-act="cal" data-id="-1" aria-label="${L('Предыдущий месяц','Previous month')}">‹</button><button class="btn icon ghost" data-act="cal" data-id="1" ${isCur?'disabled':''} aria-label="${L('Следующий месяц','Next month')}">›</button></div></div>
   <div class="row between"><b style="text-transform:capitalize">${first.toLocaleDateString(LOC(),{month:'long',year:'numeric'})}</b><span class="small muted">${mc} ${P(mc,W_RU,W_EN)}</span></div><div class="cal">`;
   (EN()?['Mo','Tu','We','Th','Fr','Sa','Su']:['Пн','Вт','Ср','Чт','Пт','Сб','Вс']).forEach(d=>h+=`<div class="wd">${d}</div>`);
   for(let i=0;i<off;i++)h+='<div></div>';
@@ -1027,7 +1085,7 @@ function vStats(){
     const o=ses.get(S.statEx),Ls=o.list,isW=true,val=p=>p.max,unit=' '+KG();
     const pr=Ls.reduce((a,p)=>!a||p.max>a.max||(p.max===a.max&&p.maxR>a.maxR)?p:a,null);
     const last=Ls[Ls.length-1],prev=Ls[Ls.length-2];
-    h+=`<section class="sec"><div class="row between"><h2>${L('Упражнение','Exercise')}</h2><button class="btn sm ghost icon ${S.exSearch?'onbtn':''}" data-act="exSearchToggle" aria-label="${L('Найти упражнение','Find exercise')}" title="${L('Найти упражнение','Find exercise')}"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button></div>${S.exSearch?`<div class="exsearch fx-open"><input id="exQ" type="search" placeholder="${L('Начните вводить название','Start typing a name')}" autocomplete="off" enterkeyhint="search"><div class="exres" id="exRes">${exResults('')}</div></div>`:''}${drumHtml(keys.sort((a,b)=>ses.get(a).name.localeCompare(ses.get(b).name,LOC())),ses)}
+    h+=`<section class="sec" data-tut="ex"><div class="row between"><h2>${L('Упражнение','Exercise')}</h2><button class="btn sm ghost icon ${S.exSearch?'onbtn':''}" data-act="exSearchToggle" aria-label="${L('Найти упражнение','Find exercise')}" title="${L('Найти упражнение','Find exercise')}"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button></div>${S.exSearch?`<div class="exsearch fx-open"><input id="exQ" type="search" placeholder="${L('Начните вводить название','Start typing a name')}" autocomplete="off" enterkeyhint="search"><div class="exres" id="exRes">${exResults('')}</div></div>`:''}${drumHtml(keys.sort((a,b)=>ses.get(a).name.localeCompare(ses.get(b).name,LOC())),ses)}
     <div class="tiles"><div><span class="label">${L('Рекорд','Record')}</span><span class="num">${num(pr.max)}<span class="unit small muted" style="font-family:var(--font-b);font-weight:400"> ${KG()} × ${pr.maxR}</span></span><span class="small muted">${fD(pr.date)}</span></div>
     <div><span class="label">${L('Последний раз','Last time')}</span><span class="num">${num(val(last))}<span class="small muted" style="font-family:var(--font-b);font-weight:400"> ${KG()}</span></span>${prev?delta(val(last)-val(prev),unit):`<span class="small muted">${L('первая запись','first entry')}</span>`}</div>
     <div><span class="label">${L('С первой записи','Since first entry')}</span>${Ls.length>1?delta(val(last)-val(Ls[0]),unit):'<span class="d flat">—</span>'}<span class="small muted">${L('с','from')} ${fD(Ls[0].date)}</span></div>
@@ -1042,17 +1100,18 @@ function vStats(){
     const rows=Ls.map((p,i)=>({p,d:i?val(p)-val(Ls[i-1]):null})).slice(-10).reverse();
     for(const{p,d}of rows)h+=`<tr><td>${fD(p.date)}</td><td><span class="num">${num(p.max)}×${p.maxR}</span></td><td class="r">${d==null?'<span class="d flat">—</span>':delta(d)}</td></tr>`;
     h+='</tbody></table></div></section>';
-    h+=`<section class="sec"><h2>${L('Рекорды','Records')}</h2><div class="tbl"><table><thead><tr><th>${L('Упражнение','Exercise')}</th><th class="r">${L('Рекорд','Record')}</th><th class="r">${L('Посл.','Last')}</th><th class="r">Δ</th></tr></thead><tbody>`;
+    h+=`<section class="sec" data-tut="rec"><h2>${L('Рекорды','Records')}</h2><div class="tbl"><table><thead><tr><th>${L('Упражнение','Exercise')}</th><th class="r">${L('Рекорд','Record')}</th><th class="r">${L('Посл.','Last')}</th><th class="r">Δ</th></tr></thead><tbody>`;
     const recs=keys.map(k=>{const o=ses.get(k),Lx=o.list,pr=Lx.reduce((a,p)=>!a||p.max>a.max||(p.max===a.max&&p.maxR>a.maxR)?p:a,null),la=Lx[Lx.length-1],pv=Lx[Lx.length-2];return{o,pr,la,d:pv?la.max-pv.max:null}}).sort((a,b)=>a.o.name.localeCompare(b.o.name,LOC()));
     for(const r of recs)h+=`<tr><td>${esc(r.o.name)}<div class="small muted">${fD(r.pr.date)}</div></td><td class="r"><span class="num">${num(r.pr.max)}×${r.pr.maxR}</span></td><td class="r"><span class="num">${num(r.la.max)}</span></td><td class="r">${r.d==null?'<span class="d flat">—</span>':delta(r.d)}</td></tr>`;
     h+=`</tbody></table></div><span class="small muted">${L('Вес в кг. Δ — изменение максимального веса к предыдущей тренировке.','Weight in kg. Δ is the change in max weight since the previous workout.')}</span></section>`;
   }
+  h+=`<section class="sec sumsec"><button class="btn block" data-act="sumOpen"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>${L('Сохранить сводку как фото','Save summary as image')}</button><span class="small muted" style="text-align:center">${L('Картинка с главными цифрами на сегодня — для галереи','An image with today’s key numbers — for your gallery')}</span></section>`;
   return h+'</div>';
 }
 
 function vHistory(){
   const f=finished().reverse();
-  let h=`<div class="wrap"><div class="top"><h1>${L('История','History')}</h1><span class="small muted">${f.length} ${P(f.length,W_RU,W_EN)}</span></div>`;
+  let h=`<div class="wrap"><div class="top"><div class="ttl"><h1>${L('История','History')}</h1>${tutBtn('history')}</div><span class="small muted">${f.length} ${P(f.length,W_RU,W_EN)}</span></div>`;
   if(!f.length)h+=`<div class="empty"><b>${L('Пока пусто','Nothing here yet')}</b><span>${L('Завершённые тренировки будут появляться здесь с датой, длительностью и всеми подходами.','Finished workouts will appear here with the date, duration and every set.')}</span></div>`;
   h+='<div class="stack">';
   for(const w of f){
@@ -1101,7 +1160,7 @@ async function importData(file){let d;try{d=JSON.parse(await file.text())}catch(
   merge('templates',d.templates);merge('workouts',d.workouts);merge('notes',d.notes);
   if(d.settings){SET=normS(d.settings);try{localStorage.setItem(SK,JSON.stringify(SET))}catch(e){}saveSettings()}
   if(typeof d.bg==='string'&&d.bg.startsWith('data:image/')){BG=d.bg;try{localStorage.setItem(BGK,BG)}catch(e){}if(S.mode==='db'&&bgDoc)bgDoc.set({data:BG,at:Date.now()}).catch(e=>toast(errMsg(e)))}
-  if(d.body&&Array.isArray(d.body.weights)){const m=new Map((S.body.weights||[]).map(x=>[x.d,x]));for(const x of d.body.weights)if(x&&x.d&&isFinite(x.w))m.set(x.d,{d:x.d,w:+x.w});S.body=Object.assign({},S.body,d.body.height?{height:d.body.height}:{},d.body.age?{age:d.body.age,ageAt:d.body.ageAt}:{},{id:'main',weights:[...m.values()].sort((a,b)=>a.d<b.d?-1:1)});persist('body',S.body)}
+  if(d.body&&Array.isArray(d.body.weights)){const m=new Map((S.body.weights||[]).map(x=>[x.d,x]));for(const x of d.body.weights)if(x&&x.d&&isFinite(x.w))m.set(x.d,{d:x.d,w:+x.w});S.body=Object.assign({},S.body,d.body.height?{height:d.body.height}:{},d.body.age?{age:d.body.age,ageAt:d.body.ageAt}:{},d.body.sex==='m'||d.body.sex==='f'?{sex:d.body.sex}:{},{id:'main',weights:[...m.values()].sort((a,b)=>a.d<b.d?-1:1)});persist('body',S.body)}
   if(Array.isArray(d.bgs))for(const x of d.bgs.slice().reverse())if(x&&typeof x.data==='string'&&x.data.startsWith('data:image/'))addToGallery(x.data,x.thumb||'');
   applySettings();render();toast(L('Импортировано записей: ','Records imported: ')+n)}
 function exResults(q){const ses=sessions(),k=norm(q);const list=[...ses.keys()].filter(x=>!k||norm(ses.get(x).name).includes(k)).sort((a,b)=>ses.get(a).name.localeCompare(ses.get(b).name,LOC()));
@@ -1182,10 +1241,10 @@ function bodyCard(){const b=S.body||{weights:[]},ws=(b.weights||[]).slice().sort
   const dl=(x,unit)=>{if(x==null)return '';if(Math.abs(x)<.05)return `<span class="d flat">= 0${unit}</span>`;return `<span class="d flat">${x>0?'▲ +':'▼ −'}${num(Math.abs(x))}${unit}</span>`};
   let h=`<section class="sec bodysec"><div class="row between"><h2>${L('Мой вес','My weight')}</h2>${S.bodyForm?'':`<button class="btn sm ghost" data-act="bodyAdd">${L('+ Записать','+ Log')}</button>`}</div><div class="card bodycard">`;
   if(S.bodyForm==='w'){h+=`<div class="bform fx-open"><div class="field"><label for="bwW">${L('Вес, кг','Weight, kg')}</label><input id="bwW" data-keep data-num="dec" maxlength="6" inputmode="decimal" value="${last?numIn(last.w):''}" autocomplete="off" data-bwenter="1"></div><div class="field"><label for="bwD">${L('Дата','Date')}</label><input id="bwD" data-keep type="date" value="${todayISO()}" max="${todayISO()}"></div>${S.err&&S.err.id==='bw'?`<div class="err full">${esc(errText('weight'))}</div>`:''}<div class="exacts full"><button class="btn primary" data-act="bodySave">${L('Сохранить','Save')}</button><button class="btn" data-act="bodyCancel">${L('Отмена','Cancel')}</button></div></div>`}
-  else if(S.bodyForm==='p'){h+=`<div class="bform fx-open"><div class="field"><label for="bpH">${L('Рост, см','Height, cm')}</label><input id="bpH" data-keep data-num="int" maxlength="3" inputmode="numeric" value="${b.height||''}" autocomplete="off"></div><div class="field"><label for="bpA">${L('Возраст','Age')}</label><input id="bpA" data-keep data-num="int" maxlength="3" inputmode="numeric" value="${age||''}" autocomplete="off"></div><div class="exacts full"><button class="btn primary" data-act="profSave">${L('Сохранить','Save')}</button><button class="btn" data-act="bodyCancel">${L('Отмена','Cancel')}</button></div></div>`}
+  else if(S.bodyForm==='p'){const sx=S.profSex!==undefined?S.profSex:(b.sex||'');h+=`<div class="bform fx-open"><div class="field full"><span class="label" style="text-transform:none;letter-spacing:0;font-size:12px">${L('Пол','Sex')}</span><div class="seg wide" role="radiogroup" aria-label="${L('Пол','Sex')}"><button class="${sx==='m'?'on':''}" role="radio" aria-checked="${sx==='m'}" data-act="profSex" data-id="m">${L('Мужской','Male')}</button><button class="${sx==='f'?'on':''}" role="radio" aria-checked="${sx==='f'}" data-act="profSex" data-id="f">${L('Женский','Female')}</button></div></div><div class="field"><label for="bpH">${L('Рост, см','Height, cm')}</label><input id="bpH" data-keep data-num="int" maxlength="3" inputmode="numeric" value="${b.height||''}" autocomplete="off"></div><div class="field"><label for="bpA">${L('Возраст','Age')}</label><input id="bpA" data-keep data-num="int" maxlength="3" inputmode="numeric" value="${age||''}" autocomplete="off"></div><div class="exacts full"><button class="btn primary" data-act="profSave">${L('Сохранить','Save')}</button><button class="btn" data-act="bodyCancel">${L('Отмена','Cancel')}</button></div></div>`}
   else if(!last)h+=`<div class="muted small">${L('Записывайте свой вес, чтобы видеть, как он меняется.','Log your weight to see how it changes.')}</div>`;
   else{h+=`<div class="brow"><div><span class="num bnum">${num(last.w)}</span><span class="unit2">${KG()}</span></div><div class="bdel">${prev?dl(last.w-prev.w,' '+KG()):''}<span class="small muted">${fD(isoT(last.d))}${prev?` · ${L('к','vs')} ${fD(isoT(prev.d))}`:''}</span></div></div>${spark(ws.slice(-14))}${ws.length>2?`<div class="small muted">${L('С начала','Since start')} (${fD(isoT(first.d))}): ${dl(last.w-first.w,' '+KG())}</div>`:''}`}
-  if(!S.bodyForm){h+=`<div class="bprof"><span class="small">${L('Рост','Height')} <b>${b.height?b.height+' '+L('см','cm'):'—'}</b> · ${L('Возраст','Age')} <b>${age||'—'}</b>${bmi?` · ${L('ИМТ','BMI')} <b>${num(bmi)}</b> <button class="bmicat" data-act="bmiOpen" aria-label="${L('Что такое ИМТ','What is BMI')}">${bmi<18.5?L('ниже нормы','below normal'):bmi<25?L('норма','normal'):bmi<30?L('выше нормы','above normal'):L('сильно выше нормы','well above normal')}<svg class="infoi" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7"/><path d="M8 7.2v4"/><circle cx="8" cy="4.7" r=".9" class="dot"/></svg></button>`:''}</span><button class="linkbtn" data-act="profEdit">${b.height||age?L('Изменить','Edit'):L('Указать','Set')}</button></div>`;
+  if(!S.bodyForm){h+=`<div class="bprof"><span class="small">${b.sex?`${L('Пол','Sex')} <b>${b.sex==='m'?L('муж.','male'):L('жен.','female')}</b> · `:''}${L('Рост','Height')} <b>${b.height?b.height+' '+L('см','cm'):'—'}</b> · ${L('Возраст','Age')} <b>${age||'—'}</b>${bmi?` · ${L('ИМТ','BMI')} <b>${num(bmi)}</b> <button class="bmicat" data-act="bmiOpen" aria-label="${L('Что такое ИМТ','What is BMI')}">${bmi<18.5?L('ниже нормы','below normal'):bmi<25?L('норма','normal'):bmi<30?L('выше нормы','above normal'):L('сильно выше нормы','well above normal')}<svg class="infoi" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7"/><path d="M8 7.2v4"/><circle cx="8" cy="4.7" r=".9" class="dot"/></svg></button>`:''}</span><button class="linkbtn" data-act="profEdit">${b.height||age||b.sex?L('Изменить','Edit'):L('Указать','Set')}</button></div>`;
     if(ws.length)h+=`<button class="linkbtn" style="align-self:flex-start" data-act="bodyHist">${S.bodyHist?L('Скрыть историю','Hide history'):L('История','History')+' ('+ws.length+')'}</button>`;
     if(S.bodyHist){h+=`<div class="bhist fx-open">`;for(const x of ws.slice().reverse()){h+=S.confirm==='dbw:'+x.d?`<div class="setconf"><span>${L('Удалить','Delete')} ${num(x.w)} ${KG()} (${fD(isoT(x.d))})?</span><span class="row" style="gap:6px"><button class="btn sm danger" style="border-color:var(--down)" data-act="bodyDel" data-id="${x.d}">${L('Удалить','Delete')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></span></div>`:`<div class="row between bhrow"><span class="small muted">${fDY(isoT(x.d))}</span><span class="row" style="gap:6px;flex-wrap:nowrap"><b class="num">${num(x.w)} ${KG()}</b><button class="xbtn" data-act="confirm" data-id="dbw:${x.d}" aria-label="${L('Удалить','Delete')}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span></div>`}h+='</div>'}}
   return h+'</div></section>'}
@@ -1195,7 +1254,7 @@ function weightStats(){const ws=((S.body||{}).weights||[]).slice().sort((a,c)=>a
   const r30=ref(30),r7=ref(7);
   const nd=x=>x==null?'<span class="d flat">—</span>':Math.abs(x)<.05?'<span class="d flat">= 0 '+KG()+'</span>':`<span class="d flat">${x>0?'▲ +':'▼ −'}${num(Math.abs(x))} ${KG()}</span>`;
   const b=S.body||{},bmi=b.height?last.w/Math.pow(b.height/100,2):null;
-  let h=`<section class="sec"><div class="row between"><h2>${L('Вес тела','Body weight')}</h2><span class="small muted">${ws.length} ${P(ws.length,['запись','записи','записей'],['entry','entries'])}</span></div><div class="tiles">
+  let h=`<section class="sec" data-tut="bw"><div class="row between"><h2>${L('Вес тела','Body weight')}</h2><span class="small muted">${ws.length} ${P(ws.length,['запись','записи','записей'],['entry','entries'])}</span></div><div class="tiles">
   <div><span class="label">${L('Сейчас','Now')}</span><span class="num">${num(last.w)}<span class="small muted" style="font-family:var(--font-b);font-weight:400"> ${KG()}</span></span><span class="small muted">${fD(isoT(last.d))}${bmi?` · ${L('ИМТ','BMI')} ${num(bmi)}`:''}</span></div>
   <div><span class="label">${L('За неделю','Past week')}</span>${nd(r7&&r7!==last?last.w-r7.w:null)}<span class="label" style="margin-top:6px">${L('За месяц','Past month')}</span>${nd(r30&&r30!==last?last.w-r30.w:null)}</div>
   <div><span class="label">${L('Минимум','Lowest')}</span><span class="num">${num(mn)}</span><span class="small muted">${fD(isoT(ws.find(x=>x.w===mn).d))}</span></div>
@@ -1214,12 +1273,131 @@ function vBmi(){const b=S.body||{},ws=(b.weights||[]).slice().sort((a,c)=>a.d<c.
   <p style="margin:0"><b>${L('Важно','Keep in mind')}:</b> ${L('ИМТ не отличает мышцы от жира. У тех, кто много тренируется, он часто показывает «выше нормы» при спортивном телосложении. Также он не учитывает возраст и пол. Это ориентир, а не диагноз.','BMI cannot tell muscle from fat. People who train a lot often show “above normal” with an athletic build. It also ignores age and sex. Treat it as a rough guide, not a diagnosis.')}</p>
   </div></div>`}
 let GREETED=false;
+function showStart(w){const ex=(w.exercises||[]).length,sets=(w.exercises||[]).reduce((a,e)=>a+Math.max(1,parseInt(e.sets)||1),0);
+  const el=document.createElement('div');el.className='greet'+(motionOK()?' anim slow':'');el.setAttribute('role','status');
+  el.innerHTML=`<div class="greetcard startcard"><div class="startico">${ICONS.home}</div><span class="label"></span><b></b><span class="sm1"></span><span class="sm2"></span></div>`;
+  el.querySelector('.label').textContent=L('Тренировка началась','Workout started');el.querySelector('b').textContent=w.name;
+  el.querySelector('.sm1').textContent=`${ex} ${P(ex,['упражнение','упражнения','упражнений'],['exercise','exercises'])} · ${sets} ${P(sets,['подход','подхода','подходов'],['set','sets'])} · ${L('начало','start')} ${fT(w.startedAt)}`;
+  el.querySelector('.sm2').textContent=L('Нажмите на упражнение, чтобы начать первый подход','Tap an exercise to start your first set');
+  document.body.appendChild(el);const kill=()=>el.remove();el.addEventListener('click',kill);setTimeout(kill,motionOK()?2600:2000)}
 function showGreet(){const h=new Date().getHours(),g=h>=5&&h<12?L('Доброе утро','Good morning'):h>=12&&h<17?L('Добрый день','Good afternoon'):h>=17&&h<23?L('Добрый вечер','Good evening'):L('Доброй ночи','Good night');
   const wk=finished().filter(w=>w.startedAt>=sow(Date.now())).length,a=active();
   const sub=a?L('Тренировка ждёт продолжения','Your workout is waiting'):wk?L('Тренировок на этой неделе: ','Workouts this week: ')+wk:L('Хорошей тренировки!','Have a great workout!');
   const el=document.createElement('div');el.className='greet'+(motionOK()?' anim':'');el.setAttribute('role','status');
   el.innerHTML=`<div class="greetcard"><b></b><span></span></div>`;el.querySelector('b').textContent=g+', '+SET.name+'!';el.querySelector('span').textContent=sub;
   document.body.appendChild(el);const kill=()=>{el.remove()};el.addEventListener('click',kill);setTimeout(kill,motionOK()?1900:1400)}
+/* ---------- summary image ---------- */
+function sumData(){const f=finished(),t=Date.now(),wk=sow(t);
+  const weeks=[];for(let i=11;i>=0;i--){const d=new Date(wk);d.setDate(d.getDate()-7*i);const a=d.getTime(),e=new Date(d);e.setDate(e.getDate()+7);weeks.push(f.filter(w=>w.startedAt>=a&&w.startedAt<e.getTime()).length)}
+  let streak=0;for(let i=weeks.length-1;i>=0;i--){if(weeks[i])streak++;else if(i===weeks.length-1)continue;else break}
+  const m30=f.filter(w=>w.startedAt>=t-30*DAY).length;
+  const ses=sessions(),ex=[...ses.values()].sort((a,b)=>b.list.length-a.list.length||b.list[b.list.length-1].date-a.list[a.list.length-1].date).slice(0,5).map(o=>{const Lx=o.list,pr=Lx.reduce((a,p)=>!a||p.max>a.max||(p.max===a.max&&p.maxR>a.maxR)?p:a,null);return{name:o.name,max:pr.max,r:pr.maxR,d:Lx.length>1?Lx[Lx.length-1].max-Lx[0].max:null}});
+  const b=S.body||{},ws=(b.weights||[]).slice().sort((a,c)=>a.d<c.d?-1:1),last=ws[ws.length-1];let wd=null;
+  if(last){const t30=isoT(last.d)-30*DAY;let r=null;for(const x of ws)if(isoT(x.d)<=t30)r=x;if(r)wd=last.w-r.w}
+  const bmi=last&&b.height?last.w/Math.pow(b.height/100,2):null;
+  return{total:f.length,m30,streak,weeks,ex,w:last?last.w:null,wd,bmi}}
+async function drawSum(){const D=sumData(),W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+  const cs=getComputedStyle(document.documentElement),V=n=>cs.getPropertyValue(n).trim()||'#888';
+  const bg=V('--bg'),sf=V('--surface'),ink=V('--ink'),mu=V('--muted'),ln=V('--line'),ac=V('--accent'),up=V('--up'),dn=V('--down');
+  const FD=V('--font-d'),FB=V('--font-b');try{await Promise.all([document.fonts.load('700 80px '+FD),document.fonts.load('400 30px '+FB),document.fonts.load('600 30px '+FB)])}catch(e){}
+  const font=(w,sz,f)=>x.font=`${w} ${sz}px ${f}`;
+  const fit=(t,mw)=>{if(x.measureText(t).width<=mw)return t;while(t.length>1&&x.measureText(t+'…').width>mw)t=t.slice(0,-1);return t+'…'};
+  const rr=(X,Y,w,h,r)=>{x.beginPath();x.roundRect?x.roundRect(X,Y,w,h,r):x.rect(X,Y,w,h)};
+  const N=v=>num(Math.round(v*10)/10),sg=v=>v>0?'+':v<0?'−':'±';
+  x.fillStyle=bg;x.fillRect(0,0,W,H);
+  x.fillStyle=ac;x.fillRect(0,0,W,14);
+  const P0=72;let y=128;
+  x.fillStyle=mu;font(600,30,FB);x.textBaseline='alphabetic';x.fillText(L('СВОДКА','SUMMARY'),P0,y);
+  if(SET.name){x.textAlign='right';x.fillText(fit(SET.name,420),W-P0,y);x.textAlign='left'}
+  y+=80;x.fillStyle=ink;font(700,84,FD);x.fillText(new Date().toLocaleDateString(LOC(),{day:'numeric',month:'long',year:'numeric'}),P0,y);
+  y+=44;
+  const tile=(X,Y,w,h,lab,val,sub)=>{x.fillStyle=sf;rr(X,Y,w,h,28);x.fill();x.strokeStyle=ln;x.lineWidth=2;x.stroke();x.fillStyle=mu;font(600,24,FB);x.fillText(fit(lab,w-56),X+28,Y+50);x.fillStyle=ink;font(700,76,FD);x.fillText(val,X+28,Y+124);if(sub){x.fillStyle=mu;font(400,24,FB);x.fillText(fit(sub,w-56),X+28,Y+160)}};
+  const tw=(W-P0*2-2*24)/3;
+  tile(P0,y,tw,184,L('ТРЕНИРОВОК','WORKOUTS'),String(D.total),L('всего','total'));
+  tile(P0+tw+24,y,tw,184,L('ЗА 30 ДНЕЙ','LAST 30 DAYS'),String(D.m30),P(D.m30,W_RU,W_EN));
+  tile(P0+2*(tw+24),y,tw,184,L('СЕРИЯ','STREAK'),String(D.streak),P(D.streak,['неделя','недели','недель'],['week','weeks'])+L(' подряд',''));
+  y+=204;
+  const hw=(W-P0*2-24)/2;
+  tile(P0,y,hw,184,L('ВЕС ТЕЛА','BODY WEIGHT'),D.w!=null?N(D.w)+' '+KG():'—',D.wd!=null?sg(D.wd)+N(Math.abs(D.wd))+' '+KG()+L(' за месяц',' this month'):'');
+  tile(P0+hw+24,y,hw,184,L('ИМТ','BMI'),D.bmi!=null?N(D.bmi):'—',D.bmi!=null?(D.bmi<18.5?L('ниже нормы','below normal'):D.bmi<25?L('норма','normal'):D.bmi<30?L('выше нормы','above normal'):L('сильно выше нормы','well above normal')):'');
+  y+=264;
+  x.fillStyle=ink;font(700,44,FD);x.fillText(L('ЛУЧШИЕ ВЕСА','BEST LIFTS'),P0,y);
+  x.fillStyle=mu;font(400,24,FB);x.textAlign='right';x.fillText(L('рекорд · с первой записи','record · since first entry'),W-P0,y);x.textAlign='left';
+  y+=26;const rowH=66;
+  if(!D.ex.length){y+=60;x.fillStyle=mu;font(400,30,FB);x.fillText(L('Пока нет завершённых упражнений','No finished exercises yet'),P0,y);y+=rowH*4-60}
+  D.ex.forEach((e,i)=>{const Y=y+i*rowH;x.strokeStyle=ln;x.lineWidth=2;x.beginPath();x.moveTo(P0,Y);x.lineTo(W-P0,Y);x.stroke();
+    const by=Y+rowH/2+11;
+    let dTxt='',dCol=mu;if(e.d!=null){dTxt=sg(e.d)+N(Math.abs(e.d));dCol=e.d>0?up:e.d<0?dn:mu}
+    font(700,34,FD);const dw=dTxt?x.measureText(dTxt).width:0;x.textAlign='right';x.fillStyle=dCol;if(dTxt)x.fillText(dTxt,W-P0,by);
+    const rv=N(e.max)+' × '+e.r;font(700,40,FD);x.fillStyle=ink;const rx=W-P0-150;x.fillText(rv,rx,by);const rw=x.measureText(rv).width;x.textAlign='left';
+    font(400,30,FB);x.fillStyle=ink;x.fillText(fit(e.name,rx-rw-P0-30),P0,by)});
+  y+=Math.max(D.ex.length,1)*rowH;if(D.ex.length){x.strokeStyle=ln;x.beginPath();x.moveTo(P0,y);x.lineTo(W-P0,y);x.stroke()}
+  y+=72;x.fillStyle=ink;font(700,36,FD);x.fillText(L('ТРЕНИРОВКИ ПО НЕДЕЛЯМ','WORKOUTS BY WEEK'),P0,y);
+  const bt=y+28,bh=H-104-bt,mx=Math.max(1,...D.weeks),bw=(W-P0*2)/12;
+  D.weeks.forEach((v,i)=>{const h=v?Math.max(10,bh*v/mx):4;x.fillStyle=v?(i===11?ac:ink):ln;x.globalAlpha=v&&i!==11?.82:1;rr(P0+i*bw+6,bt+bh-h,bw-12,h,8);x.fill();x.globalAlpha=1});
+  x.fillStyle=mu;font(400,22,FB);x.fillText(L('12 недель назад','12 weeks ago'),P0,H-62);x.textAlign='right';x.fillText(L('эта неделя','this week'),W-P0,H-62);x.textAlign='left';
+  return c}
+async function sumOpen(){S.sum={url:null};S.fx={t:'sheet'};render();try{const c=await drawSum();const blob=await new Promise(r=>c.toBlob(r,'image/png'));if(!S.sum)return;S.sum={url:URL.createObjectURL(blob),blob};render()}catch(e){S.sum=null;render();toast(L('Не получилось создать картинку','Could not create the image'))}}
+function sumClose(){if(S.sum&&S.sum.url)URL.revokeObjectURL(S.sum.url);S.sum=null;render()}
+async function sumSave(){const o=S.sum;if(!o||!o.blob)return;const name='gym-'+new Date().toISOString().slice(0,10)+'.png';let dl=null;try{dl=await claude.use('downloads')}catch(e){}
+  if(dl){try{await dl.save({filename:name,data:o.blob});toast(L('Картинка сохранена','Image saved'));return}catch(e){if(e&&e.code==='declined')return}}
+  try{const a=document.createElement('a');a.href=o.url;a.download=name;document.body.appendChild(a);a.click();a.remove();toast(L('Сохранено в «Загрузки»','Saved to Downloads'))}catch(e){toast(L('Не удалось сохранить','Could not save'))}}
+function vSum(){const u=S.sum&&S.sum.url;return `<div class="overlay ${fx('sheet')}" data-act="sumClose"><div class="sheet sumsheet" role="dialog" aria-modal="true" aria-labelledby="sumT">
+  <div class="row between"><h2 id="sumT">${L('Сводка','Summary')}</h2><button class="btn sm ghost" data-act="sumClose">${L('Закрыть','Close')}</button></div>
+  <div class="sumimg">${u?`<img src="${u}" alt="${L('Сводка на сегодня','Summary for today')}">`:`<span class="small muted">${L('Готовлю картинку…','Preparing the image…')}</span>`}</div>
+  <button class="btn primary big block" data-act="sumSave" ${u?'':'disabled'}>${L('Сохранить на устройство','Save to device')}</button></div></div>`}
+/* ---------- tutorials ---------- */
+function tutBtn(p){const seen=SET.tut&&SET.tut[p];return seen?`<button class="tutbtn" data-act="tutStart" data-id="${p}" aria-label="${L('Обучение','Tutorial')}" title="${L('Обучение','Tutorial')}">?</button>`:`<button class="tutbtn big" data-act="tutStart" data-id="${p}"><span class="q">?</span>${L('Как пользоваться','How it works')}</button>`}
+function tutSteps(p){const R=EN();const T=(sel,ru,en,tru,ten)=>({sel,title:R?en:ru,text:R?ten:tru});
+  const map={
+  home:[T('.strip','Цифры за период','Quick numbers','Сколько раз вы были в зале на этой неделе и в этом месяце, когда была последняя тренировка. Если в настройках указан абонемент, здесь же видно, сколько дней он ещё действует.','How many times you trained this week and month, and when your last workout was. If you set a membership date, the days left show here too.'),
+    T('.gear','Настройки','Settings','Шестерёнка открывает меню: «Основные» (имя, язык, абонемент, резервная копия) и «Оформление» (тема, цвет, фон, стиль).','The gear opens a menu: General (name, language, membership, backup) and Appearance (theme, colour, background, style).'),
+    T('.bodysec','Мой вес','My weight','Нажмите «+ Записать», чтобы сохранить вес на сегодня или на другую дату. Здесь же рост, возраст и ИМТ — нажмите на оценку ИМТ, чтобы узнать подробнее.','Tap “+ Log” to save today’s weight or another date. Height, age and BMI live here too — tap the BMI label for details.'),
+    T('[data-tut=tpl] .row','Шаблоны и инструменты','Templates and tools','«+ Новый» создаёт шаблон тренировки. Рядом калькулятор (веса и перевод кг ↔ lb) и кнопка ⇅ для смены порядка шаблонов.','“+ New” creates a workout template. Next to it: a calculator (weights and kg ↔ lb) and ⇅ to reorder templates.'),
+    T('.card.tpl, [data-tut=tpl] .empty','Шаблон','Template','«Начать тренировку» запускает тренировку по этому шаблону. «Изменить» — поменять упражнения, подходы, повторения и снаряд. Под названием видно, когда шаблон делали в последний раз.','“Start workout” begins a session from this template. “Edit” changes exercises, sets, reps and equipment. You can see when it was last done.'),
+    T('nav.tabs','Нижнее меню','Bottom menu','Переключение между тренировками, статистикой, историей и заметками. Жест «назад» на телефоне возвращает на шаг назад.','Switch between workouts, stats, history and notes. The phone’s back gesture goes one step back.')],
+  workout:[T('.whead','Шапка тренировки','Workout header','Название, время начала и полоска прогресса: каждый сегмент — упражнение. Ниже — сколько сделано и процент выполнения.','Name, start time and a progress bar where each segment is an exercise. Below: what’s done and the completion percentage.'),
+    T('.stw','Секундомер','Stopwatch','Не включается сам. ▶ — старт, ⏸ — пауза, ↺ — сброс (только на паузе, с подтверждением).','Doesn’t start by itself. ▶ start, ⏸ pause, ↺ reset (only when paused, with confirmation).'),
+    T('.ex','Упражнение','Exercise','Нажмите на упражнение, чтобы раскрыть его. Кнопка «Подход» начинает подход — после него введите вес и повторы. Записанный подход можно изменить ✏️ или удалить ✕.','Tap an exercise to open it. “Set” starts a set — then enter weight and reps. A logged set can be edited ✏️ or deleted ✕.'),
+    T('.ex','Пропуск и замена','Skip and swap','Пока нет подходов, можно «Пропустить» (с причиной), «Заменить» на другое упражнение из списка или своё, или «Отключить» упражнение на эту тренировку.','Before any sets you can Skip (with a reason), Swap for another exercise or your own, or Turn it off for this workout.'),
+    T('[data-tut=finish]','Завершение','Finishing','Завершить можно после хотя бы одного подхода. Если сделано 40% или меньше, приложение спросит причину — она попадёт в отчёт.','You can finish after at least one set. At 40% or less the app asks why — the reason goes into the report.')],
+  stats:[T('[data-tut=att]','Посещения','Attendance','Тренировки за неделю и месяц в сравнении с прошлыми, среднее в неделю и серия недель подряд.','Workouts this week and month vs the previous ones, weekly average and streak.'),
+    T('[data-tut=weeks]','По неделям','By week','Столбики — сколько тренировок было в каждую из последних 12 недель.','Bars show workouts in each of the last 12 weeks.'),
+    T('[data-tut=cal]','Календарь','Calendar','Дни с тренировками отмечены цветом. Стрелками можно листать месяцы.','Workout days are highlighted. Use the arrows to switch months.'),
+    T('[data-tut=bw]','Вес тела','Body weight','Текущий вес, изменения за неделю и месяц, минимум, максимум и график.','Current weight, weekly and monthly change, lowest, highest and a chart.'),
+    T('#drum','Выбор упражнения','Choosing an exercise','Крутите барабан пальцем или колесиком мыши — он закольцован. Лупа рядом с заголовком открывает поиск.','Spin the drum with a finger or mouse wheel — it loops. The magnifier next to the title opens search.'),
+    T('[data-tut=ex] .tiles','Прогресс по упражнению','Exercise progress','Рекорд, последний результат и изменение с первой записи. Ниже графики максимального веса и среднего числа повторений.','Record, last result and change since the first entry. Below: charts of max weight and average reps.'),
+    T('[data-tut=rec]','Рекорды','Records','Лучший вес по каждому упражнению и изменение к прошлой тренировке.','Best weight for each exercise and change since the previous workout.')],
+  history:[T('.hist','Тренировка в истории','Workout in history','Нажмите, чтобы раскрыть отчёт: все подходы, пропуски с причинами, замены. Оттуда же тренировку можно отправить в корзину.','Tap to open the report: every set, skips with reasons, swaps. You can also move the workout to trash from there.'),
+    T('.trash','Корзина','Trash','Удалённые тренировки попадают сюда. Их можно восстановить или стереть навсегда.','Deleted workouts land here. Restore them or erase forever.')],
+  notes:[T('[data-act=newGroup]','Группы заметок','Note groups','Создайте группу и выберите тип: «Со ссылками» (плейлисты, видео с техникой) или «Только текст».','Create a group and pick a type: With links (playlists, technique videos) or Text only.'),
+    T('.card.grp','Группа','Group','Нажмите, чтобы открыть. Внутри добавляйте заметки, меняйте их ✏️ и удаляйте в корзину.','Tap to open. Inside, add notes, edit them ✏️ and move them to trash.'),
+    T('.trash','Корзина групп','Group trash','Удалённые группы можно восстановить вместе со всеми заметками.','Deleted groups can be restored with all their notes.')],
+  general:[T('#nameIn','Имя','Name','Если указать, приложение будет приветствовать вас при входе.','If set, the app greets you on open.'),
+    T('#memDate','Абонемент','Membership','Дата окончания абонемента — на главном экране появится, сколько дней осталось.','Membership end date — the home screen shows days left.'),
+    T('[data-act=exportData]','Резервная копия','Backup','«Экспорт» сохраняет все данные в файл, «Импорт» загружает их обратно, например на новом телефоне.','Export saves all data to a file; Import loads it back, e.g. on a new phone.')],
+  look:[T('.prevpin','Пример','Preview','Пока вы листаете оформление, пример закреплён сверху и сразу показывает изменения.','While you scroll, the preview stays pinned on top and shows changes instantly.'),
+    T('.swatches','Цвет и оттенок','Colour and shade','Выберите цвет приложения, а ползунком «Оттенок» сделайте его светлее или темнее.','Pick the app colour, then use Shade to make it lighter or darker.'),
+    T('.bgrow','Фон','Background','Загрузите своё фото, настройте размытие, видимость и сдвиг. «Мои фоны» хранит прошлые фото.','Upload your photo, adjust blur, visibility and position. “My backgrounds” keeps previous ones.'),
+    T('#btnT','Прозрачность','Transparency','Делает кнопки и карточки полупрозрачными — красиво вместе со своим фоном.','Makes buttons and cards translucent — great with your own background.')]};
+  return (map[p]||[]).filter(st=>document.querySelector(st.sel))}
+let TUT=null;
+function tutStart(p){const steps=tutSteps(p);if(!SET.tut)SET.tut={};if(!SET.tut[p]){SET.tut[p]=true;saveSettings();render()}if(!steps.length)steps.push({sel:'',title:L('Пока пусто','Nothing here yet'),text:L('Здесь появятся данные после первой завершённой тренировки. Загляните сюда потом и нажмите «?» ещё раз — покажу, что здесь есть.','Data appears here after your first finished workout. Come back later and tap “?” again to see what’s here.')});
+  closeTut();TUT={p,steps,i:0,el:document.createElement('div')};TUT.el.className='tut';TUT.el.innerHTML='<div class="tuthole"></div><div class="tutcard" role="dialog" aria-live="polite"></div>';document.body.appendChild(TUT.el);
+  TUT.el.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('[data-tut-act]');if(!b){if(!e.target.closest('.tutcard'))tutGo(1);return}const a=b.dataset.tutAct;if(a==='next')tutGo(1);else if(a==='prev')tutGo(-1);else closeTut()});
+  tutShow()}
+function tutGo(d){if(!TUT)return;TUT.i+=d;if(TUT.i>=TUT.steps.length){closeTut();toast(L('Обучение пройдено','Tutorial complete'));return}if(TUT.i<0)TUT.i=0;tutShow()}
+function closeTut(){if(TUT){TUT.el.remove();TUT=null}}
+function tutShow(){const st=TUT.steps[TUT.i],t=st.sel?document.querySelector(st.sel):null;const card=TUT.el.querySelector('.tutcard'),hole=TUT.el.querySelector('.tuthole'),n=TUT.steps.length;
+  card.innerHTML=`<span class="label">${TUT.i+1} / ${n}</span><b></b><p></p><div class="row between" style="flex-wrap:nowrap"><button class="linkbtn" data-tut-act="close">${L('Пропустить','Skip')}</button><span class="row" style="gap:6px;flex-wrap:nowrap">${TUT.i?`<button class="btn sm" data-tut-act="prev">${L('Назад','Back')}</button>`:''}<button class="btn sm primary" data-tut-act="next">${TUT.i===n-1?L('Готово','Done'):L('Далее','Next')}</button></span></div>`;
+  card.querySelector('b').textContent=st.title;card.querySelector('p').textContent=st.text;
+  TUT.el.classList.toggle('dim',!t);if(!t){hole.style.display='none';const cw=Math.min(360,innerWidth-32);card.style.cssText=`left:${(innerWidth-cw)/2}px;top:50%;width:${cw}px;transform:translateY(-50%)`;return}
+  const fixed=getComputedStyle(t).position==='fixed'||t.closest('nav.tabs');if(!fixed)t.scrollIntoView({block:'center',behavior:'auto'});
+  requestAnimationFrame(()=>{if(!TUT)return;const r=t.getBoundingClientRect(),pad=8,vh=innerHeight,vw=innerWidth;
+    const top=Math.max(4,r.top-pad),h=Math.min(r.height+pad*2,vh-8);hole.style.cssText=`display:block;left:${Math.max(4,r.left-pad)}px;top:${top}px;width:${Math.min(r.width+pad*2,vw-8)}px;height:${h}px`;
+    const cw=Math.min(360,vw-32);card.style.width=cw+'px';const ch=card.offsetHeight||170,below=top+h+12;let y=below+ch<vh-8?below:Math.max(8,top-ch-12);if(y+ch>vh-8)y=Math.max(8,vh-ch-8);
+    card.style.cssText=`left:${(vw-cw)/2}px;top:${y}px;width:${cw}px`})}
+addEventListener('resize',()=>{if(TUT)tutShow()});
 /* ---------- calculator ---------- */
 const LB=2.20462262;
 function calcEval(src){const t=src.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');let i=0;
@@ -1270,12 +1448,13 @@ function vNotes(){
   const g=S.noteGroup&&S.notes.find(x=>x.id===S.noteGroup&&!x.deletedAt);
   if(!g){
     S.noteGroup=null;const G=groups();
-    let h=`<div class="wrap"><div class="top"><h1>${L('Заметки','Notes')}</h1>${G.length&&S.groupForm!=='new'?`<button class="btn sm ghost" data-act="newGroup">${L('+ Группа','+ Group')}</button>`:''}</div>`;
+    let h=`<div class="wrap"><div class="top"><div class="ttl"><h1>${L('Заметки','Notes')}</h1>${tutBtn('notes')}</div>${G.length&&S.groupForm!=='new'&&!S.gsel?`<button class="btn sm ghost" data-act="newGroup">${L('+ Группа','+ Group')}</button>`:''}</div>`;
     if(S.groupForm==='new')h+=groupForm(null);
     if(!G.length&&S.groupForm!=='new')h+=`<div class="empty"><b>${L('Пока нет заметок','No notes yet')}</b><span>${L('Создайте группу, например «Плейлисты» или «Техника», и сохраняйте в неё ссылки и записи.','Create a group, such as “Playlists” or “Technique”, and keep links and notes in it.')}</span><button class="btn primary" data-act="newGroup">${L('Создать группу','Create group')}</button></div>`;
     h+='<div class="stack">';
-    for(const x of G){const it=live(x);h+=`<button class="card grp" data-act="openGroup" data-id="${x.id}"><span class="row between" style="flex-wrap:nowrap"><h3>${esc(x.name)}</h3><span class="chip">${it.length}</span></span><span class="meta"><b class="kind">${x.kind==='text'?L('Текст','Text'):L('Ссылки','Links')}</b> · ${it.length?it.slice(0,3).map(n=>esc(n.title||host(n.url)||(n.text||'').slice(0,40))).join(' · '):L('Пусто','Empty')}</span></button>`}
+    for(const x of G){const it=live(x),gs=S.gsel,on=gs&&gs.has(x.id);h+=`<button class="card grp ${gs?'selmode':''} ${on?'sel':''}" data-gid="${x.id}" data-act="${gs?'selGroup':'openGroup'}" data-id="${x.id}" ${gs?`role="checkbox" aria-checked="${!!on}"`:''}><span class="row between" style="flex-wrap:nowrap"><h3>${esc(x.name)}</h3>${gs?'':`<span class="chip">${it.length}</span>`}</span>${gs?`<span class="selck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>`:''}<span class="meta"><b class="kind">${x.kind==='text'?L('Текст','Text'):L('Ссылки','Links')}</b> · ${it.length?it.slice(0,3).map(n=>esc(n.title||host(n.url)||(n.text||'').slice(0,40))).join(' · '):L('Пусто','Empty')}</span></button>`}
     h+='</div>';
+    if(S.gsel){const c=S.gsel.size,all=G.length&&c===G.length,ni=G.filter(x=>S.gsel.has(x.id)).reduce((a,x)=>a+live(x).length,0);h+=`<div class="selbar" role="toolbar">${S.confirm==='gselDel'?`<span class="selt">${L('Переместить','Move')} ${c} ${P(c,['группу','группы','групп'],['group','groups'])} ${L('в корзину','to trash')}${ni?L(` вместе с заметками (${ni})`,` with ${ni} ${ni===1?'note':'notes'}`):''}?</span><button class="btn sm danger" style="border-color:var(--down)" data-act="gselDel">${L('Да','Yes')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button>`:`<button class="btn sm ghost" data-act="gselCancel" aria-label="${L('Отменить выделение','Cancel selection')}">✕</button><span class="selt">${L('Выбрано','Selected')}: <b>${c}</b></span><button class="btn sm" data-act="gselAll">${all?L('Снять','None'):L('Все','All')}</button><button class="btn sm danger" style="border-color:var(--down)" data-act="gselAsk" ${c?'':'disabled'}>${L('В корзину','Trash')}</button>`}</div>`}
     const tg=S.notes.filter(x=>x.deletedAt).sort((a,b)=>b.deletedAt-a.deletedAt);
     if(tg.length)h+=trashBlock({title:L('Корзина групп','Group trash'),count:tg.length,open:S.gTrashOpen,toggle:'gTrashToggle',clear:'clearGTrash',ck:'clearGTrash',
       ask:EN()?`Erase ${tg.length} ${tg.length===1?'group':'groups'} with all their notes forever?`:`Стереть ${tg.length} ${ruP(tg.length,'группу','группы','групп')} вместе с заметками навсегда?`,
@@ -1291,16 +1470,19 @@ function vNotes(){
   if(!it.length&&!S.noteForm)h+=`<div class="empty"><span>${L('В этой группе пока нет заметок.','No notes in this group yet.')}</span></div>`;
   for(const n of it){
     if(S.noteForm&&S.noteForm.id===n.id){h+=noteForm(g,n);continue}
-    h+=`<div class="card note"><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><h3 style="overflow-wrap:anywhere;min-width:0">${esc(n.title||host(n.url)||L('Без названия','Untitled'))}</h3><div class="row" style="gap:2px;flex-wrap:nowrap"><button class="xbtn ed" data-act="editNote" data-id="${n.id}" aria-label="${L('Изменить','Edit')}"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button><button class="xbtn" data-act="confirm" data-id="dnote:${n.id}" aria-label="${L('Удалить','Delete')}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>`;
-    if(n.url)h+=`<a class="nlink" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg><span>${esc(host(n.url))}</span></a>`;
+    const sel=S.sel,on=sel&&sel.has(n.id);
+    h+=`<div class="card note ${sel?'selmode':''} ${on?'sel':''}" data-nid="${n.id}" ${sel?`data-act="selNote" data-id="${n.id}" role="checkbox" aria-checked="${!!on}" tabindex="0"`:''}><div class="row between" style="flex-wrap:nowrap;align-items:flex-start"><h3 style="overflow-wrap:anywhere;min-width:0">${esc(n.title||host(n.url)||L('Без названия','Untitled'))}</h3>${sel?`<span class="selck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></span>`:`<div class="row" style="gap:2px;flex-wrap:nowrap"><button class="xbtn ed" data-act="editNote" data-id="${n.id}" aria-label="${L('Изменить','Edit')}"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button><button class="xbtn" data-act="confirm" data-id="dnote:${n.id}" aria-label="${L('Удалить','Delete')}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>`}</div>`;
+    if(n.url&&S.sel)h+=`<span class="nlink"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg><span>${esc(host(n.url))}</span></span>`;
+    else if(n.url)h+=`<a class="nlink" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg><span>${esc(host(n.url))}</span></a>`;
     if(n.text)h+=`<div class="ntext">${linkify(n.text)}</div>`;
     if(n.createdAt)h+=`<span class="ndate">${fNote(n.createdAt)}${n.updatedAt?` · ${L('изменено','edited')} ${fNote(n.updatedAt)}`:''}</span>`;
-    if(S.confirm==='dnote:'+n.id)h+=`<div class="setconf fx-open"><span>${L('Переместить заметку в корзину?','Move this note to trash?')}</span><span class="row" style="gap:6px"><button class="btn sm danger" style="border-color:var(--down)" data-act="delNote" data-id="${n.id}">${L('В корзину','Move')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></span></div>`;
+    if(!S.sel&&S.confirm==='dnote:'+n.id)h+=`<div class="setconf fx-open"><span>${L('Переместить заметку в корзину?','Move this note to trash?')}</span><span class="row" style="gap:6px"><button class="btn sm danger" style="border-color:var(--down)" data-act="delNote" data-id="${n.id}">${L('В корзину','Move')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></span></div>`;
     h+='</div>';
   }
   if(S.noteForm&&!S.noteForm.id)h+=noteForm(g,null);
   h+='</div>';
-  if(!S.noteForm)h+=`<button class="btn primary block" data-act="newNote">${L('+ Заметка','+ Note')}</button>`;
+  if(S.sel){const c=S.sel.size,all=it.length&&c===it.length;h+=`<div class="selbar" role="toolbar">${S.confirm==='selDel'?`<span class="selt">${L('Переместить','Move')} ${c} ${P(c,['заметку','заметки','заметок'],['note','notes'])} ${L('в корзину?','to trash?')}</span><button class="btn sm danger" style="border-color:var(--down)" data-act="selDel">${L('Да','Yes')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button>`:`<button class="btn sm ghost" data-act="selCancel" aria-label="${L('Отменить выделение','Cancel selection')}">✕</button><span class="selt">${L('Выбрано','Selected')}: <b>${c}</b></span><button class="btn sm" data-act="selAll">${all?L('Снять','None'):L('Все','All')}</button><button class="btn sm danger" style="border-color:var(--down)" data-act="selAsk" ${c?'':'disabled'}>${L('В корзину','Trash')}</button>`}</div>`}
+  else if(!S.noteForm)h+=`<button class="btn primary block" data-act="newNote">${L('+ Заметка','+ Note')}</button>`;
   if(tn.length)h+=trashBlock({title:L('Корзина','Trash'),count:tn.length,open:S.nTrashOpen,toggle:'nTrashToggle',clear:'clearNTrash',ck:'clearNTrash',
     ask:EN()?`Erase ${tn.length} ${tn.length===1?'note':'notes'} forever?`:`Стереть ${tn.length} ${ruP(tn.length,'заметку','заметки','заметок')} навсегда?`,
     rows:tn.map(n=>`<div class="row between trashrow"><div style="min-width:0"><b style="overflow-wrap:anywhere">${esc(n.title||host(n.url)||(n.text||'').slice(0,40)||L('Без названия','Untitled'))}</b><div class="small muted">${L('удалена','deleted')} ${ago(n.deletedAt)}</div></div><button class="btn sm ghost" data-act="restoreNote" data-id="${n.id}">${L('Восстановить','Restore')}</button></div>`).join('')});
@@ -1313,7 +1495,7 @@ function mutW(fn){const a=active();if(!a)return;const i=S.workouts.indexOf(a);co
 const exOf=(w,id)=>w.exercises.find(e=>e.id===id);
 let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.hidden=false;t.classList.remove('fx-toast');void t.offsetWidth;t.classList.add('fx-toast');t.classList.remove('fx-toast-out');clearTimeout(toastT);toastT=setTimeout(()=>{t.classList.remove('fx-toast');t.classList.add('fx-toast-out');toastT=setTimeout(()=>{t.hidden=true;t.classList.remove('fx-toast-out')},600)},3000)}
 const A={
-  go(v){if(S.view==='settings'&&v!=='settings'){S.wipeShown=false;S.wipeStep=0;WIPE.n=0}S.gearMenu=false;S.swConfirm=false;S.reorder=false;S.exSearch=false;S.expText=null;S.calc=null;if(v==='notes'){if(S.view==='notes')S.noteGroup=null;S.noteForm=null;S.groupForm=null}if(S.view==='workout'&&v!=='workout'){const a=active();if(a&&!setCount(a)){S.workouts=S.workouts.filter(w=>w.id!==a.id);remove('workouts',a.id);S.openEx=null;setTimeout(()=>toast(L('Тренировка отменена: не было записано ни одного подхода','Workout cancelled: no sets were logged')),0)}}S.fx={t:'view'};S.view=v;S.confirm=null;S.err=null;S.replaceFor=null;S.skipFor=null;S.endAsk=false;S.addOther=false;S.draft=v==='edit'?S.draft:null;render();window.scrollTo(0,0)},
+  go(v){closeTut();S.sel=null;S.gsel=null;if(S.sum){if(S.sum.url)URL.revokeObjectURL(S.sum.url);S.sum=null}if(S.view==='settings'&&v!=='settings'){S.wipeShown=false;S.wipeStep=0;WIPE.n=0}S.gearMenu=false;S.swConfirm=false;S.reorder=false;S.exSearch=false;S.expText=null;S.calc=null;if(v==='notes'){if(S.view==='notes')S.noteGroup=null;S.noteForm=null;S.groupForm=null}if(S.view==='workout'&&v!=='workout'){const a=active();if(a&&!setCount(a)){S.workouts=S.workouts.filter(w=>w.id!==a.id);remove('workouts',a.id);S.openEx=null;setTimeout(()=>toast(L('Тренировка отменена: не было записано ни одного подхода','Workout cancelled: no sets were logged')),0)}}S.fx={t:'view'};S.view=v;S.confirm=null;S.err=null;S.replaceFor=null;S.skipFor=null;S.endAsk=false;S.addOther=false;S.draft=v==='edit'?S.draft:null;render();window.scrollTo(0,0)},
   setLang(l){const now=Date.now();if(l==='en'&&S.view==='settings'){WIPE.n=now-WIPE.t<2500?WIPE.n+1:1;WIPE.t=now;if(WIPE.n>=5&&!S.wipeShown){S.wipeShown=true;S.wipeStep=0;WIPE.n=0;setTimeout(()=>{const el=document.getElementById('wipeBox');if(el)el.scrollIntoView({block:'center',behavior:motionOK()?'smooth':'auto'})},60)}}else WIPE.n=0;
     if(SET.lang===l){render();return}SET.lang=l;applySettings();saveSettings();render()},
   wipeStart(){S.wipeStep=1;render()},
@@ -1344,7 +1526,7 @@ const A={
   resume(){S.fx={t:'view'};S.view='workout';S.confirm=null;render();window.scrollTo(0,0)},
   start(id){if(active())return A.resume();const t=S.templates.find(x=>x.id===id);if(!t)return;
     const w={id:uid(),templateId:t.id,name:t.name,startedAt:Date.now(),finishedAt:null,exercises:(t.exercises||[]).map(e=>({id:uid(),name:e.name,equip:e.equip||'',sets:e.sets,reps:e.reps,log:[],pending:false,done:false}))};
-    S.workouts.push(w);persist('workouts',w);S.fx={t:'view'};S.view='workout';S.openEx=null;S.confirm=null;render();window.scrollTo(0,0)},
+    S.workouts.push(w);persist('workouts',w);S.fx={t:'view'};S.view='workout';S.openEx=null;S.confirm=null;render();window.scrollTo(0,0);showStart(w)},
   toggleEx(id){S.editSet=null;
     const prev=S.openEx,next=prev===id?null:id;S.err=null;
     const go=()=>{S.openEx=next;if(next)S.fx={t:'open',id:next};render()};
@@ -1359,7 +1541,10 @@ const A={
     if(!isFinite(rv)||rv<1||Math.round(rv)!==rv){S.err={id,k:'reps'};return render()}
     S.err=null;S.fx={t:'set',id};mutW(w=>{const x=exOf(w,id);x.log.push({w:wv,r:rv});x.pending=false});
   },
-  finishEx(id){const a=active(),e0=a&&exOf(a,id);if(!e0||!(e0.log&&e0.log.length))return;S.err=null;S.openEx=null;S.fx={t:'done',id};mutW(w=>{const e=exOf(w,id);e.pending=false;e.done=true})},
+  finishEx(id){const a=active(),e0=a&&exOf(a,id);if(!e0||!(e0.log&&e0.log.length)||S.anim)return;S.err=null;S.editSet=null;
+    const done=()=>{S.openEx=null;S.fx={t:'done',id};mutW(w=>{const e=exOf(w,id);e.pending=false;e.done=true})};
+    const el=document.querySelector('#ex-'+id+' .exbody');
+    if(el&&el.animate&&motionOK()){S.anim=true;S.holdUntil=Date.now()+600;el.style.overflow='hidden';const an=el.animate([{height:el.offsetHeight+'px',paddingBottom:getComputedStyle(el).paddingBottom,opacity:1},{height:'0px',paddingBottom:'0px',opacity:0}],{duration:440,easing:'cubic-bezier(.45,0,.2,1)',fill:'forwards'});an.onfinish=()=>{S.anim=false;done()}}else done()},
   skipAsk(id){S.skipFor=id;S.fx={t:'sheet'};render();const t=document.getElementById('skipReason');if(t)t.focus()},
   skipPreset(r){const t=document.getElementById('skipReason');if(t){t.value=r;t.focus()}},
   skipClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="skipClose"].btn'))return;S.skipFor=null;render()},
@@ -1404,16 +1589,21 @@ const A={
   galSet(id){const it=BGS.find(x=>x.id===id);if(!it||it.data===BG)return;S.confirm=null;BG=it.data;try{localStorage.setItem(BGK,BG)}catch(e){}applyBg();if(S.mode==='db'&&bgDoc)bgDoc.set({data:BG,at:Date.now()}).catch(e=>toast(errMsg(e)));render();toast(L('Фон установлен','Background set'))},
   galDel(id){S.confirm=null;BGS=BGS.filter(x=>x.id!==id);if(S.mode==='db'&&bgsCol)bgsCol.doc(id).delete().catch(e=>toast(errMsg(e)));else saveBgsLocal();if(!BGS.length)S.bgGal=false;render();toast(L('Фон удалён из галереи','Background removed from gallery'))},
   bodyAdd(){S.bodyForm='w';S.err=null;render();const el=document.getElementById('bwW');if(el){el.focus();el.select()}},
-  profEdit(){S.bodyForm='p';S.err=null;render();const el=document.getElementById('bpH');if(el)el.focus()},
+  profSex(v){S.profSex=S.profSex===v||(S.profSex===undefined&&(S.body||{}).sex===v)?'':v;render()},
+  profEdit(){S.profSex=undefined;S.bodyForm='p';S.err=null;render();const el=document.getElementById('bpH');if(el)el.focus()},
   bodyCancel(){S.bodyForm=null;S.err=null;render()},
   bodySave(){const w=parseNum((document.getElementById('bwW')||{}).value),d=(document.getElementById('bwD')||{}).value||todayISO();if(!isFinite(w)||w<=0||w>500){S.err={id:'bw'};return render()}
     const b=structuredClone(S.body||{id:'main',weights:[]});b.id='main';b.weights=(b.weights||[]).filter(x=>x.d!==d);b.weights.push({d,w});b.weights.sort((x,y)=>x.d<y.d?-1:1);S.body=b;persist('body',b);S.bodyForm=null;S.err=null;render();toast(L('Вес записан','Weight logged'))},
   profSave(){const hh=parseInt((document.getElementById('bpH')||{}).value),a=parseInt((document.getElementById('bpA')||{}).value);const b=structuredClone(S.body||{id:'main',weights:[]});b.id='main';
-    if(hh>50&&hh<260)b.height=hh;else delete b.height;if(a>0&&a<120){b.age=a;b.ageAt=Date.now()}else{delete b.age;delete b.ageAt}S.body=b;persist('body',b);S.bodyForm=null;render()},
+    if(hh>50&&hh<260)b.height=hh;else delete b.height;if(a>0&&a<120){b.age=a;b.ageAt=Date.now()}else{delete b.age;delete b.ageAt}if(S.profSex!==undefined){if(S.profSex)b.sex=S.profSex;else delete b.sex}S.profSex=undefined;S.body=b;persist('body',b);S.bodyForm=null;render()},
   bodyHist(){S.bodyHist=!S.bodyHist;S.confirm=null;render()},
   bodyDel(d){S.confirm=null;const b=structuredClone(S.body);b.weights=b.weights.filter(x=>x.d!==d);S.body=b;persist('body',b);render();toast(L('Запись удалена','Entry deleted'))},
   bmiOpen(){S.bmiInfo=true;S.fx={t:'sheet'};render()},
   bmiClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="bmiClose"].btn'))return;S.bmiInfo=false;render()},
+  tutStart(p){tutStart(p)},
+  sumOpen(){sumOpen()},
+  sumSave(){sumSave()},
+  sumClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="sumClose"].btn'))return;sumClose()},
   calcOpen(){S.calc={expr:'',note:''};S.fx={t:'sheet'};render()},
   calcClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="calcClose"].btn'))return;S.calc=null;render()},
   calcKey(k){const c=S.calc;if(!c)return;c.note='';let e=c.expr;
@@ -1458,8 +1648,8 @@ const A={
   saveGroup(){const el=document.getElementById('gName'),name=(el?el.value:'').trim();if(!name){S.err={id:'group'};return render()}
     S.err=null;if(S.groupForm==='rename'&&S.noteGroup){S.groupForm=null;const kind=S.groupKind==='text'?'text':'links';mutG(S.noteGroup,g=>{g.name=name;g.kind=kind});return}
     const g={id:uid(),name,kind:S.groupKind==='text'?'text':'links',createdAt:Date.now(),items:[]};S.notes.push(g);persist('notes',g);S.groupForm=null;S.noteGroup=g.id;S.fx={t:'view'};render();toast(L('Группа создана','Group created'))},
-  openGroup(id){S.noteGroup=id;S.nTrashOpen=false;S.noteForm=null;S.groupForm=null;S.confirm=null;S.err=null;S.fx={t:'view'};render();window.scrollTo(0,0)},
-  backNotes(){S.noteGroup=null;S.noteForm=null;S.groupForm=null;S.confirm=null;S.err=null;S.fx={t:'view'};render();window.scrollTo(0,0)},
+  openGroup(id){S.sel=null;S.gsel=null;S.noteGroup=id;S.nTrashOpen=false;S.noteForm=null;S.groupForm=null;S.confirm=null;S.err=null;S.fx={t:'view'};render();window.scrollTo(0,0)},
+  backNotes(){S.sel=null;S.noteGroup=null;S.noteForm=null;S.groupForm=null;S.confirm=null;S.err=null;S.fx={t:'view'};render();window.scrollTo(0,0)},
   delGroup(){const id=S.noteGroup,i=S.notes.findIndex(x=>x.id===id);S.noteGroup=null;S.confirm=null;S.groupForm=null;S.noteForm=null;S.fx={t:'view'};if(i>=0){const g=structuredClone(S.notes[i]);g.deletedAt=Date.now();S.notes[i]=g;persist('notes',g)}render();window.scrollTo(0,0);toast(L('Группа в корзине','Group moved to trash'))},
   restoreGroup(id){const i=S.notes.findIndex(x=>x.id===id);if(i<0)return;const g=structuredClone(S.notes[i]);delete g.deletedAt;S.notes[i]=g;persist('notes',g);render();toast(L('Группа восстановлена','Group restored'))},
   gTrashToggle(){S.gTrashOpen=!S.gTrashOpen;S.confirm=null;render()},
@@ -1472,6 +1662,16 @@ const A={
     const url=normUrl(raw);if(url===null){S.err={id:'note',k:'url'};return render()}
     S.err=null;const id=S.noteForm&&S.noteForm.id;S.noteForm=null;
     mutG(S.noteGroup,gr=>{if(id){const n=gr.items.find(x=>x.id===id);if(n)Object.assign(n,{title,url:document.getElementById('nU-'+k)?url:(n.url||''),text,updatedAt:Date.now()})}else gr.items.push({id:uid(),title,url,text,createdAt:Date.now()})});toast(L('Заметка сохранена','Note saved'))},
+  selNote(id){if(!S.sel)return;S.confirm=null;S.sel.has(id)?S.sel.delete(id):S.sel.add(id);if(!S.sel.size)S.sel=null;render()},
+  selAll(){if(!S.sel)return;const g=S.notes.find(x=>x.id===S.noteGroup),it=g?live(g):[];S.confirm=null;S.sel=S.sel.size===it.length?new Set():new Set(it.map(n=>n.id));render()},
+  selGroup(id){if(!S.gsel)return;S.confirm=null;S.gsel.has(id)?S.gsel.delete(id):S.gsel.add(id);if(!S.gsel.size)S.gsel=null;render()},
+  gselAll(){if(!S.gsel)return;const G=groups();S.confirm=null;S.gsel=S.gsel.size===G.length?new Set():new Set(G.map(x=>x.id));render()},
+  gselCancel(){S.gsel=null;S.confirm=null;render()},
+  gselAsk(){if(S.gsel&&S.gsel.size){S.confirm='gselDel';render()}},
+  gselDel(){const ids=S.gsel;if(!ids||!ids.size)return;const c=ids.size,t=Date.now();S.gsel=null;S.confirm=null;const ch=[];S.notes=S.notes.map(x=>{if(!ids.has(x.id)||x.deletedAt)return x;const g=structuredClone(x);g.deletedAt=t;ch.push(g);return g});ch.forEach(g=>persist('notes',g));render();toast(EN()?`${c} ${c===1?'group':'groups'} moved to trash`:`${c} ${ruP(c,'группа перемещена','группы перемещены','групп перемещено')} в корзину`)},
+  selCancel(){S.sel=null;S.confirm=null;render()},
+  selAsk(){if(S.sel&&S.sel.size){S.confirm='selDel';render()}},
+  selDel(){const ids=S.sel;if(!ids||!ids.size)return;const c=ids.size,t=Date.now();S.sel=null;S.confirm=null;mutG(S.noteGroup,g=>{for(const n of g.items)if(ids.has(n.id)&&!n.deletedAt)n.deletedAt=t});toast(EN()?`${c} ${c===1?'note':'notes'} moved to trash`:`${c} ${ruP(c,'заметка перемещена','заметки перемещены','заметок перемещено')} в корзину`)},
   delNote(id){S.confirm=null;if(S.noteForm&&S.noteForm.id===id)S.noteForm=null;mutG(S.noteGroup,g=>{const n=g.items.find(x=>x.id===id);if(n)n.deletedAt=Date.now()});toast(L('Заметка в корзине','Note moved to trash'))},
   restoreNote(id){mutG(S.noteGroup,g=>{const n=g.items.find(x=>x.id===id);if(n)delete n.deletedAt});toast(L('Заметка восстановлена','Note restored'))},
   nTrashToggle(){S.nTrashOpen=!S.nTrashOpen;S.confirm=null;render()},
@@ -1484,6 +1684,15 @@ const A={
     S.editSet=null;S.err=null;S.fx={t:'set',id:es.ex};mutW(w=>{const e=exOf(w,es.ex);if(e&&e.log[es.i])e.log[es.i]={w:wv,r:rv}});toast(L('Подход изменён','Set updated'))},
   delSet(v){S.editSet=null;const[id,i]=v.split(':');S.confirm=null;mutW(w=>{const e=exOf(w,id);e.log.splice(+i,1);if(!e.log.length)e.done=false});toast(L('Подход удалён','Set deleted'))}
 };
+const LP={t:0,x:0,y:0,fired:false,until:0};
+app.addEventListener('pointerdown',e=>{if(S.sel||S.gsel||S.noteForm||S.groupForm||S.view!=='notes'||(e.pointerType==='mouse'&&e.button!==0))return;const c=e.target.closest('.card.note[data-nid],.card.grp[data-gid]');if(!c)return;const bt=e.target.closest('button,input,textarea,.setconf');if(bt&&bt!==c)return;
+  clearTimeout(LP.t);LP.x=e.clientX;LP.y=e.clientY;LP.fired=false;c.classList.add('pressing');
+  LP.t=setTimeout(()=>{LP.t=0;c.classList.remove('pressing');if(c.dataset.gid)S.gsel=new Set([c.dataset.gid]);else S.sel=new Set([c.dataset.nid]);S.confirm=null;LP.fired=true;try{navigator.vibrate&&navigator.vibrate(18)}catch(_){}render()},480)});
+const lpEnd=e=>{if(LP.fired){LP.fired=false;LP.until=Date.now()+400}if(LP.t){clearTimeout(LP.t);LP.t=0}app.querySelectorAll('.pressing').forEach(x=>x.classList.remove('pressing'))};
+app.addEventListener('pointerup',lpEnd);app.addEventListener('pointercancel',lpEnd);
+app.addEventListener('pointermove',e=>{if(LP.t&&Math.hypot(e.clientX-LP.x,e.clientY-LP.y)>10)lpEnd()});
+app.addEventListener('contextmenu',e=>{if(S.view==='notes'&&(S.sel||S.gsel||LP.fired)&&e.target.closest('.card.note,.card.grp'))e.preventDefault()});
+app.addEventListener('click',e=>{if(Date.now()<LP.until&&e.target.closest('.card.note,.card.grp')){LP.until=0;e.preventDefault();e.stopPropagation();return}},true);
 app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const f=A[b.dataset.act];if(f)f(b.dataset.id,e)});
 function cleanNum(v,dec){if(!dec)return v.replace(/\D/g,'');v=v.replace(/[^\d.,]/g,'');const m=v.match(/^(\d*)([.,]?)(\d*)/);return m[1]+(m[2]&&m[1]?m[2]+m[3].replace(/[.,]/g,'').slice(0,2):'')}
 app.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.num){const v=cleanNum(t.value,t.dataset.num==='dec');if(v!==t.value)t.value=v}},true);
@@ -1493,12 +1702,15 @@ app.addEventListener('change',e=>{if(e.target.id==='nameIn'){const v=String(e.ta
 app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.enter){e.preventDefault();A.logSet(e.target.dataset.enter)}if(e.key==='Enter'&&e.target.dataset.bwenter){e.preventDefault();A.bodySave()}if(e.key==='Enter'&&e.target.dataset.esenter){e.preventDefault();A.saveSet()}if(e.key==='Enter'&&e.target.dataset.lenter){e.preventDefault();A.authGo()}if(e.key==='Enter'&&e.target.dataset.genter){e.preventDefault();A.saveGroup()}});
 /* ---------- system back gesture ---------- */
 let guarded=false,ignorePop=false;
-const canBack=()=>S.ready&&S.view!=='login'&&!!(S.bmiInfo||S.bgGal||S.gearMenu||S.exSearch||S.calc||S.skipFor||S.endAsk||S.confirm||S.replaceFor||S.noteForm||S.groupForm||S.noteGroup||S.view!=='home');
+const canBack=()=>S.ready&&S.view!=='login'&&!!(TUT||S.sel||S.gsel||S.sum||S.bmiInfo||S.bgGal||S.gearMenu||S.exSearch||S.calc||S.skipFor||S.endAsk||S.confirm||S.replaceFor||S.noteForm||S.groupForm||S.noteGroup||S.view!=='home');
 function syncHistory(){try{
   if(canBack()&&!guarded){history.pushState({gym:1},'');guarded=true}
   else if(!canBack()&&guarded&&history.state&&history.state.gym){guarded=false;ignorePop=true;history.back()}
 }catch(e){}}
 function doBack(){S.err=null;
+  if(S.sel||S.gsel){S.sel=null;S.gsel=null;S.confirm=null;return render()}
+  if(S.sum){sumClose();return}
+  if(TUT){closeTut();return render()}
   if(S.bmiInfo){S.bmiInfo=false;return render()}
   if(S.bgGal){S.bgGal=false;S.confirm=null;return render()}
   if(S.gearMenu){return closeGear()}
@@ -1518,7 +1730,6 @@ init();
 })();
 </script>
 
-<script>try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}</script>
 <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
 </body>
 </html>
