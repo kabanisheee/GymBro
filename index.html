@@ -215,6 +215,8 @@ input,select{font:500 16px var(--font-b);color:var(--ink);background:var(--surfa
 .linkbtn:focus-visible,.pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .offrow{padding:8px 0;border-bottom:1px solid var(--line);color:var(--muted)}
 .skiptag{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--down);margin-right:4px}
+html.locked,html.locked body{overflow:hidden;overscroll-behavior:none}
+.overlay,.overlay .sheet{overscroll-behavior:contain}
 .overlay{position:fixed;inset:0;z-index:30;background:var(--scrim);display:flex;align-items:flex-end;justify-content:center}
 .sheet{background:var(--surface);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:18px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
 .sheet h2{font-size:24px;text-transform:none}
@@ -239,6 +241,12 @@ textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .d{font-family:var(--font-d);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--muted)}
 .chart{width:100%;height:auto;display:block}
+.sec>.chart,.sec .chart,.cal{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-sizing:border-box}
+.sec .chart{padding:8px 6px 4px}
+.cal{padding:10px}
+:root[data-glass="on"] .sec .chart,:root[data-glass="on"] .cal{background:var(--glass-bg);border-color:var(--glass-brd);border-radius:20px;-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%)}
+:root[data-trans="on"] .sec .chart,:root[data-trans="on"] .cal{background:color-mix(in srgb,var(--surface) var(--surf-p),transparent)}
+.cal .c:not(.on){background:color-mix(in srgb,var(--ink) 5%,transparent);color:var(--ink)}
 .chart text{font-family:var(--font-b);font-size:10px;fill:var(--muted)}
 .chart .vl{font-family:var(--font-d);font-size:13px;font-weight:700;fill:var(--ink)}
 .chart .grid{stroke:var(--line);stroke-width:1}
@@ -795,6 +803,7 @@ function render(){
   {const ti=app.querySelector('.tabind');if(ti){const to=S.tabTo;if(motionOK()&&S.tabIdx!=null&&S.tabIdx!==to){ti.getBoundingClientRect();requestAnimationFrame(()=>{ti.style.setProperty('--i',to)})}else{ti.classList.add('still');ti.style.setProperty('--i',to)}S.tabIdx=to}}
   initDrum();
   if(S.fx&&S.fx.t==='open'&&motionOK()){const el=app.querySelector('.exbody.fx-open');if(el&&el.animate){const h=el.offsetHeight,cs=getComputedStyle(el);el.style.overflow='hidden';el.animate([{height:'0px',paddingBottom:'0px',opacity:0},{height:h+'px',paddingBottom:cs.paddingBottom,opacity:1}],{duration:300,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>{el.style.overflow=''}}}
+  document.documentElement.classList.toggle('locked',!!app.querySelector('.overlay'));
   S.fx=null;
   for(const k in keep){const el=document.getElementById(k);if(el)el.value=keep[k]}
   if(f){const el=document.getElementById(f);if(el)el.focus()}
@@ -994,7 +1003,7 @@ function vWorkout(){
   if(S.endAsk){const pg=progress(w),pre=EN()?['No time','Feeling unwell','Pain or injury','Gym is closing','No energy']:['Нет времени','Плохое самочувствие','Боль или травма','Зал закрывается','Нет сил'];
     h+=`<div class="overlay ${fx('sheet')}" data-act="endClose"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="enT"><h2 id="enT">${L('Короткая тренировка. Почему?','Short workout. Why?')}</h2><span class="small muted">${L('Выполнено','Completed')} ${pg.pct}% ${L('тренировки','of the workout')} (${pg.done} ${L('из','of')} ${pg.plan} ${L('подходов по плану','planned sets')}). ${L('Причина попадёт в отчёт об этой тренировке.','The reason will appear in this workout’s report.')}</span>
     <div class="row" style="gap:6px">${pre.map(r=>`<button class="pill" data-act="endPreset" data-id="${r}">${r}</button>`).join('')}</div>
-    <div class="field"><label for="endReason">${L('Причина','Reason')}</label><textarea id="endReason" data-keep rows="3" placeholder="${L('Напишите своими словами','Write it in your own words')}"></textarea></div>
+    <div class="field"><label for="endReason">${L('Причина — по желанию','Reason — optional')}</label><textarea id="endReason" data-keep rows="3" placeholder="${L('Можно оставить пустым','You can leave this empty')}"></textarea><span class="small muted">${L('Указывать причину не обязательно — можно сразу нажать «Завершить».','A reason is optional — you can just tap Finish.')}</span></div>
     <div class="exacts"><button class="btn primary" data-act="endYes">${L('Завершить','Finish')}</button><button class="btn" data-act="endClose">${L('Отмена','Cancel')}</button></div></div></div>`}
   return h;
 }
@@ -1464,8 +1473,8 @@ function vNotes(){
   const it=live(g),tn=(g.items||[]).filter(n=>n.deletedAt).sort((a,b)=>b.deletedAt-a.deletedAt);
   let h=`<div class="wrap"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="backNotes">← ${L('Заметки','Notes')}</button><span class="small muted">${it.length} ${P(it.length,['заметка','заметки','заметок'],['note','notes'])}</span></div>`;
   if(S.groupForm==='rename')h+=groupForm(g);
-  else h+=`<div class="stack" style="gap:6px"><h1 style="font-size:34px;overflow-wrap:anywhere">${esc(g.name)}</h1><span class="small muted">${g.kind==='text'?L('Текстовые заметки','Text notes'):L('Заметки со ссылками','Notes with links')}</span><div class="row" style="gap:16px"><button class="linkbtn" data-act="renameGroup">${L('Переименовать','Rename')}</button><button class="linkbtn" style="color:var(--down)" data-act="delGroup">${L('Удалить группу','Delete group')}</button></div></div>`;
-  if(S.confirm==='delGroup')h+=`<div class="confirm"><b>${L('Удалить группу','Delete group')} «${esc(g.name)}»?</b><span class="small muted">${it.length?L('Вместе с ней удалятся все заметки в ней: ','All its notes will be deleted too: ')+it.length+'.':''} ${L('Вернуть будет нельзя.','This cannot be undone.')}</span><div class="exacts"><button class="btn danger" style="border-color:var(--down)" data-act="delGroup">${L('Удалить','Delete')}</button><button class="btn" data-act="noConfirm">${L('Отмена','Cancel')}</button></div></div>`;
+  else h+=`<div class="stack" style="gap:6px"><h1 style="font-size:34px;overflow-wrap:anywhere">${esc(g.name)}</h1><span class="small muted">${g.kind==='text'?L('Текстовые заметки','Text notes'):L('Заметки со ссылками','Notes with links')}</span><div class="row" style="gap:16px"><button class="linkbtn" data-act="renameGroup">${L('Переименовать','Rename')}</button><button class="linkbtn" style="color:var(--down)" data-act="confirm" data-id="delGroup">${L('Удалить группу','Delete group')}</button></div></div>`;
+  if(S.confirm==='delGroup')h+=`<div class="confirm"><b>${L('Переместить группу','Move group')} «${esc(g.name)}» ${L('в корзину?','to trash?')}</b><span class="small muted">${it.length?L('Вместе с ней уйдут все заметки в ней: ','All its notes go with it: ')+it.length+'. ':''}${L('Восстановить можно из «Корзины групп».','You can restore it from Group trash.')}</span><div class="exacts"><button class="btn danger" style="border-color:var(--down)" data-act="delGroup">${L('В корзину','Move to trash')}</button><button class="btn" data-act="noConfirm">${L('Отмена','Cancel')}</button></div></div>`;
   h+='<div class="stack">';
   if(!it.length&&!S.noteForm)h+=`<div class="empty"><span>${L('В этой группе пока нет заметок.','No notes in this group yet.')}</span></div>`;
   for(const n of it){
@@ -1568,8 +1577,8 @@ const A={
   reopenEx(id){mutW(w=>{exOf(w,id).done=false})},
   confirm(k){S.confirm=k;render()},
   noConfirm(){S.confirm=null;render()},
-  finishAsk(){const a=active();if(!a)return;const sc=setCount(a);if(!sc)return;if(progress(a).pct<=40){S.endAsk=true;S.fx={t:'sheet'};render();const t=document.getElementById('endReason');if(t)t.focus()}else{S.confirm='finish';render()}},
-  endPreset(r){const t=document.getElementById('endReason');if(t){t.value=r;t.focus()}},
+  finishAsk(){const a=active();if(!a)return;const sc=setCount(a);if(!sc)return;if(progress(a).pct<=40){S.endAsk=true;S.fx={t:'sheet'};render()}else{S.confirm='finish';render()}},
+  endPreset(r){const t=document.getElementById('endReason');if(t)t.value=r},
   endClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="endClose"].btn'))return;S.endAsk=false;render()},
   endYes(){const t=document.getElementById('endReason');A.finishW((t?t.value:'').trim())},
   finishW(reason){S.confirm=null;S.endAsk=false;const a=active();if(!a||!setCount(a))return;mutW(w=>{w.exercises.forEach(e=>{e.pending=false});if(typeof reason==='string')w.endReason=reason;w.finishedAt=Date.now()});S.fx={t:'view'};S.view='home';S.openEx=null;render();window.scrollTo(0,0);toast(L('Тренировка сохранена','Workout saved'))},
