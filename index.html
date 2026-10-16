@@ -350,21 +350,52 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .strip .unit2{font-family:var(--font-b);font-size:12px;font-weight:500;color:var(--muted);margin-left:3px}
 .num.warn{color:var(--warn)} .num.down{color:var(--down)}
 .memrow{display:flex;gap:8px;align-items:center}
+.greet{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:24px;background:color-mix(in srgb,var(--bg) 55%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.greetcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px 26px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;box-shadow:0 24px 50px -24px var(--scrim);max-width:340px}
+.greetcard b{font-family:var(--font-d);font-size:28px;line-height:1.1;text-wrap:balance}
+.greetcard span{color:var(--muted);font-size:14px}
+:root[data-glass="on"] .greetcard{background:var(--glass-bg);border-color:var(--glass-brd);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);box-shadow:inset 0 1px 0 var(--glass-hl),0 24px 50px -24px var(--glass-sh)}
+@media (prefers-reduced-motion:no-preference){.greet.anim{animation:gfade 1.9s ease forwards}.greet.anim .greetcard{animation:gpop 1.9s cubic-bezier(.2,.9,.3,1) forwards}
+  @keyframes gfade{0%{opacity:0}12%{opacity:1}78%{opacity:1}100%{opacity:0}}
+  @keyframes gpop{0%{transform:scale(.9) translateY(8px)}16%{transform:none}80%{transform:none}100%{transform:scale(.97) translateY(-6px)}}}
+.bodycard{gap:10px}
+.bmicat{appearance:none;border:0;background:none;padding:0;font:inherit;font-size:12px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:3px;text-decoration:underline;text-underline-offset:3px}
+.infoi{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+.infoi .dot{fill:currentColor;stroke:none}
+.bmicat:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.bmitbl{width:100%;border-collapse:collapse;font-size:14px}
+.bmitbl td{padding:9px 8px;border-bottom:1px solid var(--line)}
+.bmitbl tr.me td{background:var(--accent-soft);color:var(--accent-text);font-weight:700}
+.bmitbl tr.me td:first-child{border-radius:8px 0 0 8px}.bmitbl tr.me td:last-child{border-radius:0 8px 8px 0}
+.bmiform{background:var(--sunk);border-radius:12px;padding:10px 12px;font-variant-numeric:tabular-nums}
+.brow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bnum{font-size:40px;line-height:1}
+.bdel{display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right}
+.bspark{width:100%;height:46px;display:block}
+.bspark .ln{stroke:var(--accent);stroke-width:2.2;fill:none;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.bspark .ar{fill:var(--accent);opacity:.1}
+.bspark .dt{fill:var(--accent)}
+.bprof{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px}
+.bform{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
+.bform .full{grid-column:1/-1}
+.bform input{min-width:0}
+.bhist{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.bhrow{padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:nowrap}
+
 .wipe{display:flex;flex-direction:column;gap:8px;margin-top:6px;padding-top:14px;border-top:1px dashed var(--line)}
 .wipebtn{border-color:var(--down)}
 .wipeconf{border-color:var(--down)}
 .sheet.gal{max-height:85vh;overflow-y:auto}
 .galgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.galit{display:flex;flex-direction:column;gap:6px;min-width:0}
-.galimg{position:relative;aspect-ratio:9/14;max-width:100%;border-radius:12px;background:var(--sunk) center/cover no-repeat;border:2px solid transparent}
-.galit.cur .galimg{border-color:var(--accent)}
-.galtag{position:absolute;left:6px;top:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:var(--accent-ink);padding:3px 6px;border-radius:999px}
-.galbtns{display:flex;gap:4px}
-.galbtns .btn:first-child{flex:1;padding:0 6px;font-size:12px}
-.galbtns .btn.icon{width:36px;min-height:36px;flex:none}
-.galask{display:flex;flex-direction:column;gap:4px;align-items:stretch}
-.galask .exacts{gap:4px}
-.galask .btn{padding:0 4px;font-size:12px}
+.galit{position:relative;min-width:0}
+.galimg{display:block;width:100%;aspect-ratio:9/14;max-width:100%;border-radius:14px;background:var(--sunk) center/cover no-repeat;border:0;padding:0;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line)}
+.galit.cur .galimg{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--accent);cursor:default}
+.galimg:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.galtag{position:absolute;left:7px;bottom:7px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:var(--accent-ink);padding:3px 7px;border-radius:999px;pointer-events:none}
+.galdel{position:absolute;top:6px;right:6px;width:30px;height:30px;border-radius:50%;border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.galdel svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.galask{position:absolute;inset:0;border-radius:14px;display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;padding:10px;background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-align:center}
+.galask .btn{min-height:34px;font-size:13px}
 .stw{display:flex;flex-direction:row;align-items:center;gap:6px;flex:none;background:var(--sunk);border-radius:999px;padding:4px 4px 4px 12px}
 .swt{font-size:22px;min-width:58px;text-align:right;color:var(--muted)}
 .stw.run .swt{color:var(--ink)}
@@ -525,7 +556,7 @@ const app=document.getElementById('app');
 const DAY=864e5;
 const SK='gym-diary-settings';
 const COLORS=[['red','#C8352B','#fff','Красный','Red'],['orange','#D2600F','#fff','Оранжевый','Orange'],['yellow','#E3AA00','#1D1700','Жёлтый','Yellow'],['green','#1E8A4C','#fff','Зелёный','Green'],['cyan','#0A86B8','#fff','Голубой','Light blue'],['blue','#2346C8','#fff','Синий','Blue'],['violet','#7A3DC8','#fff','Фиолетовый','Violet'],['gray','#5B6470','#fff','Серый','Gray']];
-const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0)),tone:Math.min(60,Math.max(-60,+v.tone||0))});
+const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0)),tone:Math.min(60,Math.max(-60,+v.tone||0)),name:String(v.name||'').trim().slice(0,30)});
 let SET=normS({});
 try{const v=JSON.parse(localStorage.getItem(SK)||'null');if(v)SET=normS(v)}catch(e){}
 const EN=()=>SET.lang==='en';
@@ -580,7 +611,7 @@ const KG=()=>L('кг','kg');
 const delta=(d,unit='')=>{if(d==null||!isFinite(d))return '<span class="d flat">—</span>';if(Math.abs(d)<0.05)return '<span class="d flat">= 0'+unit+'</span>';return d>0?`<span class="d up">▲ +${num(d)}${unit}</span>`:`<span class="d down">▼ −${num(-d)}${unit}</span>`};
 
 const now=new Date();
-const S={templates:[],workouts:[],notes:[],noteGroup:null,noteForm:null,groupForm:null,ready:false,mode:'pending',view:'home',draft:null,openEx:null,confirm:null,err:null,statEx:null,metric:'w',calY:now.getFullYear(),calM:now.getMonth(),histOpen:null,trashOpen:false,replaceFor:null,skipFor:null,endAsk:false,addOther:false,fx:null};
+const S={templates:[],workouts:[],notes:[],body:{id:'main',weights:[]},noteGroup:null,noteForm:null,groupForm:null,ready:false,mode:'pending',view:'home',draft:null,openEx:null,confirm:null,err:null,statEx:null,metric:'w',calY:now.getFullYear(),calM:now.getMonth(),histOpen:null,trashOpen:false,replaceFor:null,skipFor:null,endAsk:false,addOther:false,fx:null};
 const motionOK=()=>SET.anim!==false&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 const fx=(t,id)=>S.fx&&S.fx.t===t&&(id==null||S.fx.id===id)?'fx-'+t:'';
 const errText=k=>({
@@ -596,8 +627,8 @@ const errText=k=>({
 
 /* ---------- storage ---------- */
 let cols=null,rootDoc=null,bgDoc=null;const chains={};const LK='gym-diary-v1';
-function saveLocal(){try{localStorage.setItem(LK,JSON.stringify({templates:S.templates,workouts:S.workouts,notes:S.notes}))}catch(e){}}
-function loadLocal(){loadBgsLocal();setTimeout(seedGallery,0);try{const d=JSON.parse(localStorage.getItem(LK)||'{}');S.templates=d.templates||[];S.workouts=d.workouts||[];S.notes=d.notes||[]}catch(e){}}
+function saveLocal(){try{localStorage.setItem(LK,JSON.stringify({templates:S.templates,workouts:S.workouts,notes:S.notes,body:S.body}))}catch(e){}}
+function loadLocal(){loadBgsLocal();setTimeout(seedGallery,0);try{const d=JSON.parse(localStorage.getItem(LK)||'{}');if(d.body)S.body=Object.assign({id:'main',weights:[]},d.body);S.templates=d.templates||[];S.workouts=d.workouts||[];S.notes=d.notes||[]}catch(e){}}
 function errMsg(e){const c=e&&e.code;if(c==='quota_exceeded')return L('Хранилище заполнено. Очистите корзину или удалите старые тренировки.','Storage is full. Empty the trash or delete old workouts.');if(c==='invalid_argument')return L('Нет прав на запись в этом приложении.','You do not have permission to save here.');return L('Не удалось сохранить. Проверьте интернет и повторите.','Could not save. Check your connection and try again.')}
 function persist(kind,obj){
   if(S.mode!=='db'){saveLocal();return}
@@ -619,10 +650,10 @@ let unsubs=[];
 function startDb(uid){
   S.mode='db';S.user=window.gymFb.currentEmail();
   rootDoc=window.gymFb.userDoc(uid);
-  cols={templates:rootDoc.collection('templates'),workouts:rootDoc.collection('workouts'),notes:rootDoc.collection('notes')};
+  cols={templates:rootDoc.collection('templates'),workouts:rootDoc.collection('workouts'),notes:rootDoc.collection('notes'),body:rootDoc.collection('body')};
   let a=false,b=false,c=false;const done=()=>{if(a&&b&&c){S.ready=true;if(S.view==='login')S.view='home'}softRender()};
   const onErr=e=>toast(errMsg(e));
-  bgDoc=rootDoc.collection('media').doc('bg');subBgs();
+  bgDoc=rootDoc.collection('media').doc('bg');subBgs();subBody();
   unsubs.push(bgDoc.onSnapshot(d=>{const v=d.exists?(d.data().data||''):'';if(v!==BG&&(d.exists||!d.metadata.hasPendingWrites)){BG=v;try{v?localStorage.setItem(BGK,v):localStorage.removeItem(BGK)}catch(e){}applyBg();softRender()}},onErr));
   unsubs.push(rootDoc.onSnapshot(d=>{const v=d.exists&&d.data().settings;if(v&&JSON.stringify(normS(v))!==JSON.stringify(normS(SET))){SET=normS(v);try{localStorage.setItem(SK,JSON.stringify(SET))}catch(e){}applySettings();render()}},onErr));
   unsubs.push(cols.templates.onSnapshot(s=>{S.templates=s.docs.map(d=>d.data());a=true;done()},onErr));
@@ -697,7 +728,9 @@ function render(){
   else if(S.view==='settings')html=vSettings();
   else{if(S.view==='workout'||S.view==='edit')S.view='home';html=(S.view==='stats'?vStats():S.view==='history'?vHistory():S.view==='notes'?vNotes():vHome())+nav()}
   if(S.calc&&S.ready)html+=vCalc();
+  if(S.ready&&!GREETED){GREETED=true;if(SET.name)setTimeout(showGreet,150)}
   if(S.bgGal&&S.ready)html+=vGallery();
+  if(S.bmiInfo&&S.ready)html+=vBmi();
   if(html!==lastHtml){app.innerHTML=html;lastHtml=html}
   if(S.fx&&S.fx.t==='view'&&app.firstElementChild)app.firstElementChild.classList.add(S.view==='settings'?'fx-push':'fx-view');
   app.querySelectorAll('.segind').forEach(el=>{const k=el.dataset.key,to=+el.dataset.to,from=SEGP[k];if(motionOK()&&from!=null&&from!==to){el.getBoundingClientRect();requestAnimationFrame(()=>el.style.setProperty('--i',to))}else{el.classList.add('still');el.style.setProperty('--i',to)}SEGP[k]=to});
@@ -735,6 +768,7 @@ function vHome(){
   let h=`<div class="wrap"><div class="top"><h1>${L('Зал','Gym')}</h1><div class="row" style="gap:10px;flex-wrap:nowrap"><button class="gear ${S.gearMenu?'onbtn':''}" data-act="gearMenu" aria-haspopup="menu" aria-expanded="${!!S.gearMenu}" aria-label="${L('Настройки','Settings')}">${ICONS.gear}</button>${gearPop()}</div></div>
   <div class="strip${SET.member?' s4':''}"><div><span class="label">${L('Неделя','Week')}</span><span class="num">${thisW}</span></div><div><span class="label">${L('Месяц','Month')}</span><span class="num">${thisM}</span></div><div><span class="label">${L('Последняя','Last')}</span><span class="num" style="font-size:20px;line-height:1.5">${last?ago(last.finishedAt):'—'}</span></div>${memberCell()}</div>`;
   if(a){const act=(a.exercises||[]).filter(e=>!e.off),d=act.filter(e=>e.done||e.skipped||e.replacedBy).length;h+=`<div class="banner"><div><div class="label" style="color:inherit;opacity:.8">${L('Идёт тренировка','Workout in progress')}</div><h3>${esc(a.name)}</h3><div class="small" style="opacity:.85">${L('Начало','Started')} ${fT(a.startedAt)} · ${d} ${L('из','of')} ${act.length} ${P(act.length,['упражнения','упражнений','упражнений'],['exercise','exercises'])}</div></div><button class="btn" data-act="resume">${L('Продолжить','Continue')}</button></div>`}
+  h+=bodyCard();
   h+=`<section class="sec"><div class="row between"><h2>${L('Шаблоны','Templates')}</h2>${S.reorder?`<button class="btn sm primary" data-act="reorderDone">${L('Готово','Done')}</button>`:`<div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn sm ghost icon" data-act="calcOpen" aria-label="${L('Калькулятор','Calculator')}" title="${L('Калькулятор','Calculator')}"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></button>${tpls().length>1?`<button class="btn sm ghost icon" data-act="reorderOn" aria-label="${L('Изменить порядок','Reorder')}" title="${L('Изменить порядок','Reorder')}"><svg class="ico" viewBox="0 0 24 24"><path d="M8 4v16M4 8l4-4 4 4M16 20V4M12 16l4 4 4-4"/></svg></button>`:''}${tpls().length?`<button class="btn sm ghost" data-act="newTpl">${L('+ Новый','+ New')}</button>`:''}</div>`}</div>`;
   const T=tpls();
   if(!T.length)h+=`<div class="empty"><b>${L('Шаблонов пока нет','No templates yet')}</b><span>${L('Создайте шаблон тренировки: название и список упражнений с подходами и повторениями. Потом запускайте его одной кнопкой.','Create a workout template: a name and a list of exercises with sets and reps. Then start it with one tap.')}</span><button class="btn primary" data-act="newTpl">${L('Создать шаблон','Create template')}</button></div>`;
@@ -774,6 +808,7 @@ function vSettings(){
   if(T==='general'){
   // general
   h+=`<section class="sec" style="gap:8px"><h2 class="sgtitle">${L('Основное','General')}</h2><div class="setgroup">`;
+  h+=row(L('Имя','Name'),`<input id="nameIn" value="${esc(SET.name)}" maxlength="30" placeholder="${L('Как к вам обращаться','What should we call you')}" autocomplete="given-name" autocapitalize="words">`,L('Если указать, при входе в приложение будет короткое приветствие.','If set, the app greets you briefly when you open it.'));
   h+=row(L('Язык','Language'),seg('setLang',SET.lang,[['ru','Русский'],['en','English']],L('Язык','Language')));
   h+=row(L('Абонемент до','Membership until'),`<div class="memrow"><input type="date" id="memDate" value="${SET.member}" aria-label="${L('Дата окончания абонемента','Membership end date')}">${SET.member?`<button class="btn sm ghost" data-act="clearMember">${L('Убрать','Clear')}</button>`:''}</div>`,L('На главном экране будет видно, сколько дней осталось. Пустое поле — счётчик скрыт.','The home screen shows how many days are left. Leave empty to hide it.'));
   h+='</div></section>';
@@ -816,7 +851,7 @@ function vSettings(){
   h+=`<button class="btn primary big block" data-act="go" data-id="home">${L('Готово','Done')}</button>`;
   if(S.wipeShown&&T==='general'){const st=S.wipeStep||0;
     h+=`<div class="wipe fx-open" id="wipeBox">`;
-    if(!st)h+=`<button class="btn danger block wipebtn" data-act="wipeStart">${L('Удалить все данные','Delete all data')}</button><span class="small muted" style="text-align:center">${L('Сброс приложения до заводского состояния.','Reset the app to factory state.')}</span>`;
+    if(!st)h+=`<button class="btn danger block wipebtn" data-act="wipeStart">${L('Удалить все данные','Delete all data')}</button><span class="small muted" style="text-align:center">${L('Сброс приложения до заводского состояния. Потребуется 3 подтверждения, случайно удалить не получится.','Reset the app to factory state. Requires 3 confirmations, so it cannot happen by accident.')}</span>`;
     else{const msg=[L('Удалить все данные? Будут стёрты все шаблоны, тренировки, заметки, фоны и настройки.','Delete all data? All templates, workouts, notes, backgrounds and settings will be erased.'),L('Вы уверены? Восстановить данные будет невозможно.','Are you sure? The data cannot be recovered.'),L('Последнее подтверждение. Удалить всё навсегда?','Final confirmation. Delete everything forever?')][st-1];
       h+=`<div class="confirm wipeconf"><span class="small muted">${L('Подтверждение','Confirmation')} ${st} ${L('из','of')} 3</span><b>${msg}</b>${st===1?`<span class="small" style="color:var(--warn)">${L('Рекомендуем сначала сделать резервную копию: Настройки → Данные → Экспорт.','We recommend making a backup first: Settings → Data → Export.')}</span><button class="btn" data-act="exportData">${L('Сделать резервную копию','Make a backup')}</button>`:''}
       <div class="exacts"><button class="btn danger" style="border-color:var(--down)" data-act="wipeNext">${st===3?L('Удалить всё','Delete everything'):L('Продолжить','Continue')}</button><button class="btn" data-act="wipeCancel">${L('Отмена','Cancel')}</button></div></div>`}
@@ -959,7 +994,7 @@ function barChart(weeks){
 function vStats(){
   const f=finished();
   let h=`<div class="wrap"><div class="top"><h1>${L('Статистика','Stats')}</h1></div>`;
-  if(!f.length)return h+`<div class="empty"><b>${L('Пока нет данных','No data yet')}</b><span>${L('Здесь появятся посещения, графики по упражнениям и рекорды после первой завершённой тренировки.','Attendance, exercise charts and records will appear here after your first finished workout.')}</span></div></div>`;
+  if(!f.length)return h+weightStats()+`<div class="empty"><b>${L('Пока нет данных','No data yet')}</b><span>${L('Здесь появятся посещения, графики по упражнениям и рекорды после первой завершённой тренировки.','Attendance, exercise charts and records will appear here after your first finished workout.')}</span></div></div>`;
   const t=Date.now(),wk=sow(t),pwk=sow(wk-DAY);
   const cnt=(a,b)=>f.filter(w=>w.startedAt>=a&&w.startedAt<b).length;
   const m0=new Date(now.getFullYear(),now.getMonth(),1).getTime(),pm0=new Date(now.getFullYear(),now.getMonth()-1,1).getTime();
@@ -984,6 +1019,7 @@ function vStats(){
   for(let i=0;i<off;i++)h+='<div></div>';
   const td=new Date();for(let d=1;d<=dim;d++){const on=days.has(S.calY+'-'+S.calM+'-'+d),today=isCur&&d===td.getDate();h+=`<div class="c ${on?'on':''} ${today?'today':''}">${d}</div>`}
   h+='</div></section>';
+  h+=weightStats();
   const ses=sessions();
   if(ses.size){
     const keys=[...ses.keys()];
@@ -998,6 +1034,10 @@ function vStats(){
     <div><span class="label">${L('Сессий','Sessions')}</span><span class="num">${Ls.length}</span></div></div>
     <div class="row between"><h3>${L('Максимальный вес','Max weight')}</h3><span class="small muted">${L('кг, лучший подход','kg, best set')}</span></div>
     ${lineChart(Ls.slice(-20).map(p=>({x:p.date,y:val(p)})),unit)}
+    ${(()=>{const R=Ls.slice(-20).map(p=>({x:p.date,y:Math.round(p.reps/Math.max(1,p.sets)*10)/10})),lr=R[R.length-1],pr=R[R.length-2];
+      return `<div class="row between" style="margin-top:6px"><h3>${L('Среднее число повторений','Average reps')}</h3><span class="small muted">${L('за подход, по тренировкам','per set, by workout')}</span></div>
+      <div class="row" style="gap:10px;align-items:baseline"><span class="num" style="font-size:28px">${num(lr.y)}</span><span class="small muted">${L('в последний раз','last time')}</span>${pr?delta(lr.y-pr.y):''}</div>
+      ${lineChart(R,'')}`})()}
     <div class="tbl"><table><thead><tr><th>${L('Дата','Date')}</th><th>${L('Лучший','Best')}</th><th class="r">Δ</th></tr></thead><tbody>`;
     const rows=Ls.map((p,i)=>({p,d:i?val(p)-val(Ls[i-1]):null})).slice(-10).reverse();
     for(const{p,d}of rows)h+=`<tr><td>${fD(p.date)}</td><td><span class="num">${num(p.max)}×${p.maxR}</span></td><td class="r">${d==null?'<span class="d flat">—</span>':delta(d)}</td></tr>`;
@@ -1049,18 +1089,19 @@ function flip(sel,fn){S.holdUntil=Date.now()+650;const before=new Map();document
 function loadBg(file){if(!/^image\//.test(file.type)){toast(L('Выберите файл изображения.','Choose an image file.'));return}
   const url=URL.createObjectURL(file),img=new Image();
   img.onload=()=>{URL.revokeObjectURL(url);let max=1100,q=.75,out='';const c=document.createElement('canvas'),x=c.getContext('2d');
-    for(let i=0;i<8;i++){const k=Math.min(1,max/Math.max(img.width,img.height));c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);x.drawImage(img,0,0,c.width,c.height);out=c.toDataURL('image/jpeg',q);if(out.length<200000)break;if(q>.5)q-=.1;else max=Math.round(max*.8)}
+    max=1440;q=.86;const fmt=c.toDataURL('image/webp',.5).startsWith('data:image/webp')?'image/webp':'image/jpeg';for(let i=0;i<10;i++){const k=Math.min(1,max/Math.max(img.width,img.height));c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);x.imageSmoothingQuality='high';x.drawImage(img,0,0,c.width,c.height);out=c.toDataURL(fmt,q);if(out.length<225000)break;if(q>.6)q-=.08;else max=Math.round(max*.85)}
     if(out.length>=230000){toast(L('Не удалось сжать фото. Попробуйте другое.','Could not compress the photo. Try another one.'));return}
     BG=out;try{localStorage.setItem(BGK,BG)}catch(e){}applyBg();addToGallery(out,makeThumb(c));render();
     if(S.mode==='db'&&bgDoc){bgDoc.set({data:BG,at:Date.now()}).then(()=>toast(L('Фон сохранён','Background saved'))).catch(e=>toast(errMsg(e)))}else toast(L('Фон сохранён','Background saved'))};
   img.onerror=()=>{URL.revokeObjectURL(url);toast(L('Не удалось открыть это фото.','Could not open this photo.'))};img.src=url}
-function backupData(){return JSON.stringify({app:'gym-diary',version:1,exportedAt:new Date().toISOString(),settings:normS(SET),bg:BG,templates:S.templates,workouts:S.workouts,notes:S.notes,bgs:BGS})}
+function backupData(){return JSON.stringify({app:'gym-diary',version:1,exportedAt:new Date().toISOString(),settings:normS(SET),bg:BG,templates:S.templates,workouts:S.workouts,notes:S.notes,bgs:BGS,body:S.body})}
 async function importData(file){let d;try{d=JSON.parse(await file.text())}catch(e){toast(L('Это не файл резервной копии.','This is not a backup file.'));return}
   if(!d||d.app!=='gym-diary'){toast(L('Это не файл резервной копии.','This is not a backup file.'));return}
   let n=0;const merge=(kind,arr)=>{if(!Array.isArray(arr))return;for(const x of arr){if(!x||typeof x.id!=='string')continue;const i=S[kind].findIndex(y=>y.id===x.id);if(i>=0)S[kind][i]=x;else S[kind].push(x);persist(kind,x);n++}};
   merge('templates',d.templates);merge('workouts',d.workouts);merge('notes',d.notes);
   if(d.settings){SET=normS(d.settings);try{localStorage.setItem(SK,JSON.stringify(SET))}catch(e){}saveSettings()}
   if(typeof d.bg==='string'&&d.bg.startsWith('data:image/')){BG=d.bg;try{localStorage.setItem(BGK,BG)}catch(e){}if(S.mode==='db'&&bgDoc)bgDoc.set({data:BG,at:Date.now()}).catch(e=>toast(errMsg(e)))}
+  if(d.body&&Array.isArray(d.body.weights)){const m=new Map((S.body.weights||[]).map(x=>[x.d,x]));for(const x of d.body.weights)if(x&&x.d&&isFinite(x.w))m.set(x.d,{d:x.d,w:+x.w});S.body=Object.assign({},S.body,d.body.height?{height:d.body.height}:{},d.body.age?{age:d.body.age,ageAt:d.body.ageAt}:{},{id:'main',weights:[...m.values()].sort((a,b)=>a.d<b.d?-1:1)});persist('body',S.body)}
   if(Array.isArray(d.bgs))for(const x of d.bgs.slice().reverse())if(x&&typeof x.data==='string'&&x.data.startsWith('data:image/'))addToGallery(x.data,x.thumb||'');
   applySettings();render();toast(L('Импортировано записей: ','Records imported: ')+n)}
 function exResults(q){const ses=sessions(),k=norm(q);const list=[...ses.keys()].filter(x=>!k||norm(ses.get(x).name).includes(k)).sort((a,b)=>ses.get(a).name.localeCompare(ses.get(b).name,LOC()));
@@ -1112,21 +1153,73 @@ function swHtml(w){const s=w.sw||{},run=!!s.run,ms=swMs(w),paused=!run&&ms>0;
 setInterval(()=>{const el=document.getElementById('swTime');if(!el)return;const w=active();if(w&&w.sw&&w.sw.run){const t=swFmt(swMs(w));if(el.textContent!==t)el.textContent=t}},250);
 function vGallery(){let g='';
   for(const it of BGS){const cur=it.data===BG,ask=S.confirm==='dbg:'+it.id;
-    g+=`<div class="galit ${cur?'cur':''}"><div class="galimg" style="background-image:url('${it.thumb||it.data}')">${cur?`<span class="galtag">${L('Сейчас','Current')}</span>`:''}</div>
-    ${ask?`<div class="galask"><span class="small">${L('Удалить?','Delete?')}</span><div class="exacts"><button class="btn sm danger" style="border-color:var(--down)" data-act="galDel" data-id="${it.id}">${L('Да','Yes')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></div></div>`
-    :`<div class="galbtns"><button class="btn sm ${cur?'':'primary'}" data-act="galSet" data-id="${it.id}" ${cur?'disabled':''}>${cur?L('Установлен','Set'):L('Установить','Set')}</button><button class="btn sm icon danger" data-act="confirm" data-id="dbg:${it.id}" aria-label="${L('Удалить','Delete')}"><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>`}</div>`}
+    g+=`<div class="galit ${cur?'cur':''}"><button class="galimg" style="background-image:url('${it.data}')" data-act="galSet" data-id="${it.id}" aria-label="${cur?L('Текущий фон','Current background'):L('Установить фон','Set background')}" ${cur?'aria-current="true"':''}></button>
+    ${cur?`<span class="galtag">${L('Сейчас','Current')}</span>`:''}
+    ${ask?`<div class="galask fx-open"><b>${L('Удалить?','Delete?')}</b><button class="btn sm danger" style="border-color:var(--down)" data-act="galDel" data-id="${it.id}">${L('Да','Yes')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></div>`
+    :`<button class="galdel" data-act="confirm" data-id="dbg:${it.id}" aria-label="${L('Удалить','Delete')}"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>`}</div>`}
   return `<div class="overlay ${fx('sheet')}" data-act="galClose"><div class="sheet gal" role="dialog" aria-modal="true" aria-label="${L('Мои фоны','My backgrounds')}">
   <div class="row between"><h2>${L('Мои фоны','My backgrounds')}</h2><button class="btn sm ghost" data-act="galClose">${L('Закрыть','Close')}</button></div>
-  ${BGS.length?`<div class="galgrid">${g}</div><span class="small muted">${L('Хранится до '+BGS_MAX+' последних фонов. Новые добавляются сюда автоматически при загрузке.','Up to '+BGS_MAX+' recent backgrounds are kept. New uploads are added automatically.')}</span>`:`<span class="muted">${L('Здесь появятся фоны, которые вы загружаете.','Backgrounds you upload will appear here.')}</span>`}</div></div>`}
+  ${BGS.length?`<div class="galgrid">${g}</div><span class="small muted">${L('Нажмите на фон, чтобы установить его. Хранится до '+BGS_MAX+' последних фонов.','Tap a background to set it. Up to '+BGS_MAX+' recent ones are kept.')}</span>`:`<span class="muted">${L('Здесь появятся фоны, которые вы загружаете.','Backgrounds you upload will appear here.')}</span>`}</div></div>`}
 const WIPE={n:0,t:0};
 async function wipeAll(){
-  if(S.mode==='db'&&cols){const jobs=[];for(const k of ['templates','workouts','notes'])for(const x of S[k])jobs.push(cols[k].doc(x.id).delete().catch(()=>{}));
+  if(S.mode==='db'&&cols){const jobs=[];for(const k of ['templates','workouts','notes'])for(const x of S[k])jobs.push(cols[k].doc(x.id).delete().catch(()=>{}));if(cols.body)jobs.push(cols.body.doc('main').delete().catch(()=>{}));
     if(bgsCol)for(const x of BGS)jobs.push(bgsCol.doc(x.id).delete().catch(()=>{}));if(bgDoc)jobs.push(bgDoc.delete().catch(()=>{}));if(rootDoc)jobs.push(rootDoc.delete().catch(()=>{}));
     await Promise.all(jobs)}
   try{[LK,SK,BGK,BGSK].forEach(k=>localStorage.removeItem(k))}catch(e){}
-  S.templates=[];S.workouts=[];S.notes=[];BGS=[];BG='';SET=normS({});for(const k in SEGP)delete SEGP[k];
+  S.templates=[];S.workouts=[];S.notes=[];S.body={id:'main',weights:[]};BGS=[];BG='';SET=normS({});for(const k in SEGP)delete SEGP[k];
   Object.assign(S,{view:'home',draft:null,openEx:null,confirm:null,err:null,statEx:null,histOpen:null,trashOpen:false,tplTrashOpen:false,gTrashOpen:false,nTrashOpen:false,noteGroup:null,noteForm:null,groupForm:null,replaceFor:null,skipFor:null,endAsk:false,calc:null,bgGal:false,exSearch:false,gearMenu:false,setTab:null,wipeShown:false,wipeStep:0,reorder:false,tabIdx:null,fx:{t:'view'}});
   gallerySeeded=false;applySettings();render();window.scrollTo(0,0);toast(L('Все данные удалены','All data deleted'))}
+/* ---------- body weight ---------- */
+function subBody(){if(!cols||!cols.body)return;cols.body.onSnapshot(s=>{const d=s.docs.find(x=>x.id==='main');S.body=d?Object.assign({id:'main',weights:[]},d.data()):{id:'main',weights:[]};softRender()},e=>toast(errMsg(e)))}
+const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const isoT=iso=>{const[y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d).getTime()};
+const curAge=b=>b.age?b.age+Math.floor((Date.now()-(b.ageAt||Date.now()))/(365.25*DAY)):null;
+function spark(ws){if(ws.length<2)return '';const W=300,H=46,P=6,v=ws.map(x=>x.w),mn=Math.min(...v),mx=Math.max(...v),r=mx-mn||1;
+  const pts=ws.map((x,i)=>[P+i*(W-2*P)/(ws.length-1),P+(H-2*P)*(1-(x.w-mn)/r)]);const d=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const l=pts[pts.length-1];return `<svg class="bspark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path class="ar" d="${d} L${l[0]} ${H} L${P} ${H} Z"/><path class="ln" d="${d}"/><circle class="dt last" cx="${l[0]}" cy="${l[1]}" r="3.5"/></svg>`}
+function bodyCard(){const b=S.body||{weights:[]},ws=(b.weights||[]).slice().sort((a,c)=>a.d<c.d?-1:1),last=ws[ws.length-1],prev=ws[ws.length-2],first=ws[0],age=curAge(b);
+  const bmi=last&&b.height?last.w/Math.pow(b.height/100,2):null;
+  const dl=(x,unit)=>{if(x==null)return '';if(Math.abs(x)<.05)return `<span class="d flat">= 0${unit}</span>`;return `<span class="d flat">${x>0?'▲ +':'▼ −'}${num(Math.abs(x))}${unit}</span>`};
+  let h=`<section class="sec bodysec"><div class="row between"><h2>${L('Мой вес','My weight')}</h2>${S.bodyForm?'':`<button class="btn sm ghost" data-act="bodyAdd">${L('+ Записать','+ Log')}</button>`}</div><div class="card bodycard">`;
+  if(S.bodyForm==='w'){h+=`<div class="bform fx-open"><div class="field"><label for="bwW">${L('Вес, кг','Weight, kg')}</label><input id="bwW" data-keep data-num="dec" maxlength="6" inputmode="decimal" value="${last?numIn(last.w):''}" autocomplete="off" data-bwenter="1"></div><div class="field"><label for="bwD">${L('Дата','Date')}</label><input id="bwD" data-keep type="date" value="${todayISO()}" max="${todayISO()}"></div>${S.err&&S.err.id==='bw'?`<div class="err full">${esc(errText('weight'))}</div>`:''}<div class="exacts full"><button class="btn primary" data-act="bodySave">${L('Сохранить','Save')}</button><button class="btn" data-act="bodyCancel">${L('Отмена','Cancel')}</button></div></div>`}
+  else if(S.bodyForm==='p'){h+=`<div class="bform fx-open"><div class="field"><label for="bpH">${L('Рост, см','Height, cm')}</label><input id="bpH" data-keep data-num="int" maxlength="3" inputmode="numeric" value="${b.height||''}" autocomplete="off"></div><div class="field"><label for="bpA">${L('Возраст','Age')}</label><input id="bpA" data-keep data-num="int" maxlength="3" inputmode="numeric" value="${age||''}" autocomplete="off"></div><div class="exacts full"><button class="btn primary" data-act="profSave">${L('Сохранить','Save')}</button><button class="btn" data-act="bodyCancel">${L('Отмена','Cancel')}</button></div></div>`}
+  else if(!last)h+=`<div class="muted small">${L('Записывайте свой вес, чтобы видеть, как он меняется.','Log your weight to see how it changes.')}</div>`;
+  else{h+=`<div class="brow"><div><span class="num bnum">${num(last.w)}</span><span class="unit2">${KG()}</span></div><div class="bdel">${prev?dl(last.w-prev.w,' '+KG()):''}<span class="small muted">${fD(isoT(last.d))}${prev?` · ${L('к','vs')} ${fD(isoT(prev.d))}`:''}</span></div></div>${spark(ws.slice(-14))}${ws.length>2?`<div class="small muted">${L('С начала','Since start')} (${fD(isoT(first.d))}): ${dl(last.w-first.w,' '+KG())}</div>`:''}`}
+  if(!S.bodyForm){h+=`<div class="bprof"><span class="small">${L('Рост','Height')} <b>${b.height?b.height+' '+L('см','cm'):'—'}</b> · ${L('Возраст','Age')} <b>${age||'—'}</b>${bmi?` · ${L('ИМТ','BMI')} <b>${num(bmi)}</b> <button class="bmicat" data-act="bmiOpen" aria-label="${L('Что такое ИМТ','What is BMI')}">${bmi<18.5?L('ниже нормы','below normal'):bmi<25?L('норма','normal'):bmi<30?L('выше нормы','above normal'):L('сильно выше нормы','well above normal')}<svg class="infoi" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7"/><path d="M8 7.2v4"/><circle cx="8" cy="4.7" r=".9" class="dot"/></svg></button>`:''}</span><button class="linkbtn" data-act="profEdit">${b.height||age?L('Изменить','Edit'):L('Указать','Set')}</button></div>`;
+    if(ws.length)h+=`<button class="linkbtn" style="align-self:flex-start" data-act="bodyHist">${S.bodyHist?L('Скрыть историю','Hide history'):L('История','History')+' ('+ws.length+')'}</button>`;
+    if(S.bodyHist){h+=`<div class="bhist fx-open">`;for(const x of ws.slice().reverse()){h+=S.confirm==='dbw:'+x.d?`<div class="setconf"><span>${L('Удалить','Delete')} ${num(x.w)} ${KG()} (${fD(isoT(x.d))})?</span><span class="row" style="gap:6px"><button class="btn sm danger" style="border-color:var(--down)" data-act="bodyDel" data-id="${x.d}">${L('Удалить','Delete')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></span></div>`:`<div class="row between bhrow"><span class="small muted">${fDY(isoT(x.d))}</span><span class="row" style="gap:6px;flex-wrap:nowrap"><b class="num">${num(x.w)} ${KG()}</b><button class="xbtn" data-act="confirm" data-id="dbw:${x.d}" aria-label="${L('Удалить','Delete')}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></span></div>`}h+='</div>'}}
+  return h+'</div></section>'}
+function weightStats(){const ws=((S.body||{}).weights||[]).slice().sort((a,c)=>a.d<c.d?-1:1);if(!ws.length)return '';
+  const last=ws[ws.length-1],first=ws[0],v=ws.map(x=>x.w),mn=Math.min(...v),mx=Math.max(...v);
+  const ref=d=>{const t=isoT(last.d)-d*DAY;let r=null;for(const x of ws)if(isoT(x.d)<=t)r=x;return r};
+  const r30=ref(30),r7=ref(7);
+  const nd=x=>x==null?'<span class="d flat">—</span>':Math.abs(x)<.05?'<span class="d flat">= 0 '+KG()+'</span>':`<span class="d flat">${x>0?'▲ +':'▼ −'}${num(Math.abs(x))} ${KG()}</span>`;
+  const b=S.body||{},bmi=b.height?last.w/Math.pow(b.height/100,2):null;
+  let h=`<section class="sec"><div class="row between"><h2>${L('Вес тела','Body weight')}</h2><span class="small muted">${ws.length} ${P(ws.length,['запись','записи','записей'],['entry','entries'])}</span></div><div class="tiles">
+  <div><span class="label">${L('Сейчас','Now')}</span><span class="num">${num(last.w)}<span class="small muted" style="font-family:var(--font-b);font-weight:400"> ${KG()}</span></span><span class="small muted">${fD(isoT(last.d))}${bmi?` · ${L('ИМТ','BMI')} ${num(bmi)}`:''}</span></div>
+  <div><span class="label">${L('За неделю','Past week')}</span>${nd(r7&&r7!==last?last.w-r7.w:null)}<span class="label" style="margin-top:6px">${L('За месяц','Past month')}</span>${nd(r30&&r30!==last?last.w-r30.w:null)}</div>
+  <div><span class="label">${L('Минимум','Lowest')}</span><span class="num">${num(mn)}</span><span class="small muted">${fD(isoT(ws.find(x=>x.w===mn).d))}</span></div>
+  <div><span class="label">${L('Максимум','Highest')}</span><span class="num">${num(mx)}</span><span class="small muted">${fD(isoT(ws.find(x=>x.w===mx).d))}</span></div></div>`;
+  if(ws.length>1)h+=`<div class="row between"><span class="small muted">${L('С начала','Since start')} (${fD(isoT(first.d))})</span>${nd(last.w-first.w)}</div>${lineChart(ws.slice(-30).map(x=>({x:isoT(x.d),y:x.w})),' '+KG())}`;
+  return h+'</section>'}
+const m2=h=>{const t=(h/100).toFixed(2);return EN()?t:t.replace('.',',')};
+function vBmi(){const b=S.body||{},ws=(b.weights||[]).slice().sort((a,c)=>a.d<c.d?-1:1),last=ws[ws.length-1],bmi=last&&b.height?last.w/Math.pow(b.height/100,2):null;
+  const rows=[[0,18.5,L('Меньше 18,5','Under 18.5'),L('Ниже нормы','Below normal')],[18.5,25,'18,5 – 24,9',L('Норма','Normal')],[25,30,'25 – 29,9',L('Выше нормы','Above normal')],[30,999,L('30 и больше','30 and over'),L('Сильно выше нормы','Well above normal')]];
+  return `<div class="overlay ${fx('sheet')}" data-act="bmiClose"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="bmiT" style="max-height:85vh;overflow-y:auto">
+  <div class="row between"><h2 id="bmiT">${L('Что такое ИМТ','What is BMI')}</h2><button class="btn sm ghost" data-act="bmiClose">${L('Закрыть','Close')}</button></div>
+  <p style="margin:0">${L('Индекс массы тела показывает, соответствует ли вес росту. Считается по формуле: вес в килограммах, делённый на рост в метрах в квадрате.','Body mass index shows whether weight matches height. Formula: weight in kilograms divided by height in metres squared.')}</p>
+  ${bmi?`<div class="bmiform">${L('Ваш расчёт','Your numbers')}: ${num(last.w)} ÷ (${m2(b.height)} × ${m2(b.height)}) = <b>${num(bmi)}</b></div>`:''}
+  <table class="bmitbl"><tbody>${rows.map(r=>`<tr class="${bmi!=null&&bmi>=r[0]&&bmi<r[1]?'me':''}"><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody></table>
+  <span class="small muted">${L('Границы — по шкале Всемирной организации здравоохранения для взрослых.','Ranges follow the World Health Organization scale for adults.')}</span>
+  <p style="margin:0"><b>${L('Важно','Keep in mind')}:</b> ${L('ИМТ не отличает мышцы от жира. У тех, кто много тренируется, он часто показывает «выше нормы» при спортивном телосложении. Также он не учитывает возраст и пол. Это ориентир, а не диагноз.','BMI cannot tell muscle from fat. People who train a lot often show “above normal” with an athletic build. It also ignores age and sex. Treat it as a rough guide, not a diagnosis.')}</p>
+  </div></div>`}
+let GREETED=false;
+function showGreet(){const h=new Date().getHours(),g=h>=5&&h<12?L('Доброе утро','Good morning'):h>=12&&h<17?L('Добрый день','Good afternoon'):h>=17&&h<23?L('Добрый вечер','Good evening'):L('Доброй ночи','Good night');
+  const wk=finished().filter(w=>w.startedAt>=sow(Date.now())).length,a=active();
+  const sub=a?L('Тренировка ждёт продолжения','Your workout is waiting'):wk?L('Тренировок на этой неделе: ','Workouts this week: ')+wk:L('Хорошей тренировки!','Have a great workout!');
+  const el=document.createElement('div');el.className='greet'+(motionOK()?' anim':'');el.setAttribute('role','status');
+  el.innerHTML=`<div class="greetcard"><b></b><span></span></div>`;el.querySelector('b').textContent=g+', '+SET.name+'!';el.querySelector('span').textContent=sub;
+  document.body.appendChild(el);const kill=()=>{el.remove()};el.addEventListener('click',kill);setTimeout(kill,motionOK()?1900:1400)}
 /* ---------- calculator ---------- */
 const LB=2.20462262;
 function calcEval(src){const t=src.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');let i=0;
@@ -1308,8 +1401,19 @@ const A={
   swResetNo(){S.swConfirm=false;render()},
   galOpen(){S.bgGal=true;S.confirm=null;S.fx={t:'sheet'};render()},
   galClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="galClose"].btn'))return;S.bgGal=false;S.confirm=null;render()},
-  galSet(id){const it=BGS.find(x=>x.id===id);if(!it)return;BG=it.data;try{localStorage.setItem(BGK,BG)}catch(e){}applyBg();if(S.mode==='db'&&bgDoc)bgDoc.set({data:BG,at:Date.now()}).catch(e=>toast(errMsg(e)));render();toast(L('Фон установлен','Background set'))},
+  galSet(id){const it=BGS.find(x=>x.id===id);if(!it||it.data===BG)return;S.confirm=null;BG=it.data;try{localStorage.setItem(BGK,BG)}catch(e){}applyBg();if(S.mode==='db'&&bgDoc)bgDoc.set({data:BG,at:Date.now()}).catch(e=>toast(errMsg(e)));render();toast(L('Фон установлен','Background set'))},
   galDel(id){S.confirm=null;BGS=BGS.filter(x=>x.id!==id);if(S.mode==='db'&&bgsCol)bgsCol.doc(id).delete().catch(e=>toast(errMsg(e)));else saveBgsLocal();if(!BGS.length)S.bgGal=false;render();toast(L('Фон удалён из галереи','Background removed from gallery'))},
+  bodyAdd(){S.bodyForm='w';S.err=null;render();const el=document.getElementById('bwW');if(el){el.focus();el.select()}},
+  profEdit(){S.bodyForm='p';S.err=null;render();const el=document.getElementById('bpH');if(el)el.focus()},
+  bodyCancel(){S.bodyForm=null;S.err=null;render()},
+  bodySave(){const w=parseNum((document.getElementById('bwW')||{}).value),d=(document.getElementById('bwD')||{}).value||todayISO();if(!isFinite(w)||w<=0||w>500){S.err={id:'bw'};return render()}
+    const b=structuredClone(S.body||{id:'main',weights:[]});b.id='main';b.weights=(b.weights||[]).filter(x=>x.d!==d);b.weights.push({d,w});b.weights.sort((x,y)=>x.d<y.d?-1:1);S.body=b;persist('body',b);S.bodyForm=null;S.err=null;render();toast(L('Вес записан','Weight logged'))},
+  profSave(){const hh=parseInt((document.getElementById('bpH')||{}).value),a=parseInt((document.getElementById('bpA')||{}).value);const b=structuredClone(S.body||{id:'main',weights:[]});b.id='main';
+    if(hh>50&&hh<260)b.height=hh;else delete b.height;if(a>0&&a<120){b.age=a;b.ageAt=Date.now()}else{delete b.age;delete b.ageAt}S.body=b;persist('body',b);S.bodyForm=null;render()},
+  bodyHist(){S.bodyHist=!S.bodyHist;S.confirm=null;render()},
+  bodyDel(d){S.confirm=null;const b=structuredClone(S.body);b.weights=b.weights.filter(x=>x.d!==d);S.body=b;persist('body',b);render();toast(L('Запись удалена','Entry deleted'))},
+  bmiOpen(){S.bmiInfo=true;S.fx={t:'sheet'};render()},
+  bmiClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="bmiClose"].btn'))return;S.bmiInfo=false;render()},
   calcOpen(){S.calc={expr:'',note:''};S.fx={t:'sheet'};render()},
   calcClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="calcClose"].btn'))return;S.calc=null;render()},
   calcKey(k){const c=S.calc;if(!c)return;c.note='';let e=c.expr;
@@ -1385,16 +1489,17 @@ function cleanNum(v,dec){if(!dec)return v.replace(/\D/g,'');v=v.replace(/[^\d.,]
 app.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.num){const v=cleanNum(t.value,t.dataset.num==='dec');if(v!==t.value)t.value=v}},true);
 app.addEventListener('input',e=>{const t=e.target;if(!S.draft)return;if(t.dataset.f==='name')S.draft.name=t.value;else if(t.dataset.ex!=null){const x=S.draft.exercises[+t.dataset.ex];if(x)x[t.dataset.k]=t.value}});
 app.addEventListener('input',e=>{const t=e.target;if(t.id==='exQ'){const r=document.getElementById('exRes');if(r)r.innerHTML=exResults(t.value);return}if(t.id==='tone'){SET.tone=+t.value;document.getElementById('toneV').textContent=(SET.tone>0?'+':'')+SET.tone;applyTone();return}if(t.id==='bgX'||t.id==='bgY'){const v=+t.value;SET[t.id]=v;document.getElementById(t.id+'V').textContent=v+'%';applyBg();return}if(t.id==='btnT'){SET.btnT=+t.value;document.getElementById('btnTV').textContent=SET.btnT+'%';applyBg();return}if(t.id==='bgBlur'||t.id==='bgVis'){const v=+t.value;if(t.id==='bgBlur'){SET.bgBlur=v;document.getElementById('bgBlurV').textContent=v}else{SET.bgVis=v;document.getElementById('bgVisV').textContent=v+'%'}applyBg()}});
-app.addEventListener('change',e=>{if(['bgBlur','bgVis','btnT','bgX','bgY','tone'].includes(e.target.id)){saveSettings();if(['bgX','bgY','tone'].includes(e.target.id))render();return}if(e.target.id==='impFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)importData(f);return}if(e.target.id==='bgFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)loadBg(f);return}if(e.target.id==='statEx'){S.statEx=e.target.value;render()}if(e.target.id==='memDate'){const v=e.target.value||'';if(v!==SET.member){SET.member=normS({member:v}).member;saveSettings();render();toast(SET.member?L('Дата абонемента сохранена','Membership date saved'):L('Абонемент убран с главного экрана','Membership hidden from home'))}}});
-app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.enter){e.preventDefault();A.logSet(e.target.dataset.enter)}if(e.key==='Enter'&&e.target.dataset.esenter){e.preventDefault();A.saveSet()}if(e.key==='Enter'&&e.target.dataset.lenter){e.preventDefault();A.authGo()}if(e.key==='Enter'&&e.target.dataset.genter){e.preventDefault();A.saveGroup()}});
+app.addEventListener('change',e=>{if(e.target.id==='nameIn'){const v=String(e.target.value||'').trim().slice(0,30);if(v!==SET.name){SET.name=v;saveSettings();toast(v?L('Имя сохранено','Name saved'):L('Имя убрано','Name removed'))}return}if(['bgBlur','bgVis','btnT','bgX','bgY','tone'].includes(e.target.id)){saveSettings();if(['bgX','bgY','tone'].includes(e.target.id))render();return}if(e.target.id==='impFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)importData(f);return}if(e.target.id==='bgFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)loadBg(f);return}if(e.target.id==='statEx'){S.statEx=e.target.value;render()}if(e.target.id==='memDate'){const v=e.target.value||'';if(v!==SET.member){SET.member=normS({member:v}).member;saveSettings();render();toast(SET.member?L('Дата абонемента сохранена','Membership date saved'):L('Абонемент убран с главного экрана','Membership hidden from home'))}}});
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.enter){e.preventDefault();A.logSet(e.target.dataset.enter)}if(e.key==='Enter'&&e.target.dataset.bwenter){e.preventDefault();A.bodySave()}if(e.key==='Enter'&&e.target.dataset.esenter){e.preventDefault();A.saveSet()}if(e.key==='Enter'&&e.target.dataset.lenter){e.preventDefault();A.authGo()}if(e.key==='Enter'&&e.target.dataset.genter){e.preventDefault();A.saveGroup()}});
 /* ---------- system back gesture ---------- */
 let guarded=false,ignorePop=false;
-const canBack=()=>S.ready&&S.view!=='login'&&!!(S.bgGal||S.gearMenu||S.exSearch||S.calc||S.skipFor||S.endAsk||S.confirm||S.replaceFor||S.noteForm||S.groupForm||S.noteGroup||S.view!=='home');
+const canBack=()=>S.ready&&S.view!=='login'&&!!(S.bmiInfo||S.bgGal||S.gearMenu||S.exSearch||S.calc||S.skipFor||S.endAsk||S.confirm||S.replaceFor||S.noteForm||S.groupForm||S.noteGroup||S.view!=='home');
 function syncHistory(){try{
   if(canBack()&&!guarded){history.pushState({gym:1},'');guarded=true}
   else if(!canBack()&&guarded&&history.state&&history.state.gym){guarded=false;ignorePop=true;history.back()}
 }catch(e){}}
 function doBack(){S.err=null;
+  if(S.bmiInfo){S.bmiInfo=false;return render()}
   if(S.bgGal){S.bgGal=false;S.confirm=null;return render()}
   if(S.gearMenu){return closeGear()}
   if(S.exSearch){S.exSearch=false;return render()}
