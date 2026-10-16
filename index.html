@@ -50,6 +50,9 @@
 :root[data-accent="blue"]{--accent:#2346C8;--accent-ink:#FFFFFF;--accent-soft:#DCE2F8;--accent-text:#2346C8}
 @media (prefers-color-scheme: dark){:root[data-accent="blue"]:not([data-theme="light"]){--accent:#7D98FF;--accent-ink:#0C1022;--accent-soft:#1E2646;--accent-text:#7D98FF}}
 :root[data-theme="dark"][data-accent="blue"]{--accent:#7D98FF;--accent-ink:#0C1022;--accent-soft:#1E2646;--accent-text:#7D98FF}
+:root[data-accent="gray"]{--accent:#5B6470;--accent-ink:#FFFFFF;--accent-soft:#E2E5E9;--accent-text:#4A525C}
+@media (prefers-color-scheme: dark){:root[data-accent="gray"]:not([data-theme="light"]){--accent:#A9B1BC;--accent-ink:#121418;--accent-soft:#2A2F36;--accent-text:#A9B1BC}}
+:root[data-theme="dark"][data-accent="gray"]{--accent:#A9B1BC;--accent-ink:#121418;--accent-soft:#2A2F36;--accent-text:#A9B1BC}
 :root[data-accent="violet"]{--accent:#7A3DC8;--accent-ink:#FFFFFF;--accent-soft:#EADDF8;--accent-text:#7A3DC8}
 @media (prefers-color-scheme: dark){:root[data-accent="violet"]:not([data-theme="light"]){--accent:#B48CFF;--accent-ink:#170B29;--accent-soft:#2E2145;--accent-text:#B48CFF}}
 :root[data-theme="dark"][data-accent="violet"]{--accent:#B48CFF;--accent-ink:#170B29;--accent-soft:#2E2145;--accent-text:#B48CFF}
@@ -284,11 +287,13 @@ nav.tabs .in{position:relative}
 :root[data-trans="on"] :is(.card,.ex,.hist,.setgroup,.confirm,.tiles>div,.btn:not(.primary),.ck:not(.op):not(.eq),.gear,.pill,.bgprev-card){background:color-mix(in srgb,var(--surface) var(--surf-p),transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 :root[data-trans="on"] .ck.fn{background:color-mix(in srgb,var(--sunk) var(--surf-p),transparent)}
 :root[data-trans="on"] :is(.btn.primary,.ck.eq,.bgprev-btn){background:color-mix(in srgb,var(--accent) var(--surf-p2),transparent)}
+:root[data-trans="on"] .wrap .whead,:root[data-trans="on"] body::before{background:color-mix(in srgb,var(--bg) var(--surf-p),transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+:root[data-trans="on"][data-glass="on"] .wrap .whead,:root[data-trans="on"][data-glass="on"] body::before{background:color-mix(in srgb,var(--glass-bg) var(--surf-p),transparent)}
 :root[data-trans="on"] nav.tabs{background:color-mix(in srgb,var(--surface) var(--surf-p),transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 :root[data-trans="on"][data-glass="on"] :is(.card,.ex,.hist,.setgroup,.confirm,.tiles>div,.btn:not(.primary),.ck:not(.op):not(.eq),.gear,.pill,nav.tabs){background:color-mix(in srgb,var(--glass-bg) var(--surf-p),transparent)}
 :root[data-trans="on"][data-grad="on"] .btn.primary{background:linear-gradient(135deg,color-mix(in srgb,var(--acc-hi) var(--surf-p2),transparent),color-mix(in srgb,var(--acc-lo) var(--surf-p2),transparent))}
 #bgl{position:fixed;inset:0;z-index:-1;pointer-events:none;display:none;overflow:hidden}
-#bgl::before{content:"";position:absolute;inset:calc(-2*var(--bg-blur,0px));background:var(--bg-img) center/cover no-repeat;filter:blur(var(--bg-blur,0px));opacity:var(--bg-op,.45)}
+#bgl::before{content:"";position:absolute;inset:calc(-2*var(--bg-blur,0px));background:var(--bg-img) var(--bg-pos,center)/cover no-repeat;filter:blur(var(--bg-blur,0px));opacity:var(--bg-op,.45)}
 :root[data-bg="on"] #bgl{display:block}
 :root[data-bg="on"] body{background:var(--bg)}
 :root[data-bg="on"] .whead,:root[data-bg="on"] body::before{background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
@@ -298,7 +303,7 @@ nav.tabs .in{position:relative}
 .bgctl{display:flex;gap:8px;flex-wrap:wrap}
 .bgctl label.btn{cursor:pointer}
 .bgprev{position:relative;width:110px;aspect-ratio:9/16;max-width:100%;border-radius:16px;overflow:hidden;background:var(--bg);border:1px solid var(--line)}
-.bgprev-img{position:absolute;inset:calc(-1*var(--bg-blur,0px));background:var(--bg-img) center/cover no-repeat;filter:blur(calc(var(--bg-blur,0px)*.35));opacity:var(--bg-op,.45);display:none}
+.bgprev-img{position:absolute;inset:calc(-1*var(--bg-blur,0px));background:var(--bg-img) var(--bg-pos,center)/cover no-repeat;filter:blur(calc(var(--bg-blur,0px)*.35));opacity:var(--bg-op,.45);display:none}
 .bgprev.has .bgprev-img{display:block}
 .bgprev-ui{position:absolute;inset:0;padding:10px 8px;display:flex;flex-direction:column;gap:6px}
 .bgprev-ui b{font-family:var(--font-d);font-size:16px;text-transform:uppercase;color:var(--ink)}
@@ -363,7 +368,7 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .gear{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:40px;height:40px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
 .gear svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .gear:focus-visible,.sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.swatches{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.swatches{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
 .sw{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--muted);font:500 11px var(--font-b);min-width:0}
 .sw i{width:100%;max-width:44px;aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
 .sw i svg{width:18px;height:18px;stroke:var(--ci);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.4)}
@@ -373,6 +378,14 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .setrow{display:flex;flex-direction:column;gap:10px;padding-block:14px;border-bottom:1px solid var(--line)}
 .seg.wide{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr))}
 .seg.wide button{min-height:40px;font-size:14px}
+.seg.sl{position:relative}
+.seg.sl button{position:relative;z-index:1;transition:color .25s}
+.seg.sl button.on{background:transparent}
+.segind{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px - (var(--n) - 1)*2px)/var(--n));transform:translateX(calc(var(--i)*(100% + 2px)));background:var(--surface);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:transform .38s cubic-bezier(.3,1.2,.45,1)}
+.segind.still{transition:none}
+:root[data-glass="on"] .segind{border-radius:999px;box-shadow:inset 0 1px 0 var(--glass-hl),0 3px 10px -4px var(--glass-sh)}
+:root[data-glass="on"] .seg.sl button.on{box-shadow:none}
+:root[data-trans="on"] .segind{background:color-mix(in srgb,var(--surface) var(--surf-p),transparent)}
 .addother{align-self:center;border-style:dashed}
 @media (prefers-reduced-motion:no-preference){
   .btn,.tab,.pill,.linkbtn,.exhead,.seg button,.ex,.card,.hist{transition:transform .14s cubic-bezier(.3,.7,.4,1),background-color .2s,border-color .2s,color .2s,opacity .2s,box-shadow .2s}
@@ -428,8 +441,8 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 const app=document.getElementById('app');
 const DAY=864e5;
 const SK='gym-diary-settings';
-const COLORS=[['red','#C8352B','#fff','Красный','Red'],['orange','#D2600F','#fff','Оранжевый','Orange'],['yellow','#E3AA00','#1D1700','Жёлтый','Yellow'],['green','#1E8A4C','#fff','Зелёный','Green'],['cyan','#0A86B8','#fff','Голубой','Light blue'],['blue','#2346C8','#fff','Синий','Blue'],['violet','#7A3DC8','#fff','Фиолетовый','Violet']];
-const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0))});
+const COLORS=[['red','#C8352B','#fff','Красный','Red'],['orange','#D2600F','#fff','Оранжевый','Orange'],['yellow','#E3AA00','#1D1700','Жёлтый','Yellow'],['green','#1E8A4C','#fff','Зелёный','Green'],['cyan','#0A86B8','#fff','Голубой','Light blue'],['blue','#2346C8','#fff','Синий','Blue'],['violet','#7A3DC8','#fff','Фиолетовый','Violet'],['gray','#5B6470','#fff','Серый','Gray']];
+const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0))});
 let SET=normS({});
 try{const v=JSON.parse(localStorage.getItem(SK)||'null');if(v)SET=normS(v)}catch(e){}
 const EN=()=>SET.lang==='en';
@@ -437,9 +450,10 @@ const L=(ru,en)=>EN()?en:ru;
 const LOC=()=>EN()?'en-GB':'ru-RU';
 const ORIG_THEME=document.documentElement.getAttribute('data-theme');
 const BGK='gym-diary-bg';let BG='';try{BG=localStorage.getItem(BGK)||''}catch(e){}
-function applyBg(){const r=document.documentElement,l=document.getElementById('bgl');r.style.setProperty('--surf-p',(100-SET.btnT)+'%');r.style.setProperty('--surf-p2',(100-SET.btnT/2)+'%');if(SET.btnT>0)r.setAttribute('data-trans','on');else r.removeAttribute('data-trans');r.style.setProperty('--bg-blur',SET.bgBlur+'px');r.style.setProperty('--bg-op',SET.bgVis/100);
+function applyBg(){const r=document.documentElement,l=document.getElementById('bgl');r.style.setProperty('--surf-p',(100-SET.btnT)+'%');r.style.setProperty('--surf-p2',(100-SET.btnT/2)+'%');if(SET.btnT>0)r.setAttribute('data-trans','on');else r.removeAttribute('data-trans');r.style.setProperty('--bg-blur',SET.bgBlur+'px');r.style.setProperty('--bg-op',SET.bgVis/100);r.style.setProperty('--bg-pos',SET.bgX+'% '+SET.bgY+'%');
   if(BG){r.setAttribute('data-bg','on');r.style.setProperty('--bg-img',`url("${BG}")`)}else{r.removeAttribute('data-bg');r.style.removeProperty('--bg-img')}}
-function applySettings(){const r=document.documentElement;applyBg();if(SET.theme==='system'){if(ORIG_THEME)r.setAttribute('data-theme',ORIG_THEME);else r.removeAttribute('data-theme')}else r.setAttribute('data-theme',SET.theme);r.setAttribute('data-accent',SET.color||'blue');r.setAttribute('data-anim',SET.anim===false?'off':'on');r.setAttribute('data-grad',SET.grad?'on':'off');r.setAttribute('data-glass',SET.glass?'on':'off');r.lang=SET.lang;document.title=L('Дневник зала','Gym Diary')}
+function syncThemeColor(){try{const c=getComputedStyle(document.body||document.documentElement).backgroundColor;document.querySelectorAll('meta[name="theme-color"]').forEach(m=>{m.setAttribute('content',c);m.removeAttribute('media')})}catch(e){}}
+function applySettings(){const r=document.documentElement;applyBg();setTimeout(syncThemeColor,0);if(SET.theme==='system'){if(ORIG_THEME)r.setAttribute('data-theme',ORIG_THEME);else r.removeAttribute('data-theme')}else r.setAttribute('data-theme',SET.theme);r.setAttribute('data-accent',SET.color||'blue');r.setAttribute('data-anim',SET.anim===false?'off':'on');r.setAttribute('data-grad',SET.grad?'on':'off');r.setAttribute('data-glass',SET.glass?'on':'off');r.lang=SET.lang;document.title=L('Дневник зала','Gym Diary')}
 applySettings();
 
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
@@ -566,7 +580,7 @@ const ICONS={
   gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   check:'<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 };
-let lastHtml='';
+let lastHtml='';const SEGP={};
 function softRender(){const w=(S.holdUntil||0)-Date.now();if(w>0){clearTimeout(S.holdT);S.holdT=setTimeout(softRender,w+10);return}render()}
 function render(){
   const keep={};app.querySelectorAll('[data-keep]').forEach(i=>keep[i.id]=i.value);
@@ -581,6 +595,7 @@ function render(){
   if(S.calc&&S.ready)html+=vCalc();
   if(html!==lastHtml){app.innerHTML=html;lastHtml=html}
   if(S.fx&&S.fx.t==='view'&&app.firstElementChild)app.firstElementChild.classList.add(S.view==='settings'?'fx-push':'fx-view');
+  app.querySelectorAll('.segind').forEach(el=>{const k=el.dataset.key,to=+el.dataset.to,from=SEGP[k];if(motionOK()&&from!=null&&from!==to){el.getBoundingClientRect();requestAnimationFrame(()=>el.style.setProperty('--i',to))}else{el.classList.add('still');el.style.setProperty('--i',to)}SEGP[k]=to});
   {const ti=app.querySelector('.tabind');if(ti){const to=S.tabTo;if(motionOK()&&S.tabIdx!=null&&S.tabIdx!==to){ti.getBoundingClientRect();requestAnimationFrame(()=>{ti.style.setProperty('--i',to)})}else{ti.classList.add('still');ti.style.setProperty('--i',to)}S.tabIdx=to}}
   if(S.fx&&S.fx.t==='open'&&motionOK()){const el=app.querySelector('.exbody.fx-open');if(el&&el.animate){const h=el.offsetHeight,cs=getComputedStyle(el);el.style.overflow='hidden';el.animate([{height:'0px',paddingBottom:'0px',opacity:0},{height:h+'px',paddingBottom:cs.paddingBottom,opacity:1}],{duration:300,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>{el.style.overflow=''}}}
   S.fx=null;
@@ -601,6 +616,7 @@ function memberCell(){if(!SET.member)return '';const [y,m,d]=SET.member.split('-
   const cls=left<0?'down':left<=7?'warn':'';
   const val=left<0?`<span class="num ${cls}" style="font-size:20px;line-height:1.5">${L('Истёк','Expired')}</span>`:`<span class="num ${cls}">${left}<span class="unit2">${left===0?L('сегодня','today'):EN()?(left===1?'day':'days'):ruP(left,'день','дня','дней')}</span></span>`;
   return `<div><span class="label">${L('Абонемент','Membership')}</span>${val}</div>`}
+function lastDone(id){const w=finished().filter(x=>x.templateId===id).pop();if(!w)return L('ещё не выполнялся','not done yet');const a=ago(w.startedAt);return L('последний раз: ','last done: ')+fD(w.startedAt)+(a===L('сегодня','today')||a===L('вчера','yesterday')?` (${a})`:`, ${a}`)}
 function vHome(){
   const f=finished(),a=active(),wk=sow(Date.now());
   const thisW=f.filter(w=>w.startedAt>=wk).length;
@@ -615,13 +631,13 @@ function vHome(){
   if(!T.length)h+=`<div class="empty"><b>${L('Шаблонов пока нет','No templates yet')}</b><span>${L('Создайте шаблон тренировки: название и список упражнений с подходами и повторениями. Потом запускайте его одной кнопкой.','Create a workout template: a name and a list of exercises with sets and reps. Then start it with one tap.')}</span><button class="btn primary" data-act="newTpl">${L('Создать шаблон','Create template')}</button></div>`;
   if(S.reorder){
     h+=`<p class="small muted" style="margin:0">${L('Двигайте шаблоны стрелками. Порядок сохраняется сразу.','Move templates with the arrows. The order saves instantly.')}</p><div class="stack" style="gap:8px">`;
-    T.forEach((t,i)=>{h+=`<div data-key="${t.id}" class="card ordrow ${S.fx&&S.fx.t==='moved'&&S.fx.id===t.id?'fx-moved':''}"><span class="ordn num">${i+1}</span><div style="min-width:0;flex:1"><h3 style="overflow-wrap:anywhere">${esc(t.name)}</h3></div><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn icon" data-act="mvTpl" data-id="${t.id}:-1" ${i===0?'disabled':''} aria-label="${L('Выше','Up')}">↑</button><button class="btn icon" data-act="mvTpl" data-id="${t.id}:1" ${i===T.length-1?'disabled':''} aria-label="${L('Ниже','Down')}">↓</button></div></div>`});
+    T.forEach((t,i)=>{h+=`<div data-key="${t.id}" class="card ordrow ${S.fx&&S.fx.t==='moved'&&S.fx.id===t.id?'fx-moved':''}"><span class="ordn num">${i+1}</span><div style="min-width:0;flex:1"><h3 style="overflow-wrap:anywhere">${esc(t.name)}</h3><div class="small muted">${lastDone(t.id)}</div></div><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn icon" data-act="mvTpl" data-id="${t.id}:-1" ${i===0?'disabled':''} aria-label="${L('Выше','Up')}">↑</button><button class="btn icon" data-act="mvTpl" data-id="${t.id}:1" ${i===T.length-1?'disabled':''} aria-label="${L('Ниже','Down')}">↓</button></div></div>`});
     h+='</div>';
   }
   else for(const t of T){
     const lastT=[...f].reverse().find(w=>w.templateId===t.id),ne=(t.exercises||[]).length;
     h+=`<div class="card tpl"><div><h3>${esc(t.name)}</h3><div class="meta">${(t.exercises||[]).map(e=>esc(e.name)).join(' · ')||L('Нет упражнений','No exercises')}</div></div>
-    <div class="small muted">${ne} ${P(ne,['упражнение','упражнения','упражнений'],['exercise','exercises'])} · ${lastT?L('последний раз ','last done ')+ago(lastT.startedAt):L('ещё не выполнялся','not done yet')}</div>
+    <div class="small muted">${ne} ${P(ne,['упражнение','упражнения','упражнений'],['exercise','exercises'])} · ${lastDone(t.id)}</div>
     <div class="acts"><button class="btn primary" data-act="start" data-id="${t.id}" ${a||!ne?'disabled':''}>${L('Начать тренировку','Start workout')}</button><button class="btn ghost" data-act="editTpl" data-id="${t.id}">${L('Изменить','Edit')}</button></div></div>`;
   }
   if(a&&T.length)h+=`<p class="small muted" style="margin:0">${L('Новую тренировку можно начать после завершения текущей.','You can start a new workout once the current one is finished.')}</p>`;
@@ -641,7 +657,7 @@ function vHome(){
 }
 
 function vSettings(){
-  const seg=(act,cur,opts,label)=>`<div class="seg wide" role="radiogroup" aria-label="${label}">${opts.map(([v,t])=>`<button class="${cur===v?'on':''}" data-act="${act}" data-id="${v}" role="radio" aria-checked="${cur===v}">${t}</button>`).join('')}</div>`;
+  const seg=(act,cur,opts,label)=>{const i=Math.max(0,opts.findIndex(o=>o[0]===cur)),p=SEGP[act]!=null?SEGP[act]:i;return `<div class="seg wide sl" role="radiogroup" aria-label="${label}"><span class="segind" data-key="${act}" data-to="${i}" style="--n:${opts.length};--i:${p}" aria-hidden="true"></span>${opts.map(([v,t])=>`<button class="${cur===v?'on':''}" data-act="${act}" data-id="${v}" role="radio" aria-checked="${cur===v}">${t}</button>`).join('')}</div>`};
   const row=(label,body,hint,side)=>`<div class="setrow"><div class="row between"><span class="slabel">${label}</span>${side||''}</div>${body}${hint?`<span class="small muted">${hint}</span>`:''}</div>`;
   const cur=COLORS.find(c=>c[0]===SET.color)||COLORS[5];
   let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button></div><h1>${L('Настройки','Settings')}</h1>`;
@@ -661,7 +677,10 @@ function vSettings(){
   {const prev=`<div class="bgprev ${BG?'has':''}"><div class="bgprev-img"></div><div class="bgprev-ui"><b>${L('Зал','Gym')}</b><div class="bgprev-card"><span></span><span></span></div><div class="bgprev-btn"></div></div></div>`;
    const ctr=`<div class="bgctl"><label class="btn sm" for="bgFile">${BG?L('Заменить фото','Change photo'):L('Загрузить фото','Upload photo')}</label><input type="file" id="bgFile" accept="image/*" hidden>${BG?`<button class="btn sm danger" data-act="bgRemove">${L('Убрать','Remove')}</button>`:''}</div>`;
    const sl=BG?`<div class="field"><div class="row between"><label for="bgBlur">${L('Размытие','Blur')}</label><span class="small muted num" id="bgBlurV">${SET.bgBlur}</span></div><input type="range" id="bgBlur" min="0" max="40" step="1" value="${SET.bgBlur}"></div>
-     <div class="field"><div class="row between"><label for="bgVis">${L('Видимость','Visibility')}</label><span class="small muted num" id="bgVisV">${SET.bgVis}%</span></div><input type="range" id="bgVis" min="10" max="100" step="5" value="${SET.bgVis}"></div>`:'';
+     <div class="field"><div class="row between"><label for="bgVis">${L('Видимость','Visibility')}</label><span class="small muted num" id="bgVisV">${SET.bgVis}%</span></div><input type="range" id="bgVis" min="10" max="100" step="5" value="${SET.bgVis}"></div>
+     <div class="field"><div class="row between"><label for="bgX">${L('Сдвиг ← →','Shift ← →')}</label><span class="small muted num" id="bgXV">${SET.bgX}%</span></div><input type="range" id="bgX" min="0" max="100" step="1" value="${SET.bgX}"></div>
+     <div class="field"><div class="row between"><label for="bgY">${L('Сдвиг ↑ ↓','Shift ↑ ↓')}</label><span class="small muted num" id="bgYV">${SET.bgY}%</span></div><input type="range" id="bgY" min="0" max="100" step="1" value="${SET.bgY}"></div>
+     ${SET.bgX!==50||SET.bgY!==50?`<button class="linkbtn" style="align-self:flex-start" data-act="bgCenter">${L('По центру','Center')}</button>`:''}`:'';
    h+=row(L('Фон','Background'),`<div class="bgrow">${prev}<div class="bgside">${ctr}${sl}${BG?'':`<span class="small muted">${L('Своё фото на фоне приложения. После загрузки можно настроить размытие и видимость.','Your own photo behind the app. After uploading you can adjust blur and visibility.')}</span>`}</div></div>`)}
   h+=row(L('Прозрачность кнопок','Button transparency'),`<div class="field"><div class="row between"><span class="small muted">${L('Кнопки и карточки','Buttons and cards')}</span><span class="small muted num" id="btnTV">${SET.btnT}%</span></div><input type="range" id="btnT" min="0" max="80" step="5" value="${SET.btnT}" aria-label="${L('Прозрачность кнопок','Button transparency')}"></div>`,L('Максимум 80%, чтобы кнопки оставались видны. Лучше всего смотрится со своим фоном.','Up to 80% so buttons stay visible. Looks best with your own background.'));
   h+=row(L('Стиль','Style'),seg('setGlass',SET.glass?'on':'off',[['off',L('Обычный','Standard')],['on','Liquid Glass']],L('Стиль','Style')),L('Liquid Glass — полупрозрачные панели и плавающее меню, как в iOS.','Liquid Glass: translucent panels and a floating tab bar, like iOS.'));
@@ -1013,6 +1032,7 @@ const A={
   go(v){S.reorder=false;S.expText=null;S.calc=null;if(v==='notes'){if(S.view==='notes')S.noteGroup=null;S.noteForm=null;S.groupForm=null}if(S.view==='workout'&&v!=='workout'){const a=active();if(a&&!setCount(a)){S.workouts=S.workouts.filter(w=>w.id!==a.id);remove('workouts',a.id);S.openEx=null;setTimeout(()=>toast(L('Тренировка отменена: не было записано ни одного подхода','Workout cancelled: no sets were logged')),0)}}S.fx={t:'view'};S.view=v;S.confirm=null;S.err=null;S.replaceFor=null;S.skipFor=null;S.endAsk=false;S.addOther=false;S.draft=v==='edit'?S.draft:null;render();window.scrollTo(0,0)},
   setLang(l){if(SET.lang===l)return;SET.lang=l;applySettings();saveSettings();render()},
   clearMember(){SET.member='';saveSettings();render()},
+  bgCenter(){SET.bgX=50;SET.bgY=50;applyBg();saveSettings();render()},
   bgRemove(){BG='';try{localStorage.removeItem(BGK)}catch(e){}applyBg();if(S.mode==='db'&&bgDoc)bgDoc.delete().catch(e=>toast(errMsg(e)));render();toast(L('Фон убран','Background removed'))},
   authTab(t){S.auth={tab:t};render()},
   async authGo(){const a=S.auth||(S.auth={tab:'in'}),em=(document.getElementById('lgEmail')||{}).value||'',pw=(document.getElementById('lgPass')||{}).value||'';
@@ -1148,8 +1168,8 @@ app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b
 function cleanNum(v,dec){if(!dec)return v.replace(/\D/g,'');v=v.replace(/[^\d.,]/g,'');const m=v.match(/^(\d*)([.,]?)(\d*)/);return m[1]+(m[2]&&m[1]?m[2]+m[3].replace(/[.,]/g,'').slice(0,2):'')}
 app.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.num){const v=cleanNum(t.value,t.dataset.num==='dec');if(v!==t.value)t.value=v}},true);
 app.addEventListener('input',e=>{const t=e.target;if(!S.draft)return;if(t.dataset.f==='name')S.draft.name=t.value;else if(t.dataset.ex!=null){const x=S.draft.exercises[+t.dataset.ex];if(x)x[t.dataset.k]=t.value}});
-app.addEventListener('input',e=>{const t=e.target;if(t.id==='btnT'){SET.btnT=+t.value;document.getElementById('btnTV').textContent=SET.btnT+'%';applyBg();return}if(t.id==='bgBlur'||t.id==='bgVis'){const v=+t.value;if(t.id==='bgBlur'){SET.bgBlur=v;document.getElementById('bgBlurV').textContent=v}else{SET.bgVis=v;document.getElementById('bgVisV').textContent=v+'%'}applyBg()}});
-app.addEventListener('change',e=>{if(e.target.id==='bgBlur'||e.target.id==='bgVis'||e.target.id==='btnT'){saveSettings();return}if(e.target.id==='impFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)importData(f);return}if(e.target.id==='bgFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)loadBg(f);return}if(e.target.id==='statEx'){S.statEx=e.target.value;render()}if(e.target.id==='memDate'){const v=e.target.value||'';if(v!==SET.member){SET.member=normS({member:v}).member;saveSettings();render();toast(SET.member?L('Дата абонемента сохранена','Membership date saved'):L('Абонемент убран с главного экрана','Membership hidden from home'))}}});
+app.addEventListener('input',e=>{const t=e.target;if(t.id==='bgX'||t.id==='bgY'){const v=+t.value;SET[t.id]=v;document.getElementById(t.id+'V').textContent=v+'%';applyBg();return}if(t.id==='btnT'){SET.btnT=+t.value;document.getElementById('btnTV').textContent=SET.btnT+'%';applyBg();return}if(t.id==='bgBlur'||t.id==='bgVis'){const v=+t.value;if(t.id==='bgBlur'){SET.bgBlur=v;document.getElementById('bgBlurV').textContent=v}else{SET.bgVis=v;document.getElementById('bgVisV').textContent=v+'%'}applyBg()}});
+app.addEventListener('change',e=>{if(['bgBlur','bgVis','btnT','bgX','bgY'].includes(e.target.id)){saveSettings();if(e.target.id==='bgX'||e.target.id==='bgY')render();return}if(e.target.id==='impFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)importData(f);return}if(e.target.id==='bgFile'){const f=e.target.files&&e.target.files[0];e.target.value='';if(f)loadBg(f);return}if(e.target.id==='statEx'){S.statEx=e.target.value;render()}if(e.target.id==='memDate'){const v=e.target.value||'';if(v!==SET.member){SET.member=normS({member:v}).member;saveSettings();render();toast(SET.member?L('Дата абонемента сохранена','Membership date saved'):L('Абонемент убран с главного экрана','Membership hidden from home'))}}});
 app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.dataset.enter){e.preventDefault();A.logSet(e.target.dataset.enter)}if(e.key==='Enter'&&e.target.dataset.lenter){e.preventDefault();A.authGo()}if(e.key==='Enter'&&e.target.dataset.genter){e.preventDefault();A.saveGroup()}});
 /* ---------- system back gesture ---------- */
 let guarded=false,ignorePop=false;
