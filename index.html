@@ -246,6 +246,11 @@ textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .cal{padding:10px}
 :root[data-glass="on"] .sec .chart,:root[data-glass="on"] .cal{background:var(--glass-bg);border-color:var(--glass-brd);border-radius:20px;-webkit-backdrop-filter:blur(20px) saturate(170%);backdrop-filter:blur(20px) saturate(170%)}
 :root[data-trans="on"] .sec .chart,:root[data-trans="on"] .cal{background:color-mix(in srgb,var(--surface) var(--surf-p),transparent)}
+.stats .sec:not(.sumsec){background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 14px}
+.stats .sec:not(.sumsec) .chart,.stats .sec:not(.sumsec) .cal{background:none;border:0;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0}
+:root[data-glass="on"] .stats .sec:not(.sumsec){background:var(--glass-bg);border-color:var(--glass-brd);border-radius:24px;-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);box-shadow:inset 0 1px 0 var(--glass-hl)}
+:root[data-trans="on"] .stats .sec:not(.sumsec){background:color-mix(in srgb,var(--surface) var(--surf-p),transparent)}
+.stats .empty{background:var(--surface)}
 .cal .c:not(.on){background:color-mix(in srgb,var(--ink) 5%,transparent);color:var(--ink)}
 .chart text{font-family:var(--font-b);font-size:10px;fill:var(--muted)}
 .chart .vl{font-family:var(--font-d);font-size:13px;font-weight:700;fill:var(--ink)}
@@ -596,6 +601,12 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
   .gear{transition:transform .14s cubic-bezier(.3,.7,.4,1),background-color .2s,color .2s,border-color .2s}.gear:active{transform:scale(.88);background:var(--accent-soft);color:var(--accent-text);border-color:var(--accent)}
   @media (hover:hover){.gear:hover{border-color:var(--accent);color:var(--accent-text)}}
   .fx-push{animation:push .28s cubic-bezier(.2,.8,.3,1)}
+  :root[data-glass="on"] #app>.fx-view{animation:viewg .28s cubic-bezier(.2,.8,.3,1)}
+  :root[data-glass="on"] #app>.fx-push{animation:pushg .3s cubic-bezier(.2,.8,.3,1)}
+  @keyframes viewg{from{transform:translateY(12px)}to{transform:none}}
+  @keyframes pushg{from{transform:translateX(32px)}to{transform:none}}
+  :root[data-glass="on"] .overlay.fx-sheet{animation:scrimin .2s ease-out}
+  @keyframes scrimin{from{background-color:transparent}}
   @keyframes push{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
   @keyframes slide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
   @keyframes pop{0%{opacity:0;transform:scale(.8)}60%{opacity:1;transform:scale(1.07)}100%{transform:scale(1)}}
@@ -1060,7 +1071,7 @@ function barChart(weeks){
 
 function vStats(){
   const f=finished();
-  let h=`<div class="wrap"><div class="top"><div class="ttl"><h1>${L('Статистика','Stats')}</h1>${tutBtn('stats')}</div></div>`;
+  let h=`<div class="wrap stats"><div class="top"><div class="ttl"><h1>${L('Статистика','Stats')}</h1>${tutBtn('stats')}</div></div>`;
   if(!f.length)return h+weightStats()+`<div class="empty"><b>${L('Пока нет данных','No data yet')}</b><span>${L('Здесь появятся посещения, графики по упражнениям и рекорды после первой завершённой тренировки.','Attendance, exercise charts and records will appear here after your first finished workout.')}</span></div></div>`;
   const t=Date.now(),wk=sow(t),pwk=sow(wk-DAY);
   const cnt=(a,b)=>f.filter(w=>w.startedAt>=a&&w.startedAt<b).length;
