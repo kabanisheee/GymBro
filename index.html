@@ -614,6 +614,7 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .drum-slots{position:absolute;inset:0}
 .drum-item{position:absolute;left:0;right:0;top:50%;height:44px;margin-top:-22px;display:flex;align-items:center;justify-content:center;padding:0 16px;font:600 15px var(--font-b);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;will-change:transform}
 .drum-item.on{color:var(--accent-text);font:700 19px var(--font-d);letter-spacing:.01em}
+.drum-item.wrap2{white-space:normal;line-height:1.1;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;padding-top:8px;box-sizing:border-box}
 .drum-fade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(var(--surface),transparent 32%,transparent 68%,var(--surface))}
 :root[data-glass="on"] .drum{background:var(--glass-bg);border-color:var(--glass-brd);border-radius:22px;-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}
 :root[data-glass="on"] .drum-fade{display:none}
@@ -779,6 +780,10 @@ input[type=range]{padding:0;min-height:28px;border:0;background:transparent;acce
 .tab{font-size:min(10px,2.55vw);letter-spacing:-.01em;min-width:0}.tab>span,.tab{overflow:hidden;text-overflow:ellipsis}
 .swwrap{position:relative;display:flex}.swwrap>.stw.conf{position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:4;box-shadow:0 8px 22px -10px var(--scrim);background:var(--surface)}
 .wkname{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.bk{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;display:block}.btn:has(>.bk){display:inline-flex;align-items:center;justify-content:center;gap:6px}
+input.locked{opacity:.75;cursor:default}.inbtn:has(input.locked){opacity:1}.mgbtn:disabled{opacity:.75;cursor:default}
+.statwrap{display:flex;flex-direction:column;gap:6px;padding:6px;border-radius:26px;background:color-mix(in srgb,var(--accent) 7%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 40%,transparent)}.statwrap>.sec{pointer-events:none}.statarr{display:flex;align-items:center;gap:6px}.statarr .btn{background:var(--surface)!important}.statarr .btn:disabled{opacity:1;color:color-mix(in srgb,var(--ink) 25%,transparent)}
+.statarr{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;cursor:grab;padding:2px 0}.statwrap{transition:transform .18s cubic-bezier(.2,.8,.3,1)}.statwrap.pressing{transform:scale(.985)}.statwrap.dragging{transition:none;z-index:3;position:relative;box-shadow:0 18px 36px -14px rgba(0,0,0,.45),inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 60%,transparent);background:var(--bg);cursor:grabbing}
 </style>
 </head>
 <body>
@@ -794,7 +799,7 @@ const app=document.getElementById('app');
 const DAY=864e5;
 const SK='gym-diary-settings';
 const COLORS=[['red','#E01E1E','#fff','Красный','Red'],['orange','#FF6A00','#fff','Оранжевый','Orange'],['yellow','#E3AA00','#1D1700','Жёлтый','Yellow'],['green','#1E8A4C','#fff','Зелёный','Green'],['cyan','#0A86B8','#fff','Голубой','Light blue'],['blue','#2346C8','#fff','Синий','Blue'],['violet','#7A3DC8','#fff','Фиолетовый','Violet'],['pink','#D23A7E','#fff','Розовый','Pink'],['gray','#5B6470','#fff','Серый','Gray']];
-const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,soft:!v.glass&&!!v.soft,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0)),tone:Math.min(60,Math.max(-60,+v.tone||0)),name:String(v.name||'').trim().slice(0,30),my:Array.isArray(v.my)?v.my.filter(x=>x&&x.id&&x.n).slice(0,300).map(x=>({id:String(x.id),n:String(x.n).trim().slice(0,60),mg:/^\d+\.\d+$/.test(x.mg||'')?x.mg:'',eq:String(x.eq||'').trim().slice(0,30)})):[],tut:(v.tut&&typeof v.tut==='object')?Object.fromEntries(Object.entries(v.tut).filter(([k,x])=>/^[a-z]+$/.test(k)&&x===true)):{}});
+const normS=v=>({theme:['light','dark'].includes(v.theme)?v.theme:'system',lang:v.lang==='en'?'en':'ru',color:v.color||'blue',anim:v.anim!==false,grad:!!v.grad,glass:!!v.glass,soft:!v.glass&&!!v.soft,member:/^\d{4}-\d{2}-\d{2}$/.test(v.member||'')?v.member:'',bgBlur:Math.min(40,Math.max(0,+v.bgBlur>=0?+v.bgBlur:12)),bgVis:Math.min(100,Math.max(10,+v.bgVis||45)),btnT:Math.min(80,Math.max(0,+v.btnT||0)),bgX:Math.min(100,Math.max(0,v.bgX==null?50:+v.bgX||0)),bgY:Math.min(100,Math.max(0,v.bgY==null?50:+v.bgY||0)),tone:Math.min(60,Math.max(-60,+v.tone||0)),name:String(v.name||'').trim().slice(0,30),statOrder:Array.isArray(v.statOrder)?v.statOrder.filter(x=>typeof x==='string').slice(0,12):[],my:Array.isArray(v.my)?v.my.filter(x=>x&&x.id&&x.n).slice(0,300).map(x=>({id:String(x.id),n:String(x.n).trim().slice(0,60),mg:/^\d+\.\d+$/.test(x.mg||'')?x.mg:'',eq:String(x.eq||'').trim().slice(0,30)})):[],tut:(v.tut&&typeof v.tut==='object')?Object.fromEntries(Object.entries(v.tut).filter(([k,x])=>/^[a-z]+$/.test(k)&&x===true)):{}});
 let SET=normS({soft:true});
 try{const v=JSON.parse(localStorage.getItem(SK)||'null');if(v)SET=normS(v)}catch(e){}
 const EN=()=>SET.lang==='en';
@@ -979,7 +984,7 @@ function render(){
   if(S.confirm==='leaveEdit'&&S.view==='edit')html+=`<div class="overlay ${fx('sheet')}" data-act="noConfirm"><div class="sheet" role="alertdialog" aria-modal="true" aria-labelledby="lvT" style="gap:12px"><h2 id="lvT">${S.draft&&S.draft.isNew?L('Сохранить шаблон?','Save the template?'):L('Сохранить изменения?','Save your changes?')}</h2><span class="small muted">${S.draft&&S.draft.isNew?L('Новый шаблон будет сохранён, и вы вернётесь на главный экран.','The new template will be saved and you will return to the home screen.'):L('Изменения в шаблоне сохранятся, и вы вернётесь на главный экран.','Your changes will be saved and you will return to the home screen.')}</span><div class="exacts"><button class="btn primary" data-act="leaveSave">${L('Сохранить и выйти','Save and leave')}</button><button class="btn" data-act="noConfirm">${L('Остаться','Stay')}</button></div><button class="linkbtn nosave" data-act="leaveEditYes">${L('Не сохранять','Don’t save')}</button></div></div>`;
   if(html!==lastHtml){app.innerHTML=html;lastHtml=html}
   if(S.fx&&S.fx.t==='view'&&app.firstElementChild)app.firstElementChild.classList.add(S.view==='settings'?'fx-push':'fx-view');
-  app.querySelectorAll('.segind').forEach(el=>{const k=el.dataset.key,to=+el.dataset.to,from=SEGP[k];if(motionOK()&&from!=null&&from!==to){el.getBoundingClientRect();requestAnimationFrame(()=>el.style.setProperty('--i',to))}else{el.classList.add('still');el.style.setProperty('--i',to)}SEGP[k]=to});
+  app.querySelectorAll('.segind').forEach(el=>{const k=el.dataset.key,to=+el.dataset.to,from=SEGP[k];if(SET.anim!==false&&from!=null&&from!==to){el.getBoundingClientRect();requestAnimationFrame(()=>el.style.setProperty('--i',to))}else{el.classList.add('still');el.style.setProperty('--i',to)}SEGP[k]=to});
   {const ti=app.querySelector('.tabind');if(ti){const to=S.tabTo;if(motionOK()&&S.tabIdx!=null&&S.tabIdx!==to){ti.getBoundingClientRect();requestAnimationFrame(()=>{ti.style.setProperty('--i',to)})}else{ti.classList.add('still');ti.style.setProperty('--i',to)}S.tabIdx=to}}
   initDrum();
   if(S.fx&&S.fx.t==='open'&&motionOK()){const el=app.querySelector('.exbody.fx-open');if(el&&el.animate){const h=el.offsetHeight,cs=getComputedStyle(el);el.style.overflow='hidden';el.animate([{height:'0px',paddingBottom:'0px',opacity:0},{height:h+'px',paddingBottom:cs.paddingBottom,opacity:1}],{duration:300,easing:'cubic-bezier(.2,.8,.3,1)'}).onfinish=()=>{el.style.overflow=''}}}
@@ -1050,7 +1055,7 @@ function vSettings(){
   const seg=(act,cur,opts,label)=>{const i=Math.max(0,opts.findIndex(o=>o[0]===cur)),p=SEGP[act]!=null?SEGP[act]:i;return `<div class="seg wide sl" role="radiogroup" aria-label="${label}"><span class="segind" data-key="${act}" data-to="${i}" style="--n:${opts.length};--i:${p}" aria-hidden="true"></span>${opts.map(([v,t])=>`<button class="${cur===v?'on':''}" data-act="${act}" data-id="${v}" role="radio" aria-checked="${cur===v}">${t}</button>`).join('')}</div>`};
   const row=(label,body,hint,side)=>`<div class="setrow"><div class="row between"><span class="slabel">${label}</span>${side||''}</div>${body}${hint?`<span class="small muted">${hint}</span>`:''}</div>`;
   const cur=COLORS.find(c=>c[0]===SET.color)||COLORS[5];
-  let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button></div><div class="ttl"><h1>${S.setTab==='look'?L('Оформление','Appearance'):L('Настройки','Settings')}</h1>${tutBtn(S.setTab==='look'?'look':'general')}</div>`;
+  let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="go" data-id="home"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>${L('Назад','Back')}</button></div><div class="ttl"><h1>${S.setTab==='look'?L('Оформление','Appearance'):L('Настройки','Settings')}</h1>${tutBtn(S.setTab==='look'?'look':'general')}</div>`;
   const T=S.setTab==='look'?'look':'general';
   if(T==='general'){
   // general
@@ -1112,7 +1117,7 @@ function vWorkout(){
   const w=active(),all=w.exercises||[],ex=all.filter(e=>!e.off),offs=all.filter(e=>e.off);
   const rf=S.replaceFor?all.find(e=>e.id===S.replaceFor):null;
   const isCand=e=>!e.off&&!resolved(e)&&!e.replaces&&!(e.log&&e.log.length)&&!e.pending&&(!rf||e.id!==rf.id);
-  let h=`<div class="wrap nonav wk"><div class="whead"><div class="row between"><button class="btn sm ghost" data-act="go" data-id="home">← ${L('Назад','Back')}</button><span class="row" style="gap:8px;flex-wrap:nowrap"><span class="small muted">${L('Начало','Started')} ${fT(w.startedAt)}</span>${tutBtn('workout')}</span></div>
+  let h=`<div class="wrap nonav wk"><div class="whead"><div class="row between"><button class="btn sm ghost" data-act="go" data-id="home"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>${L('Назад','Back')}</button><span class="row" style="gap:8px;flex-wrap:nowrap"><span class="small muted">${L('Начало','Started')} ${fT(w.startedAt)}</span>${tutBtn('workout')}</span></div>
   <div class="row between" style="flex-wrap:nowrap;gap:10px"><h2 class="wkname" style="font-size:${w.name.length>26?20:w.name.length>14?23:28}px;min-width:0;overflow-wrap:break-word">${esc(w.name)}</h2><span class="row" style="gap:8px;flex-wrap:nowrap;flex:none"><button class="btn icon wcalc" data-act="calcOpen" aria-label="${L('Калькулятор','Calculator')}" title="${L('Калькулятор','Calculator')}"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg></button>${swHtml(w)}</span></div>
   <div class="prog">${ex.map(e=>`<span class="${e.done?'on':e.skipped||e.replacedBy?'skip':(e.log&&e.log.length)||e.pending?'part':''}"></span>`).join('')}</div>
   <div class="small muted">${L('Завершено','Done')} ${ex.filter(resolved).length} ${L('из','of')} ${ex.length} · ${L('подходов','sets')} ${setCount(w)} · ${L('выполнено','completed')} ${progress(w).pct}%</div>`;
@@ -1201,14 +1206,14 @@ const EQUIP=()=>EN()?['Olympic bar','Straight bar','EZ bar','Triceps bar','Trap 
 function equipList(){const own=new Set();for(const t of S.templates)for(const e of t.exercises||[])if(e.equip)own.add(e.equip);for(const x of EQUIP())own.add(x);return `<datalist id="equipList">${[...own].map(x=>`<option value="${esc(x)}"></option>`).join('')}</datalist>`}
 function vEdit(){
   const d=S.draft;
-  let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="editBack">← ${L('Назад','Back')}</button><span class="small muted">${d.isNew?L('Новый шаблон','New template'):L('Редактирование','Editing')}</span></div>
+  let h=`<div class="wrap nonav"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="editBack"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>${L('Назад','Back')}</button><span class="small muted">${d.isNew?L('Новый шаблон','New template'):L('Редактирование','Editing')}</span></div>
   <div class="field"><label for="tname">${L('Название тренировки','Workout name')}</label><input id="tname" data-f="name" maxlength="50" value="${esc(d.name)}" placeholder="${L('Например, Спина и бицепс','E.g. Back and biceps')}" autocomplete="off"></div>
   <section class="sec" style="gap:0"><h2 style="margin-bottom:4px">${L('Упражнения','Exercises')}</h2>`;
   d.exercises.forEach((e,i)=>{
     h+=`<div class="edex" data-key="${e.id}"><div class="row between"><span class="idx">${i+1}</span><div class="edtools">${(()=>{const tid=catIdByName(e.name);return tid&&TK.EX[tid]?`<button class="btn icon ghost edpeek" data-act="techOpen" data-id="${tid}" aria-label="${L('Как выполнять','How to do it')}" title="${L('Техника','Technique')}"><svg viewBox="0 0 24 24"><path d="M9 7v10l8-5z"/></svg></button>`:''})()}<button class="btn icon ghost" data-act="mvEx" data-id="${i}:-1" ${i===0?'disabled':''} aria-label="${L('Выше','Up')}">↑</button><button class="btn icon ghost" data-act="mvEx" data-id="${i}:1" ${i===d.exercises.length-1?'disabled':''} aria-label="${L('Ниже','Down')}">↓</button><button class="btn icon danger" data-act="confirm" data-id="dex:${e.id}" aria-label="${L('Удалить упражнение','Remove exercise')}">✕</button></div></div>${S.confirm==='dex:'+e.id?`<div class="setconf fx-open"><span>${L('Удалить упражнение','Remove exercise')} ${e.name?`«${esc(e.name)}»`:i+1}?</span><span class="row" style="gap:6px"><button class="btn sm danger" style="border-color:var(--down)" data-act="delEx" data-id="${i}">${L('Удалить','Remove')}</button><button class="btn sm" data-act="noConfirm">${L('Нет','No')}</button></span></div>`:''}
-    <div class="field"><label for="en-${e.id}">${L('Упражнение','Exercise')}</label><div class="inbtn ${String(e.name||'').trim()?'filled':''}"><input id="en-${e.id}" data-ex="${i}" data-k="name" value="${esc(e.name)}" placeholder="${L('Название','Name')}" autocomplete="off"><button class="catin" data-act="catFor" data-id="${i}" aria-label="${L('Выбрать из каталога','Pick from catalog')}"><svg class="ico" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2h6.5A1.5 1.5 0 0 1 20 7.5v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 11h8M8 15h5"/></svg><span>${L('Каталог','Catalog')}</span></button></div></div>
-    <div class="field"><span class="label mglab">${L('Группа мышц','Muscle group')}</span><button class="mgbtn ${e.mg&&mgOk(e.mg)?'set':''}" data-act="mgOpen" data-id="${i}">${e.mg&&mgOk(e.mg)?bodyIcon(e.mg,'sm'):''}<span style="flex:1">${e.mg&&mgOk(e.mg)?esc(mgLabel(e.mg,true)):L('Не выбрана','Not selected')}</span><span class="chev">›</span></button></div>
-    <div class="edrow"><div class="field"><label for="eq-${e.id}">${L('Снаряд','Equipment')}</label><input id="eq-${e.id}" data-ex="${i}" data-k="equip" list="equipList" value="${esc(e.equip||'')}" placeholder="${L('Необязательно','Optional')}" autocomplete="off"></div>
+    <div class="field"><label for="en-${e.id}">${L('Упражнение','Exercise')}</label><div class="inbtn ${String(e.name||'').trim()?'filled':''}"><input id="en-${e.id}" data-ex="${i}" data-k="name" value="${esc(e.name)}" ${e.cat?'readonly class="locked"':''} placeholder="${L('Название','Name')}" autocomplete="off"><button class="catin" data-act="catFor" data-id="${i}" aria-label="${L('Выбрать из каталога','Pick from catalog')}"><svg class="ico" viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10l2 2h6.5A1.5 1.5 0 0 1 20 7.5v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 11h8M8 15h5"/></svg><span>${L('Каталог','Catalog')}</span></button></div></div>
+    <div class="field"><span class="label mglab">${L('Группа мышц','Muscle group')}</span><button class="mgbtn ${e.mg&&mgOk(e.mg)?'set':''}" data-act="mgOpen" data-id="${i}" ${e.cat?'disabled':''}>${e.mg&&mgOk(e.mg)?bodyIcon(e.mg,'sm'):''}<span style="flex:1">${e.mg&&mgOk(e.mg)?esc(mgLabel(e.mg,true)):L('Не выбрана','Not selected')}</span><span class="chev">›</span></button></div>
+    <div class="edrow"><div class="field"><label for="eq-${e.id}">${L('Снаряд','Equipment')}</label><input id="eq-${e.id}" data-ex="${i}" data-k="equip" ${e.cat?'readonly class="locked"':'list="equipList"'} value="${esc(e.equip||'')}" placeholder="${L('Необязательно','Optional')}" autocomplete="off"></div>
     <div class="field"><label for="es-${e.id}">${L('Подходы','Sets')}</label><input id="es-${e.id}" data-ex="${i}" data-k="sets" data-num="int" maxlength="2" inputmode="numeric" pattern="[0-9]*" value="${esc(e.sets)}"></div>
     <div class="field"><label for="er-${e.id}">${L('Повторения','Reps')}</label><input id="er-${e.id}" data-ex="${i}" data-k="reps" data-num="int" maxlength="3" inputmode="numeric" pattern="[0-9]*" value="${esc(e.reps)}" placeholder="10"></div></div>
     <div class="field"><label for="ec-${e.id}">${L('Комментарий','Note')}</label><input id="ec-${e.id}" data-ex="${i}" data-k="note" maxlength="140" value="${esc(e.note||'')}" placeholder="${L('Необязательно, например «сиденье на 4»','Optional, e.g. “seat at 4”')}" autocomplete="off"></div></div>`;
@@ -1249,9 +1254,14 @@ function barChart(weeks){
   return s+'</svg>';
 }
 
+const STAT_DEF=['att','weeks','cal','weight','ex','rec','sum'];
+function statArrange(h){const parts=h.split('\u0001');let head=parts[0];const sec={},present=[];for(let i=1;i<parts.length;i+=2){sec[parts[i]]=parts[i+1]||'';present.push(parts[i])}
+  const ord=(SET.statOrder||[]).filter(k=>present.includes(k));for(const k of STAT_DEF)if(present.includes(k)&&!ord.includes(k))ord.push(k);
+  const L0=ord.length;return head+ord.map((k,i)=>S.statEdit?`<div class="statwrap" data-key="${k}"><span class="statarr"><span class="draggrip" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg></span><span class="small muted" style="flex:1;padding-left:4px">${STAT_NAME(k)}</span><button class="btn sm icon" data-act="statMove" data-id="${k}:-1" ${i===0?'disabled':''} aria-label="${L('Выше','Up')}"><svg class="ico" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button><button class="btn sm icon" data-act="statMove" data-id="${k}:1" ${i===L0-1?'disabled':''} aria-label="${L('Ниже','Down')}"><svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button></span>${sec[k]}</div>`:sec[k]).join('')}
+const STAT_NAME=k=>({att:L('Посещения','Attendance'),weeks:L('По неделям','By week'),cal:L('Календарь','Calendar'),weight:L('Вес тела','Body weight'),ex:L('Упражнение','Exercise'),rec:L('Рекорды','Records'),sum:L('Сводка как фото','Summary image')})[k]||k;
 function vStats(){
   const f=finished();
-  let h=`<div class="wrap stats"><div class="top"><div class="ttl"><h1>${L('Статистика','Stats')}</h1>${tutBtn('stats')}</div></div>`;
+  let h=`<div class="wrap stats"><div class="top"><div class="ttl"><h1>${L('Статистика','Stats')}</h1>${tutBtn('stats')}</div>${f.length?`<button class="btn sm ${S.statEdit?'primary':'ghost'}" data-act="statEditToggle">${S.statEdit?L('Готово','Done'):`<svg class="ico" viewBox="0 0 24 24"><path d="M7 4v16M7 4l-3 3M7 4l3 3M17 20V4M17 20l-3-3M17 20l3-3"/></svg>${L('Порядок','Order')}`}</button>`:''}</div>${S.statEdit?`<div class="hint">${L('Удерживайте строку с названием блока и перетащите его или нажимайте стрелки. Порядок сохранится.','Hold a block’s title bar and drag it, or use the arrows. The order is saved.')}</div>`:''}`;
   if(!f.length)return h+weightStats()+`<div class="empty"><b>${L('Пока нет данных','No data yet')}</b><span>${L('Здесь появятся посещения, графики по упражнениям и рекорды после первой завершённой тренировки.','Attendance, exercise charts and records will appear here after your first finished workout.')}</span></div></div>`;
   const t=Date.now(),wk=sow(t),pwk=sow(wk-DAY);
   const cnt=(a,b)=>f.filter(w=>w.startedAt>=a&&w.startedAt<b).length;
@@ -1260,24 +1270,24 @@ function vStats(){
   const weeks=[];for(let i=11;i>=0;i--){const d=new Date(wk);d.setDate(d.getDate()-7*i);const a=d.getTime(),e=new Date(d);e.setDate(e.getDate()+7);weeks.push({t:a,c:cnt(a,e.getTime())})}
   const avg8=weeks.slice(3,11).reduce((a,w)=>a+w.c,0)/8;
   let streak=0;for(let i=weeks.length-1;i>=0;i--){if(weeks[i].c)streak++;else if(i===weeks.length-1)continue;else break}
-  h+=`<section class="sec" data-tut="att"><h2>${L('Посещения','Attendance')}</h2><div class="tiles">
+  h+='\u0001att\u0001'+`<section class="sec" data-tut="att"><h2>${L('Посещения','Attendance')}</h2><div class="tiles">
   <div><span class="label">${L('Эта неделя','This week')}</span><span class="num">${cw}</span>${delta(cw-pw)}<span class="small muted">${L('прошлая','last')}: ${pw}</span></div>
   <div><span class="label">${L('Этот месяц','This month')}</span><span class="num">${cm}</span>${delta(cm-pm)}<span class="small muted">${L('прошлый','last')}: ${pm}</span></div>
   <div><span class="label">${L('В среднем / нед.','Avg / week')}</span><span class="num">${num(avg8)}</span><span class="small muted">${L('за 8 полных недель','over 8 full weeks')}</span></div>
   <div><span class="label">${L('Всего','Total')}</span><span class="num">${f.length}</span><span class="small muted">${L('серия','streak')}: ${streak} ${P(streak,['неделя','недели','недель'],['week','weeks'])}${L(' подряд','')}</span></div>
   </div></section>`;
-  h+=`<section class="sec" data-tut="weeks"><div class="row between"><h2>${L('По неделям','By week')}</h2><span class="small muted">${L('12 недель','12 weeks')}</span></div>${barChart(weeks)}</section>`;
+  h+='\u0001weeks\u0001'+`<section class="sec" data-tut="weeks"><div class="row between"><h2>${L('По неделям','By week')}</h2><span class="small muted">${L('12 недель','12 weeks')}</span></div>${barChart(weeks)}</section>`;
   const days=new Set(f.map(w=>{const d=new Date(w.startedAt);return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()}));
   const first=new Date(S.calY,S.calM,1),dim=new Date(S.calY,S.calM+1,0).getDate(),off=(first.getDay()+6)%7;
   const mc=f.filter(w=>{const d=new Date(w.startedAt);return d.getFullYear()===S.calY&&d.getMonth()===S.calM}).length;
   const isCur=S.calY===now.getFullYear()&&S.calM===now.getMonth();
-  h+=`<section class="sec" data-tut="cal"><div class="row between"><h2>${L('Календарь','Calendar')}</h2><div class="row" style="gap:4px"><button class="btn icon ghost" data-act="cal" data-id="-1" aria-label="${L('Предыдущий месяц','Previous month')}">‹</button><button class="btn icon ghost" data-act="cal" data-id="1" ${isCur?'disabled':''} aria-label="${L('Следующий месяц','Next month')}">›</button></div></div>
+  h+='\u0001cal\u0001'+`<section class="sec" data-tut="cal"><div class="row between"><h2>${L('Календарь','Calendar')}</h2><div class="row" style="gap:4px"><button class="btn icon ghost" data-act="cal" data-id="-1" aria-label="${L('Предыдущий месяц','Previous month')}">‹</button><button class="btn icon ghost" data-act="cal" data-id="1" ${isCur?'disabled':''} aria-label="${L('Следующий месяц','Next month')}">›</button></div></div>
   <div class="row between"><b style="text-transform:capitalize">${first.toLocaleDateString(LOC(),{month:'long',year:'numeric'})}</b><span class="small muted">${mc} ${P(mc,W_RU,W_EN)}</span></div><div class="cal">`;
   (EN()?['Mo','Tu','We','Th','Fr','Sa','Su']:['Пн','Вт','Ср','Чт','Пт','Сб','Вс']).forEach(d=>h+=`<div class="wd">${d}</div>`);
   for(let i=0;i<off;i++)h+='<div></div>';
   const td=new Date();for(let d=1;d<=dim;d++){const on=days.has(S.calY+'-'+S.calM+'-'+d),today=isCur&&d===td.getDate();h+=`<div class="c ${on?'on':''} ${today?'today':''}">${d}</div>`}
   h+='</div></section>';
-  h+=weightStats();
+  {const wsx=weightStats();if(wsx)h+='\u0001weight\u0001'+wsx}
   const ses=sessions();
   if(ses.size){
     const keys=[...ses.keys()];
@@ -1285,7 +1295,7 @@ function vStats(){
     const o=ses.get(S.statEx),Ls=o.list,isW=true,val=p=>p.max,unit=' '+KG();
     const pr=Ls.reduce((a,p)=>!a||p.max>a.max||(p.max===a.max&&p.maxR>a.maxR)?p:a,null);
     const last=Ls[Ls.length-1],prev=Ls[Ls.length-2];
-    h+=`<section class="sec" data-tut="ex"><div class="row between"><h2>${L('Упражнение','Exercise')}</h2><button class="btn sm ghost icon ${S.exSearch?'onbtn':''}" data-act="exSearchToggle" aria-label="${L('Найти упражнение','Find exercise')}" title="${L('Найти упражнение','Find exercise')}"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button></div>${S.exSearch?`<div class="exsearch fx-open"><input id="exQ" type="search" placeholder="${L('Начните вводить название','Start typing a name')}" autocomplete="off" enterkeyhint="search"><div class="exres" id="exRes">${exResults('')}</div></div>`:''}${drumHtml(keys.sort((a,b)=>ses.get(a).name.localeCompare(ses.get(b).name,LOC())),ses)}
+    h+='\u0001ex\u0001'+`<section class="sec" data-tut="ex"><div class="row between"><h2>${L('Упражнение','Exercise')}</h2><button class="btn sm ghost icon ${S.exSearch?'onbtn':''}" data-act="exSearchToggle" aria-label="${L('Найти упражнение','Find exercise')}" title="${L('Найти упражнение','Find exercise')}"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button></div>${S.exSearch?`<div class="exsearch fx-open"><input id="exQ" type="search" placeholder="${L('Начните вводить название','Start typing a name')}" autocomplete="off" enterkeyhint="search"><div class="exres" id="exRes">${exResults('')}</div></div>`:''}${drumHtml(keys.sort((a,b)=>ses.get(a).name.localeCompare(ses.get(b).name,LOC())),ses)}
     ${(()=>{const cid=catIdByName(o.name),mg=o.mg||(myByName(o.name)||{}).mg||(cid?cid.split('.').slice(0,2).join('.'):''),tech=cid&&TK.EX[cid];if(!mg&&!tech)return '';
       return `<div class="exmeta">${mg?`${bodyIcon(mg,'sm')}<span class="small muted" style="flex:1;min-width:0">${esc(mgLabel(mg,true))}</span>`:'<span style="flex:1"></span>'}${tech?`<button class="techmini" data-act="techOpen" data-id="${cid}" aria-label="${L('Техника выполнения','Technique')}"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>${L('Техника','Technique')}</button>`:''}</div>`})()}
     <div class="tiles"><div><span class="label">${L('Рекорд','Record')}</span><span class="num">${num(pr.max)}<span class="unit small muted" style="font-family:var(--font-b);font-weight:400"> ${KG()} × ${pr.maxR}</span></span><span class="small muted">${fD(pr.date)}</span></div>
@@ -1302,13 +1312,13 @@ function vStats(){
     const rows=Ls.map((p,i)=>({p,d:i?val(p)-val(Ls[i-1]):null})).slice(-10).reverse();
     for(const{p,d}of rows)h+=`<tr><td>${fD(p.date)}</td><td><span class="num">${num(p.max)}×${p.maxR}</span></td><td class="r">${d==null?'<span class="d flat">—</span>':delta(d)}</td></tr>`;
     h+='</tbody></table></div></section>';
-    h+=`<section class="sec" data-tut="rec"><h2>${L('Рекорды','Records')}</h2><div class="tbl"><table><thead><tr><th>${L('Упражнение','Exercise')}</th><th class="r">${L('Рекорд','Record')}</th><th class="r">${L('Посл.','Last')}</th><th class="r">Δ</th></tr></thead><tbody>`;
+    h+='\u0001rec\u0001'+`<section class="sec" data-tut="rec"><h2>${L('Рекорды','Records')}</h2><div class="tbl"><table><thead><tr><th>${L('Упражнение','Exercise')}</th><th class="r">${L('Рекорд','Record')}</th><th class="r">${L('Посл.','Last')}</th><th class="r">Δ</th></tr></thead><tbody>`;
     const recs=keys.map(k=>{const o=ses.get(k),Lx=o.list,pr=Lx.reduce((a,p)=>!a||p.max>a.max||(p.max===a.max&&p.maxR>a.maxR)?p:a,null),la=Lx[Lx.length-1],pv=Lx[Lx.length-2];return{o,pr,la,d:pv?la.max-pv.max:null}}).sort((a,b)=>a.o.name.localeCompare(b.o.name,LOC()));
     for(const r of recs)h+=`<tr><td>${esc(r.o.name)}<div class="small muted">${fD(r.pr.date)}</div></td><td class="r"><span class="num">${num(r.pr.max)}×${r.pr.maxR}</span></td><td class="r"><span class="num">${num(r.la.max)}</span></td><td class="r">${r.d==null?'<span class="d flat">—</span>':delta(r.d)}</td></tr>`;
     h+=`</tbody></table></div><span class="small muted">${L('Вес в кг. Δ — изменение максимального веса к предыдущей тренировке.','Weight in kg. Δ is the change in max weight since the previous workout.')}</span></section>`;
   }
-  h+=`<section class="sec sumsec"><button class="btn block" data-act="sumOpen"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>${L('Сохранить сводку как фото','Save summary as image')}</button><span class="small muted" style="text-align:center">${L('Картинка с главными цифрами на сегодня — для галереи','An image with today’s key numbers — for your gallery')}</span></section>`;
-  return h+'</div>';
+  h+='\u0001sum\u0001'+`<section class="sec sumsec"><button class="btn block" data-act="sumOpen"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>${L('Сохранить сводку как фото','Save summary as image')}</button></section>`;
+  return statArrange(h)+'</div>';
 }
 
 const HIST_PAGE=30;
@@ -1382,7 +1392,7 @@ function initDrum(){const el=document.getElementById('drum');if(!el||el.dataset.
   const mod=x=>((x%n)+n)%n;
   const draw=()=>{const base=Math.round(pos),fr=pos-base;slots.forEach((d,j)=>{const k=j-R,y=(k-fr)*H,dist=Math.abs(k-fr);
     d.textContent=n>1||k===0?DRUM.names[mod(base+k)]:'';d.style.transform=`translateY(${y}px) scale(${Math.max(.78,1-dist*.1)})`;d.style.opacity=Math.max(0,1-dist*.38);
-    d.classList.toggle('on',Math.abs(k-fr)<.5);d.id=k===0?'drumc':''})};
+    const on=Math.abs(k-fr)<.5,ln=d.textContent.length,W=(d.parentNode.clientWidth||320)-48;d.classList.toggle('on',on);d.style.fontSize=Math.max(12,Math.min(on?19:15,W/(ln*(on?.6:.56))))+'px';d.classList.toggle('wrap2',on&&ln*12*.6>W);d.id=k===0?'drumc':''})};
   const settle=()=>{const i=mod(Math.round(pos));if(DRUM.keys[i]!==S.statEx){S.statEx=DRUM.keys[i];render()}};
   const snapTo=(target)=>{cancelAnimationFrame(anim);const from=pos,dur=motionOK()?260:0,t0=performance.now();
     const step=t=>{const p=dur?Math.min(1,(t-t0)/dur):1,e=1-Math.pow(1-p,3);pos=from+(target-from)*e;draw();if(p<1)anim=requestAnimationFrame(step);else{pos=target;draw();settle()}};anim=requestAnimationFrame(step)};
@@ -1548,7 +1558,7 @@ function mgTarget(){const m=S.mg;if(!m)return null;const v=id=>(document.getElem
   const e=S.draft&&S.draft.exercises[m.i];return e?{name:e.name,mg:e.mg}:null}
 function vMg(){const m=S.mg,e=mgTarget();if(!e){S.mg=null;return ''}const g=m.g!=null?CAT[m.g]:null,R=EN(),cur=e.mg&&mgOk(e.mg)?e.mg:'';
   let h=`<div class="overlay ${fx('sheet')}" data-act="mgClose"><div class="sheet catsheet" role="dialog" aria-modal="true" aria-labelledby="mgT">
-  <div class="row between" style="flex-wrap:nowrap;gap:8px">${g?`<button class="btn sm ghost icon" data-act="mgBack" aria-label="${L('Назад','Back')}">←</button>`:''}<h2 id="mgT" class="${m.dir?'fx-cat'+m.dir:''}" style="flex:1;min-width:0">${g?esc(R?g[1]:g[0]):L('Группа мышц','Muscle group')}</h2><button class="btn sm" data-act="mgClose">${L('Закрыть','Close')}</button></div>
+  <div class="row between" style="flex-wrap:nowrap;gap:8px">${g?`<button class="btn sm ghost icon" data-act="mgBack" aria-label="${L('Назад','Back')}"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>`:''}<h2 id="mgT" class="${m.dir?'fx-cat'+m.dir:''}" style="flex:1;min-width:0">${g?esc(R?g[1]:g[0]):L('Группа мышц','Muscle group')}</h2><button class="btn sm" data-act="mgClose">${L('Закрыть','Close')}</button></div>
   <div class="small muted">${e.name?esc(e.name)+' · ':''}${cur?L('Сейчас: ','Current: ')+esc(mgLabel(cur,true)):L('Группа не выбрана','No group selected')}</div>
   <div class="catlist ${m.dir?'fx-cat'+m.dir:''}">`;m.dir='';
   if(g)h+=subs(m.g).map(([i,x])=>{const k=m.g+'.'+i,on=cur===k;return `<button class="catex ${on?'on':''}" data-act="mgPick" data-id="${k}" aria-pressed="${on}">${bodyIcon(k)}<span class="t" style="flex:1"><b>${esc(R?x[1]:x[0])}</b></span><span class="catck" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="ok" d="M5 12.5l4.5 4.5L19 7"/></svg></span></button>`}).join('');
@@ -1562,6 +1572,7 @@ function myAuto(n,mg,eq){n=String(n||'').trim().slice(0,60);eq=String(eq||'').tr
 const myByName=n=>myList().find(x=>norm(x.n)===norm(n));
 const MYICO='<span class="myico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.6l1-5.8L3.5 9.7l5.9-.9z"/></svg></span>';
 function myGrpBtn(act){const n=myList().length;return `<button class="catgrp mygrp" data-act="${act}" data-id="my">${MYICO}<span class="gt"><b>${L('Мои упражнения','My exercises')}</b><span class="small muted">${n?n+' '+P(n,['упражнение','упражнения','упражнений'],['exercise','exercises']):L('Добавьте свои упражнения','Add your own exercises')}</span></span><span class="chev">›</span></button>`}
+function segG(act,cur,opts,label){const i=Math.max(0,opts.findIndex(o=>o[0]===cur)),p=SEGP[act]!=null?SEGP[act]:i;return `<div class="seg wide sl" role="radiogroup" aria-label="${label}"><span class="segind" data-key="${act}" data-to="${i}" style="--n:${opts.length};--i:${p}" aria-hidden="true"></span>${opts.map(([v,t])=>`<button class="${cur===v?'on':''}" data-act="${act}" data-id="${v}" role="radio" aria-checked="${cur===v}">${t}</button>`).join('')}</div>`}
 function mgBtn(ref,cur){cur=cur&&mgOk(cur)?cur:'';return `<button class="mgbtn ${cur?'set':''}" data-act="mgOpen" data-id="${ref}">${cur?bodyIcon(cur,'sm'):''}<span style="flex:1">${cur?esc(mgLabel(cur,true)):L('Не выбрана','Not selected')}</span><span class="chev">›</span></button>`}
 function mgSelect(id,cur,attr){const R=EN();return `<select id="${id}" ${attr||''}><option value="">${L('Группа мышц не выбрана','No muscle group')}</option>${grps().map(([gi,g])=>`<optgroup label="${esc(R?g[1]:g[0])}">${subs(gi).map(([si,sg])=>`<option value="${gi}.${si}" ${cur===gi+'.'+si?'selected':''}>${esc(R?sg[1]:sg[0])}</option>`).join('')}</optgroup>`).join('')}</select>`}
 function myForm(){if(!S.myForm)return `<button class="btn ghost block mynew" data-act="myNew">${L('+ Новое упражнение','+ New exercise')}</button>`;
@@ -1583,7 +1594,7 @@ function myLibView(){const L0=myList();let h=myForm();
 function vCat(){const c=S.cat,my=c.g==='my',g=!my&&c.g!=null?CAT[c.g]:null,sg=g&&c.s!=null?g[2][c.s]:null,R=EN();
   const title=my?L('Мои упражнения','My exercises'):sg?(R?sg[1]:sg[0]):g?(R?g[1]:g[0]):L('Каталог упражнений','Exercise catalog');
   let h=`<div class="overlay ${fx('sheet')}" data-act="catClose"><div class="sheet catsheet" role="dialog" aria-modal="true" aria-labelledby="catT">
-  <div class="row between" style="flex-wrap:nowrap;gap:8px">${g||my?`<button class="btn sm ghost icon" data-act="catBack" aria-label="${L('Назад','Back')}">←</button>`:''}${my?`<span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${MYICO}</span>`:''}${g?`<span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${bodyIcon(sg?c.g+'.'+c.s:String(c.g))}</span>`:''}<h2 id="catT" class="${c.dir?'fx-cat'+c.dir:''}" style="flex:1;min-width:0">${esc(title)}</h2><button class="btn sm primary" data-act="catClose">${L('Готово','Done')}</button></div>
+  <div class="row between" style="flex-wrap:nowrap;gap:8px">${g||my?`<button class="btn sm ghost icon" data-act="catBack" aria-label="${L('Назад','Back')}"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>`:''}${my?`<span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${MYICO}</span>`:''}${g?`<span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${bodyIcon(sg?c.g+'.'+c.s:String(c.g))}</span>`:''}<h2 id="catT" class="${c.dir?'fx-cat'+c.dir:''}" style="flex:1;min-width:0">${esc(title)}</h2><button class="btn sm primary" data-act="catClose">${L('Готово','Done')}</button></div>
   <input id="catQ" type="search" value="${esc(c.q||'')}" placeholder="${L('Поиск упражнения','Search exercises')}" autocomplete="off" enterkeyhint="search">
   <div class="small muted" id="catN">${c.repl?L('Выберите упражнение для замены','Pick an exercise to swap in'):c.for!=null?L('Выберите упражнение для пункта ','Pick an exercise for item ')+(c.for+1):c.added?L('Добавлено в шаблон: ','Added to template: ')+c.added:L('Нажмите на упражнение, чтобы добавить его в шаблон','Tap an exercise to add it to the template')}</div>
   <div class="catlist ${c.dir?'fx-cat'+c.dir:''}" id="catRes">`;c.dir='';
@@ -2084,8 +2095,8 @@ function libRow(id,path){const e=catEx(id),eq=CEQ[e.c][1],mg=id.split('.').slice
 function vLib(){const c=S.lib||(S.lib={g:null,s:null,q:'',dir:''}),my=c.g==='my',g=!my&&c.g!=null?CAT[c.g]:null,sg=g&&c.s!=null?g[2][c.s]:null,R=EN();
   let h=`<div class="wrap"><div class="top"><div class="ttl"><h1>${L('Каталог','Catalog')}</h1>${tutBtn(c.g==='my'?'my':'lib')}</div><span class="small muted">160 ${L('упражнений','exercises')}</span></div>
   <input id="libQ" type="search" value="${esc(c.q||'')}" placeholder="${L('Поиск упражнения','Search exercises')}" autocomplete="off" enterkeyhint="search">`;
-  if(my&&!c.q)h+=`<div class="row" id="libHead" style="gap:8px;flex-wrap:nowrap;align-items:center"><button class="btn sm ghost icon" data-act="libBack" aria-label="${L('Назад','Back')}">←</button><span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${MYICO}</span><h2 class="${c.dir?'fx-cat'+c.dir:''}" style="flex:1;min-width:0">${L('Мои упражнения','My exercises')}</h2></div>`;
-  if(g&&!c.q)h+=`<div class="row" id="libHead" style="gap:8px;flex-wrap:nowrap;align-items:center"><button class="btn sm ghost icon" data-act="libBack" aria-label="${L('Назад','Back')}">←</button><span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${bodyIcon(sg?c.g+'.'+c.s:String(c.g))}</span><h2 class="${c.dir?'fx-cat'+c.dir:''}" style="flex:1;min-width:0">${esc(sg?(R?sg[1]:sg[0]):(R?g[1]:g[0]))}</h2></div>`;
+  if(my&&!c.q)h+=`<div class="row" id="libHead" style="gap:8px;flex-wrap:nowrap;align-items:center"><button class="btn sm ghost icon" data-act="libBack" aria-label="${L('Назад','Back')}"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${MYICO}</span><h2 class="${c.dir?'fx-cat'+c.dir:''}" style="flex:1;min-width:0">${L('Мои упражнения','My exercises')}</h2></div>`;
+  if(g&&!c.q)h+=`<div class="row" id="libHead" style="gap:8px;flex-wrap:nowrap;align-items:center"><button class="btn sm ghost icon" data-act="libBack" aria-label="${L('Назад','Back')}"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><span class="hdico ${c.dir?'fx-cat'+c.dir:''}">${bodyIcon(sg?c.g+'.'+c.s:String(c.g))}</span><h2 class="${c.dir?'fx-cat'+c.dir:''}" style="flex:1;min-width:0">${esc(sg?(R?sg[1]:sg[0]):(R?g[1]:g[0]))}</h2></div>`;
   h+=`<div class="stack liblist ${c.dir?'fx-cat'+c.dir:''}" id="libRes">`;c.dir='';
   if(c.q)h+=libResults(c.q);
   else if(my)h+=myLibView();
@@ -2283,7 +2294,7 @@ function noteForm(g,n){const k=n?n.id:'new';return `<div class="card fx-open"><s
   <div class="exacts"><button class="btn primary" data-act="saveNote" data-id="${k}">${L('Сохранить','Save')}</button><button class="btn" data-act="cancelNote">${L('Отмена','Cancel')}</button></div></div>`}
 function groupForm(g){return `<div class="card fx-open"><span class="label">${g?L('Переименовать группу','Rename group'):L('Новая группа','New group')}</span>
   <div class="field"><label for="gName">${L('Название группы','Group name')}</label><input id="gName" data-keep value="${esc(g?g.name:'')}" placeholder="${L('Например, Плейлисты','E.g. Playlists')}" autocomplete="off" data-genter="1"></div>
-  <div class="field"><span class="label" style="text-transform:none;letter-spacing:0;font-size:12px">${L('Тип заметок','Note type')}</span><div class="seg wide" role="radiogroup"><button class="${S.groupKind!=='text'?'on':''}" data-act="gKind" data-id="links" role="radio" aria-checked="${S.groupKind!=='text'}">${L('Со ссылками','With links')}</button><button class="${S.groupKind==='text'?'on':''}" data-act="gKind" data-id="text" role="radio" aria-checked="${S.groupKind==='text'}">${L('Только текст','Text only')}</button></div><span class="small muted">${S.groupKind==='text'?L('Название и текст. Подходит для планов, мыслей, напоминаний.','Title and text. Good for plans, thoughts and reminders.'):L('Название, ссылка и текст. Подходит для плейлистов и видео с техникой.','Title, link and text. Good for playlists and technique videos.')}</span></div>
+  <div class="field"><span class="label" style="text-transform:none;letter-spacing:0;font-size:12px">${L('Тип заметок','Note type')}</span>${segG('gKind',S.groupKind==='text'?'text':'links',[['links',L('Со ссылками','With links')],['text',L('Только текст','Text only')]],L('Тип заметок','Note type'))}<span class="small muted gkhint" key="${S.groupKind==='text'?'t':'l'}">${S.groupKind==='text'?L('Название и текст. Подходит для планов, мыслей, напоминаний.','Title and text. Good for plans, thoughts and reminders.'):L('Название, ссылка и текст. Подходит для плейлистов и видео с техникой.','Title, link and text. Good for playlists and technique videos.')}</span></div>
   ${S.err&&S.err.id==='group'?`<div class="err">${esc(errText('gname'))}</div>`:''}
   <div class="exacts"><button class="btn primary" data-act="saveGroup">${g?L('Сохранить','Save'):L('Создать','Create')}</button><button class="btn" data-act="cancelGroup">${L('Отмена','Cancel')}</button></div></div>`}
 function vNotes(){
@@ -2304,7 +2315,7 @@ function vNotes(){
     return h+'</div>';
   }
   const it=live(g),tn=(g.items||[]).filter(n=>n.deletedAt).sort((a,b)=>b.deletedAt-a.deletedAt);
-  let h=`<div class="wrap"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="backNotes">← ${L('Заметки','Notes')}</button><span class="small muted">${it.length} ${P(it.length,['заметка','заметки','заметок'],['note','notes'])}</span></div>`;
+  let h=`<div class="wrap"><div class="row between" style="padding-top:8px"><button class="btn sm ghost" data-act="backNotes"><svg class="bk" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>${L('Заметки','Notes')}</button><span class="small muted">${it.length} ${P(it.length,['заметка','заметки','заметок'],['note','notes'])}</span></div>`;
   if(S.groupForm==='rename')h+=groupForm(g);
   else h+=`<div class="stack" style="gap:6px"><h1 style="font-size:34px;overflow-wrap:anywhere">${esc(g.name)}</h1><span class="small muted">${g.kind==='text'?L('Текстовые заметки','Text notes'):L('Заметки со ссылками','Notes with links')}</span><div class="row" style="gap:16px"><button class="linkbtn" data-act="renameGroup">${L('Переименовать','Rename')}</button><button class="linkbtn" style="color:var(--down)" data-act="confirm" data-id="delGroup">${L('Удалить группу','Delete group')}</button></div></div>`;
   if(S.confirm==='delGroup')h+=`<div class="confirm"><b>${L('Переместить группу','Move group')} «${esc(g.name)}» ${L('в корзину?','to trash?')}</b><span class="small muted">${it.length?L('Вместе с ней уйдут все заметки в ней: ','All its notes go with it: ')+it.length+'. ':''}${L('Восстановить можно из «Корзины групп».','You can restore it from Group trash.')}</span><div class="exacts"><button class="btn danger" style="border-color:var(--down)" data-act="delGroup">${L('В корзину','Move to trash')}</button><button class="btn" data-act="noConfirm">${L('Отмена','Cancel')}</button></div></div>`;
@@ -2337,7 +2348,7 @@ function mutW(fn){const a=active();if(!a)return;const i=S.workouts.indexOf(a);co
 const exOf=(w,id)=>w.exercises.find(e=>e.id===id);
 let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.hidden=false;t.classList.remove('fx-toast');void t.offsetWidth;t.classList.add('fx-toast');t.classList.remove('fx-toast-out');clearTimeout(toastT);toastT=setTimeout(()=>{t.classList.remove('fx-toast');t.classList.add('fx-toast-out');toastT=setTimeout(()=>{t.hidden=true;t.classList.remove('fx-toast-out')},600)},3000)}
 const A={
-  go(v){closeTut();S.addNew=false;if(v!=='history')S.histN=0;S.cat=null;S.tech=null;S.mg=null;S.sel=null;S.gsel=null;if(S.sum){if(S.sum.url)URL.revokeObjectURL(S.sum.url);S.sum=null}if(S.view==='settings'&&v!=='settings'){S.wipeShown=false;S.wipeStep=0;WIPE.n=0}S.gearMenu=false;S.swConfirm=false;S.reorder=false;S.exSearch=false;S.expText=null;S.calc=null;if(v==='notes'){if(S.view==='notes')S.noteGroup=null;S.noteForm=null;S.groupForm=null}if(S.view==='workout'&&v!=='workout'){const a=active();if(a&&!setCount(a)){S.workouts=S.workouts.filter(w=>w.id!==a.id);remove('workouts',a.id);S.openEx=null;setTimeout(()=>toast(L('Тренировка отменена: не было записано ни одного подхода','Workout cancelled: no sets were logged')),0)}}S.fx={t:'view'};S.view=v;S.confirm=null;S.err=null;S.replaceFor=null;S.skipFor=null;S.endAsk=false;S.addOther=false;S.draft=v==='edit'?S.draft:null;render();window.scrollTo(0,0)},
+  go(v){closeTut();S.addNew=false;S.statEdit=false;if(v!=='history')S.histN=0;S.cat=null;S.tech=null;S.mg=null;S.sel=null;S.gsel=null;if(S.sum){if(S.sum.url)URL.revokeObjectURL(S.sum.url);S.sum=null}if(S.view==='settings'&&v!=='settings'){S.wipeShown=false;S.wipeStep=0;WIPE.n=0}S.gearMenu=false;S.swConfirm=false;S.reorder=false;S.exSearch=false;S.expText=null;S.calc=null;if(v==='notes'){if(S.view==='notes')S.noteGroup=null;S.noteForm=null;S.groupForm=null}if(S.view==='workout'&&v!=='workout'){const a=active();if(a&&!setCount(a)){S.workouts=S.workouts.filter(w=>w.id!==a.id);remove('workouts',a.id);S.openEx=null;setTimeout(()=>toast(L('Тренировка отменена: не было записано ни одного подхода','Workout cancelled: no sets were logged')),0)}}S.fx={t:'view'};S.view=v;S.confirm=null;S.err=null;S.replaceFor=null;S.skipFor=null;S.endAsk=false;S.addOther=false;S.draft=v==='edit'?S.draft:null;render();window.scrollTo(0,0)},
   setLang(l){const now=Date.now();if(l==='en'&&S.view==='settings'){WIPE.n=now-WIPE.t<2500?WIPE.n+1:1;WIPE.t=now;if(WIPE.n>=5&&!S.wipeShown){S.wipeShown=true;S.wipeStep=0;WIPE.n=0;setTimeout(()=>{const el=document.getElementById('wipeBox');if(el)el.scrollIntoView({block:'center',behavior:motionOK()?'smooth':'auto'})},60)}}else WIPE.n=0;
     if(SET.lang===l){render();return}SET.lang=l;applySettings();saveSettings();render()},
   wipeStart(){S.wipeStep=1;render()},
@@ -2445,6 +2456,9 @@ const A={
   bmiClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="bmiClose"].btn'))return;sheetOut(ev&&ev.target.closest('.overlay'),()=>{S.bmiInfo=false;render()})},
   tutStart(p){tutStart(p)},
   sumOpen(){sumOpen()},
+  statEditToggle(){S.statEdit=!S.statEdit;render()},
+  statMove(r){const [k,d]=r.split(':'),present=[...document.querySelectorAll('.statwrap')].map(x=>x.dataset.key),i=present.indexOf(k),j=i+(+d);if(i<0||j<0||j>=present.length)return;
+    flip('.statwrap',()=>{[present[i],present[j]]=[present[j],present[i]];const rest=(SET.statOrder||STAT_DEF).filter(x=>!present.includes(x));SET.statOrder=present.concat(rest);saveSettings();render()})},
   sumSave(){sumSave()},
   sumClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="sumClose"].btn'))return;const ov=ev&&ev.target.closest('.overlay');if(ov)sheetOut(ov,sumClose);else sumClose()},
   calcOpen(){S.calc={expr:'',note:''};S.fx={t:'sheet'};render()},
@@ -2468,8 +2482,8 @@ const A={
   leaveSave(){S.confirm=null;S.cat=null;S.mg=null;A.saveTpl()},
   leaveEditYes(){S.confirm=null;S.cat=null;S.mg=null;A.go('home')},
   newTpl(){S.fx={t:'view'};S.reorder=false;S.draft={id:uid(),name:'',exercises:[{id:uid(),name:'',sets:3,reps:'10'}],createdAt:Date.now(),isNew:true};S.draft0=JSON.stringify(S.draft);S.view='edit';S.confirm=null;S.err=null;render();window.scrollTo(0,0)},
-  editTpl(id){const t=S.templates.find(x=>x.id===id);if(!t)return;S.fx={t:'view'};S.draft=structuredClone(t);S.draft.exercises=S.draft.exercises||[];S.draft0=JSON.stringify(S.draft);S.view='edit';S.confirm=null;S.err=null;render();window.scrollTo(0,0)},
-  mgOpen(r){const p=String(r).split(':'),k=p.length>1?p[0]:'draft',ref=p.length>1?p.slice(1).join(':'):r;S.mg={k,ref,i:k==='draft'?+ref:null,g:null,dir:''};const t=mgTarget();if(!t){S.mg=null;return}S.mg.g=t.mg&&mgOk(t.mg)?+t.mg.split('.')[0]:null;S.confirm=null;S.fx={t:'sheet'};render()},
+  editTpl(id){const t=S.templates.find(x=>x.id===id);if(!t)return;S.fx={t:'view'};S.draft=structuredClone(t);S.draft.exercises=S.draft.exercises||[];for(const x of S.draft.exercises)if(!x.cat){const c=catIdByName(x.name),m=myByName(x.name);if(c)x.cat=c;else if(m)x.cat='m:'+m.id}S.draft0=JSON.stringify(S.draft);S.view='edit';S.confirm=null;S.err=null;render();window.scrollTo(0,0)},
+  mgOpen(r){const p=String(r).split(':'),k=p.length>1?p[0]:'draft',ref=p.length>1?p.slice(1).join(':'):r;if(k==='draft'){const de=S.draft&&S.draft.exercises[+ref];if(de&&de.cat)return}S.mg={k,ref,i:k==='draft'?+ref:null,g:null,dir:''};const t=mgTarget();if(!t){S.mg=null;return}S.mg.g=t.mg&&mgOk(t.mg)?+t.mg.split('.')[0]:null;S.confirm=null;S.fx={t:'sheet'};render()},
   mgGrp(i){S.mg.g=+i;S.mg.dir='f';render()},
   mgBack(){S.mg.g=null;S.mg.dir='b';render()},
   mgClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="mgClose"].btn'))return;S.mg=null;render()},
@@ -2478,7 +2492,7 @@ const A={
     else if(m.k==='myNew'){if(S.myForm)S.myForm.mg=k||''}
     else if(m.k==='other'){S.otherMg=k||''}
     else{const e=S.draft&&S.draft.exercises[m.i];if(e){if(k)e.mg=k;else delete e.mg}}
-    S.mg=null;render()},
+    const ref=m.k==='draft'?String(m.i):m.k+':'+m.ref;S.mg=null;const ov=document.querySelector('.overlay[data-act="mgClose"]'),after=()=>{render();if(!k||SET.anim===false)return;const b=document.querySelector(`[data-act="mgOpen"][data-id="${ref}"]`);if(!b||!b.animate)return;b.animate([{transform:'scale(.96)',boxShadow:'0 0 0 0 color-mix(in srgb,var(--accent) 45%,transparent)'},{transform:'scale(1.03)',boxShadow:'0 0 0 6px color-mix(in srgb,var(--accent) 18%,transparent)',offset:.45},{transform:'none',boxShadow:'0 0 0 10px transparent'}],{duration:520,easing:'cubic-bezier(.3,1.3,.5,1)'});const ic=b.querySelector('.bodyico');if(ic&&ic.animate)ic.animate([{transform:'scale(.6)',opacity:.3},{transform:'scale(1.15)',opacity:1,offset:.6},{transform:'none'}],{duration:480,easing:'ease-out'})};if(ov)sheetOut(ov,after);else after()},
   catFor(i){S.cat={g:null,s:null,q:'',added:0,for:+i};S.confirm=null;S.fx={t:'sheet'};render()},
   libGrp(i){S.myForm=null;S.err=null;S.lib.g=i==='my'?'my':+i;S.lib.s=null;S.lib.dir='f';render();window.scrollTo(0,0)},
   libSub(i){S.lib.s=+i;S.lib.dir='f';render();window.scrollTo(0,0)},
@@ -2506,15 +2520,15 @@ const A={
   catGrp(i){S.myForm=null;S.err=null;S.cat.g=i==='my'?'my':+i;S.cat.s=null;S.cat.dir='f';render();const l=document.getElementById('catRes');if(l)l.scrollTop=0},
   catSub(i){S.cat.s=+i;S.cat.dir='f';render();const l=document.getElementById('catRes');if(l)l.scrollTop=0},
   catBack(){const c=S.cat;if(c.s!=null)c.s=null;else c.g=null;c.dir='b';render()},
-  catClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="catClose"].btn'))return;S.cat=null;render()},
+  catClose(_,ev){if(ev&&ev.target.closest('.sheet')&&!ev.target.closest('[data-act="catClose"].btn'))return;const ov=ev&&ev.target.closest('.overlay');if(ov)sheetOut(ov,()=>{S.cat=null;render()});else{S.cat=null;render()}},
   catPick(id,ev){const isMy=String(id).startsWith('m:'),mx=isMy?myList().find(y=>'m:'+y.id===id):null;if(isMy&&!mx)return;const e=isMy?{n:mx.n}:catEx(id),pmg=isMy?mx.mg:id.split('.').slice(0,2).join('.'),peq=isMy?mx.eq:(CEQ[e.c][0]&&!EN()?CEQ[e.c][0]:''),d=S.draft;
     if(S.cat.repl){const pf=S.cat.repl==='new'?'new':'other';S.otherPre={n:e.n,eq:peq,mg:pmg};S.otherMg=pmg||'';S.cat=null;render();const nm=document.getElementById(pf+'Name'),eq=document.getElementById(pf+'Equip');if(nm){nm.value=e.n;nm.closest('.inbtn')&&nm.closest('.inbtn').classList.add('filled')}if(eq)eq.value=peq||'';const el=document.getElementById(pf+'Sets');if(el)el.scrollIntoView({block:'center'});return}
     if(!d)return;
-    if(S.cat.for!=null){const x=d.exercises[S.cat.for];if(x){x.name=e.n;x.mg=pmg;if(peq)x.equip=peq}S.cat=null;render();return}const b=ev&&ev.target.closest('.catex');
+    if(S.cat.for!=null){const x=d.exercises[S.cat.for];if(x){x.name=e.n;x.mg=pmg;x.equip=peq||'';x.cat=id}S.cat=null;render();return}const b=ev&&ev.target.closest('.catex');
     const ix=d.exercises.map(x=>norm(x.name)).lastIndexOf(norm(e.n));
     if(ix>=0){d.exercises.splice(ix,1);if(!d.exercises.length)d.exercises.push({id:uid(),name:'',sets:3,reps:'10'});S.cat.added=Math.max(0,(S.cat.added||0)-1);if(b){b.classList.remove('on');b.setAttribute('aria-pressed','false')}}
     else if((S.cat.added||0)>=10){toast(L('За один раз можно добавить не больше 10 упражнений. Нажмите «Готово» и откройте каталог снова.','You can add up to 10 exercises at a time. Tap Done and open the catalog again.'));if(b&&b.animate&&motionOK())b.animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(-3px)'},{transform:'translateX(0)'}],{duration:320,easing:'ease-out'});return}
-    else{const ex={id:uid(),name:e.n,sets:3,reps:'10',mg:pmg};if(peq)ex.equip=peq;
+    else{const ex={id:uid(),name:e.n,sets:3,reps:'10',mg:pmg,cat:id};if(peq)ex.equip=peq;
       const empty=d.exercises.findIndex(x=>!String(x.name||'').trim());if(empty>=0&&d.exercises.length===1)d.exercises[empty]=Object.assign(ex,{id:d.exercises[empty].id});else d.exercises.push(ex);
       S.cat.added=(S.cat.added||0)+1;if(b){b.classList.add('on');b.setAttribute('aria-pressed','true')}}
     const n=document.getElementById('catN');if(n)n.textContent=S.cat.added?L('Добавлено в шаблон: ','Added to template: ')+S.cat.added:L('Нажмите на упражнение, чтобы добавить его в шаблон','Tap an exercise to add it to the template');
@@ -2522,7 +2536,7 @@ const A={
   addEx(){S.draft.exercises.push({id:uid(),name:'',sets:3,reps:'10'});render();const l=S.draft.exercises[S.draft.exercises.length-1];const el=document.getElementById('en-'+l.id);if(el)el.focus()},
   delEx(i){S.confirm=null;S.draft.exercises.splice(+i,1);render()},
   mvEx(v){const[i,d]=v.split(':').map(Number),a=S.draft.exercises,j=i+d;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];flip('.edex',render)},
-  saveTpl(){const d=S.draft;d.name=d.name.trim().slice(0,50);const ex=d.exercises.filter(e=>e.name.trim()).map(e=>({id:e.id,name:e.name.trim(),sets:Math.max(1,parseInt(e.sets)||1),reps:String(e.reps||'').trim(),equip:String(e.equip||'').trim(),mg:mgOk(e.mg)?e.mg:'',note:String(e.note||'').trim()}));
+  saveTpl(){const d=S.draft;d.name=d.name.trim().slice(0,50);const ex=d.exercises.filter(e=>e.name.trim()).map(e=>({id:e.id,name:e.name.trim(),sets:Math.max(1,parseInt(e.sets)||1),reps:String(e.reps||'').trim(),equip:String(e.equip||'').trim(),mg:mgOk(e.mg)?e.mg:'',note:String(e.note||'').trim(),...(e.cat?{cat:e.cat}:{})}));
     if(!d.name){S.err={id:'tpl',k:'tname'};render();const el=document.getElementById('tname');if(el){el.scrollIntoView({block:'center'});el.focus()}return}
     if(!ex.length){S.err={id:'tpl',k:'tex'};return render()}
     {let na=0;for(const x of ex)if(myAuto(x.name,x.mg,x.equip))na++;if(na)setTimeout(()=>toast(L('Добавлено в «Мои упражнения»: ','Added to My exercises: ')+na),700)}
@@ -2541,7 +2555,7 @@ const A={
   restoreW(id){const i=S.workouts.findIndex(w=>w.id===id);if(i<0)return;const w=structuredClone(S.workouts[i]);delete w.deletedAt;S.workouts[i]=w;persist('workouts',w);render();toast(L('Тренировка восстановлена','Workout restored'))},
   trashToggle(){S.trashOpen=!S.trashOpen;S.confirm=null;render()},
   clearTrash(){const ids=S.workouts.filter(w=>w.deletedAt).map(w=>w.id);S.workouts=S.workouts.filter(w=>!w.deletedAt);ids.forEach(id=>remove('workouts',id));S.confirm=null;S.trashOpen=false;render();toast(L('Корзина очищена','Trash emptied'))},
-  gKind(k){S.groupKind=k;render()},
+  gKind(k){if(S.groupKind===k||(k==='links'&&S.groupKind!=='text'))return;S.groupKind=k;render();const h=document.querySelector('.gkhint');if(h&&h.animate&&SET.anim!==false)h.animate([{opacity:0,transform:'translateY(-3px)'},{opacity:1,transform:'none'}],{duration:240,easing:'ease-out'})},
   newGroup(){S.groupKind='links';S.groupForm='new';S.err=null;render();const el=document.getElementById('gName');if(el)el.focus()},
   renameGroup(){const g=S.notes.find(x=>x.id===S.noteGroup);S.groupKind=g&&g.kind==='text'?'text':'links';S.groupForm='rename';S.err=null;render();const el=document.getElementById('gName');if(el){el.focus();el.select()}},
   cancelGroup(){S.groupForm=null;S.err=null;render()},
@@ -2584,7 +2598,7 @@ const A={
     S.editSet=null;S.err=null;S.fx={t:'set',id:es.ex};mutW(w=>{const e=exOf(w,es.ex);if(e&&e.log[es.i])e.log[es.i]={w:wv,r:rv}});toast(L('Подход изменён','Set updated'))},
   delSet(v){S.editSet=null;const[id,i]=v.split(':');S.confirm=null;mutW(w=>{const e=exOf(w,id);e.log.splice(+i,1);if(!e.log.length)e.done=false});toast(L('Подход удалён','Set deleted'))}
 };
-function sheetOut(ov,done,from){const sh=ov&&ov.querySelector('.sheet');if(!sh||!motionOK()||!sh.animate){done();return}
+function sheetOut(ov,done,from){const sh=ov&&ov.querySelector('.sheet');if(!sh||SET.anim===false||!sh.animate){done();return}
   if(ov.dataset.out)return;ov.dataset.out=1;const cur=from||0,H=sh.offsetHeight||400;
   sh.animate([{transform:`translateY(${cur}px)`},{transform:`translateY(${H+40}px)`}],{duration:Math.max(140,240*(1-cur/H)),easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
   const a=ov.animate([{opacity:1},{opacity:0}],{duration:240,easing:'ease-in',fill:'forwards'});a.onfinish=done}
@@ -2608,6 +2622,20 @@ const drEnd=()=>{if(DR.t){clearTimeout(DR.t);DR.t=0}if(DR.row)DR.row.classList.r
   DR.rows.forEach(r=>{r.style.transform='';r.classList.remove('dragging')});
   if(from!==to){const T=tpls(),[m]=T.splice(from,1);T.splice(to,0,m);T.forEach((t,k)=>{if(t.order!==k){const ix=S.templates.indexOf(t),c=structuredClone(t);c.order=k;S.templates[ix]=c;persist('templates',c)}});S.fx={t:'moved',id};lastHtml=null;render()}};
 app.addEventListener('pointerup',drEnd);app.addEventListener('pointercancel',drEnd);
+const SD={t:0,on:false};
+app.addEventListener('pointerdown',e=>{if(!S.statEdit||S.view!=='stats'||(e.pointerType==='mouse'&&e.button!==0))return;const bar=e.target.closest('.statarr');if(!bar||e.target.closest('button'))return;const w=bar.closest('.statwrap');if(!w)return;
+  clearTimeout(SD.t);SD.y0=e.clientY;SD.w=w;SD.pid=e.pointerId;w.classList.add('pressing');
+  SD.t=setTimeout(()=>{SD.t=0;const ws=[...app.querySelectorAll('.statwrap')];SD.ws=ws;SD.idx=ws.indexOf(w);SD.to=SD.idx;SD.rects=ws.map(x=>x.getBoundingClientRect());SD.sy0=scrollY;SD.gap=ws.length>1?SD.rects[1].top-SD.rects[0].bottom:12;SD.on=true;w.classList.remove('pressing');w.classList.add('dragging');try{w.setPointerCapture(SD.pid)}catch(_){}try{navigator.vibrate&&navigator.vibrate(15)}catch(_){}},150)});
+app.addEventListener('pointermove',e=>{if(!SD.on){if(SD.t&&Math.abs(e.clientY-SD.y0)>8){clearTimeout(SD.t);SD.t=0;SD.w&&SD.w.classList.remove('pressing')}return}
+  e.preventDefault();const dy=e.clientY-SD.y0+(scrollY-SD.sy0),R=SD.rects,me=R[SD.idx],h=me.height+SD.gap,cy=(me.top+me.bottom)/2+dy;let to=SD.idx;
+  for(let i=0;i<R.length;i++){if(i===SD.idx)continue;const mid=(R[i].top+R[i].bottom)/2;if(i<SD.idx&&cy<mid)to=Math.min(to,i);if(i>SD.idx&&cy>mid)to=Math.max(to,i)}SD.to=to;
+  SD.w.style.transform=`translateY(${dy}px) scale(1.02)`;
+  SD.ws.forEach((x,i)=>{if(x===SD.w)return;let sh=0;if(SD.idx<to&&i>SD.idx&&i<=to)sh=-h;else if(SD.idx>to&&i<SD.idx&&i>=to)sh=h;x.style.transform=sh?`translateY(${sh}px)`:''});
+  const vh=innerHeight;if(e.clientY<90)scrollBy(0,-8);else if(e.clientY>vh-110)scrollBy(0,8)},{passive:false});
+const sdEnd=()=>{if(SD.t){clearTimeout(SD.t);SD.t=0}if(SD.w)SD.w.classList.remove('pressing');if(!SD.on)return;SD.on=false;const from=SD.idx,to=SD.to,keys=SD.ws.map(x=>x.dataset.key);
+  SD.ws.forEach(x=>{x.style.transform='';x.classList.remove('dragging')});
+  if(from!==to){const [m]=keys.splice(from,1);keys.splice(to,0,m);const rest=(SET.statOrder||STAT_DEF).filter(x=>!keys.includes(x));SET.statOrder=keys.concat(rest);saveSettings();lastHtml=null;render()}};
+app.addEventListener('pointerup',sdEnd);app.addEventListener('pointercancel',sdEnd);
 const LP={t:0,x:0,y:0,fired:false,until:0};
 app.addEventListener('pointerdown',e=>{if(S.sel||S.gsel||S.noteForm||S.groupForm||S.view!=='notes'||(e.pointerType==='mouse'&&e.button!==0))return;const c=e.target.closest('.card.note[data-nid],.card.grp[data-gid]');if(!c)return;const bt=e.target.closest('button,input,textarea,.setconf');if(bt&&bt!==c)return;
   clearTimeout(LP.t);LP.x=e.clientX;LP.y=e.clientY;LP.fired=false;c.classList.add('pressing');
